@@ -3,7 +3,7 @@ import os, json, zipfile
 from io import BytesIO
 from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=".", static_url_path="")
 
 DATA_FILE = "dados.json"
 UPLOAD_DIR = "dados"
