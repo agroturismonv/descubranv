@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="tourismTemplate()" x-init="start()">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title x-text="t.title + ' | Turismo Nova Venécia'"></title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+
+  <script src="../dados/controller.js"></script>
+
+  <style>
+    [x-cloak] {
+      display: none !important;
+    }
+
+    /* Slider Estilizado para Totem */
+    .custom-slider {
+      display: flex;
+      overflow-x: auto;
+      gap: 1.25rem;
+      scroll-snap-type: x mandatory;
+      scroll-behavior: smooth;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .custom-slider::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    .custom-slider::-webkit-scrollbar-track {
+      background: #f1f1f1;
+      border-radius: 10px;
+    }
+
+    .custom-slider::-webkit-scrollbar-thumb {
+      background: #0f5132;
+      border-radius: 10px;
+    }
+
+    .slider-item {
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+
+    .slider-img {
+      width: 280px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 1.5rem;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      border: 2px solid transparent;
+    }
+
+    @media (min-width: 768px) {
+      .slider-img {
+        width: 420px;
+        height: 280px;
+      }
+    }
+
+    .slider-img:hover {
+      transform: scale(1.03);
+      border-color: #ffc107;
+    }
+
+    @keyframes zoomIn {
+      from {
+        opacity: 0;
+        transform: scale(0.95);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .animate-zoomIn {
+      animation: zoomIn 0.3s ease-out forwards;
+    }
+  </style>
+</head>
+
+<body class="bg-white text-gray-900 flex flex-col min-h-screen">
+
+  <nav class="fixed top-0 left-0 w-full z-[100] p-6 md:p-10 pointer-events-none">
+    <div class="flex justify-between items-center w-full max-w-7xl mx-auto pointer-events-auto">
+
+      <button @click="voltar()"
+        class="flex items-center gap-2 bg-black/30 backdrop-blur-md text-white px-6 py-3 rounded-full border border-white/20 hover:bg-[#ffc107] hover:text-[#0f5132] transition-all group shadow-2xl">
+        <svg xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5 transform group-hover:-translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M15 19l-7-7 7-7" />
+        </svg>
+        <span class="text-xs font-black uppercase tracking-widest" x-text="ui.back"></span>
+      </button>
+
+      <div class="flex gap-4 bg-black/30 backdrop-blur-md p-2.5 rounded-full border border-white/20 shadow-2xl">
+        <button @click="setLang('pt')" class="transition-transform hover:scale-125"
+          :class="lang === 'pt'? 'opacity-100' : 'opacity-40'">
+          <span class="fi fi-br rounded-sm"></span>
+        </button>
+        <button @click="setLang('en')" class="transition-transform hover:scale-125"
+          :class="lang === 'en'? 'opacity-100' : 'opacity-40'">
+          <span class="fi fi-us rounded-sm"></span>
+        </button>
+        <button @click="setLang('es')" class="transition-transform hover:scale-125"
+          :class="lang === 'es'? 'opacity-100' : 'opacity-40'">
+          <span class="fi fi-es rounded-sm"></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <main class="flex-1 overflow-y-auto pb-24 mt-0" x-cloak x-show="ready">
+
+    <section class="relative h-[30vh] md:h-[35vh] w-full overflow-hidden">
+      <img :src="hero" class="absolute inset-0 w-full h-full object-cover brightness-[0.45]" alt="Banner">
+      <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-white"></div>
+
+      <div class="relative z-10 h-full flex flex-col items-center justify-center text-center text-white p-6 pt-16">
+        <p class="text-[#ffc107] font-black uppercase tracking-[0.4em] text-[10px] md:text-xs mb-2 drop-shadow-md"
+          x-text="t.subtitle"></p>
+        <h2 class="text-4xl md:text-7xl font-black uppercase italic tracking-tighter drop-shadow-2xl" x-text="t.title">
+        </h2>
+      </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-6 py-10">
+      <div class="grid lg:grid-cols-3 gap-12">
+
+        <div class="lg:col-span-2">
+          <div class="mb-12">
+            <h3
+              class="text-2xl font-black text-[#0f5132] mb-5 uppercase tracking-tighter border-l-4 border-[#ffc107] pl-4"
+              x-text="ui.about"></h3>
+            <p class="text-gray-600 leading-relaxed text-lg text-justify" x-text="t.description"></p>
+          </div>
+
+          <div>
+            <div class="flex justify-between items-end mb-6">
+              <h3 class="text-2xl font-black text-[#0f5132] uppercase tracking-tighter" x-text="ui.gallery"></h3>
+              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest animate-pulse">Deslize para ver
+                fotos →</span>
+            </div>
+
+            <div class="custom-slider pb-6">
+              <template x-for="(img, index) in gallery" :key="index">
+                <div class="slider-item">
+                  <img :src="img" @click="openLightbox(index)" class="slider-img shadow-2xl cursor-pointer">
+                </div>
+              </template>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex flex-col gap-6">
+          <button @click="showMap = true"
+            class="w-full bg-[#0f5132] text-white py-7 rounded-[2.5rem] font-black shadow-xl flex items-center justify-center gap-3 hover:bg-[#0a3d26] transition-all transform active:scale-95 uppercase tracking-widest">
+            📍 <span x-text="ui.location"></span>
+          </button>
+
+          <button x-show="RAvisionScreen" @click="show360 = true"
+            class="w-full bg-[#ffc107] text-[#0f5132] py-7 rounded-[2.5rem] font-black shadow-xl flex items-center justify-center gap-3 hover:bg-yellow-400 transition-all transform active:scale-95 uppercase tracking-widest">
+            🕶️ <span x-text="t.RAvisionButton || 'TOUR 360°'"></span>
+          </button>
+
+          <div class="bg-gray-50 p-8 rounded-[3rem] border-2 border-dashed border-gray-200 text-center">
+            <p class="text-[10px] uppercase font-black text-gray-400 mb-6 tracking-[0.2em]" x-text="ui.qrLabel"></p>
+            <img :src="qr" class="mx-auto w-40 bg-white p-4 shadow-sm rounded-[2rem]" alt="QR Code">
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <template x-if="show360">
+    <div class="fixed inset-0 z-[200] bg-black animate-zoomIn" x-transition.opacity>
+      <button @click="show360 = false"
+        class="absolute top-8 right-8 z-[210] bg-[#ffc107] text-[#0f5132] w-20 h-20 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+      <iframe :src="tour360" class="w-full h-full border-0" allowfullscreen></iframe>
+    </div>
+  </template>
+
+  <div x-show="showMap" x-cloak
+    class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+    <div class="bg-white rounded-[3rem] w-full max-w-5xl h-[80vh] flex flex-col overflow-hidden shadow-2xl">
+      <div class="p-6 flex justify-between items-center bg-gray-50 border-b">
+        <span class="font-black text-[#0f5132] uppercase tracking-widest" x-text="t.title"></span>
+        <button @click="showMap = false"
+          class="bg-gray-200 hover:bg-red-500 hover:text-white w-12 h-12 rounded-full font-bold transition-all">✕</button>
+      </div>
+      <iframe :src="mapEmbed" class="w-full h-full border-0"></iframe>
+    </div>
+  </div>
+
+  <div x-show="lightbox" x-cloak class="fixed inset-0 bg-black/98 z-[200] flex items-center justify-center">
+    <button @click="lightbox = false" class="absolute top-10 right-10 text-white text-4xl">✕</button>
+    <button @click="prev()" class="absolute left-6 text-white text-7xl hover:text-[#ffc107]">‹</button>
+    <img :src="gallery[current]" class="max-w-[92%] max-h-[85vh] object-contain rounded-2xl shadow-2xl">
+    <button @click="next()" class="absolute right-6 text-white text-7xl hover:text-[#ffc107]">›</button>
+  </div>
+
+  <!-- Footer fixo -->
+  <footer
+    class="fixed bottom-0 w-full bg-[#1a1a1a] text-white py-4 px-6 md:px-12 border-t border-gray-800 flex-shrink-0 z-50">
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
+      <div class="flex items-center gap-3">
+        <img src="..\imagens/brasao/brasao_nv.png" alt="Logo" class="w-8 opacity-60 grayscale">
+        <div class="text-left border-l border-gray-700 pl-3 leading-tight font-bold">
+          <p class="text-xs">Prefeitura de Nova Venécia</p>
+          <p class="text-[9px] uppercase opacity-50 font-normal tracking-widest">Secretaria de Cultura e Turismo</p>
+        </div>
+      </div>
+      <p class="text-[10px] md:text-xs font-bold">© 2026 | Desenvolvido por IFES Campus Nova Venécia</p>
+    </div>
+  </footer>
+</body>
+
+<script>
+  function tourismTemplate() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'elefante';
+
+    return {
+      lang: localStorage.getItem('user_lang') || 'pt',
+      ready: false, lightbox: false, showMap: false, show360: false, current: 0,
+      hero: '', gallery: [], mapEmbed: '', qr: '', texts: {},
+      RAvisionScreen: false, RAvisionlink: '',
+
+      uiTexts: {
+        pt: { back: 'Voltar', about: 'Sobre o Local', gallery: 'Galeria de Fotos', location: 'Como Chegar', qrLabel: 'Escaneie para GPS' },
+        en: { back: 'Back', about: 'About the Place', gallery: 'Gallery', location: 'Directions', qrLabel: 'Scan for GPS' },
+        es: { back: 'Volver', about: 'Sobre el Lugar', gallery: 'Galería', location: 'Cómo Llegar', qrLabel: 'Escanear para GPS' }
+      },
+
+      get t() { return this.texts[this.lang] || {} },
+      get ui() { return this.uiTexts[this.lang] },
+      get tour360() { return this.RAvisionlink || '' },
+
+      setLang(l) { this.lang = l; localStorage.setItem('user_lang', l); },
+      voltar() { window.history.back(); },
+
+      start() {
+        const carregar = () => {
+          const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
+          if (data) {
+            // OS DADOS JÁ VÊM COM O CAMINHO CERTO DO CONTROLLER
+            this.hero = data.hero;
+            this.qr = data.location?.qr || '';
+            this.gallery = data.gallery || [];
+
+            this.mapEmbed = data.location?.embed || '';
+            this.texts = data.texts;
+            this.RAvisionScreen = !!data.RAvisionScreen;
+            this.RAvisionlink = data.RAvisionlink || '';
+            this.ready = true;
+          }
+        };
+        if (window.LOCAIS) carregar();
+        else window.addEventListener('locais-ready', carregar);
+      },
+
+      openLightbox(i) { this.current = i; this.lightbox = true; },
+      next() { this.current = (this.current + 1) % this.gallery.length; },
+      prev() { this.current = (this.current - 1 + this.gallery.length) % this.gallery.length; }
+    }
+  }
+</script>
+</body>
+
+</html>

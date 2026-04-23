@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="userApp()" x-init="init()">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestão de Usuários | Turismo NV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="auth.js"></script>
+    <style>[x-cloak] { display: none !important; }</style>
+</head>
+<body class="bg-gray-100 p-10 font-sans">
+    <div class="max-w-2xl mx-auto space-y-8">
+
+        <!-- Formulário de Novo Usuário -->
+        <div class="bg-white p-10 rounded-[3rem] shadow-xl">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl font-black text-[#0f5132] uppercase italic">Novo Usuário</h2>
+                <a href="./dashboard.html" class="text-xs font-black uppercase text-gray-500 hover:text-[#0f5132]">← Voltar</a>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4">Nome de Usuário</label>
+                    <input type="text" x-model="novoUser.username"
+                        class="w-full p-4 bg-gray-50 rounded-2xl border-2 border-transparent focus:border-[#ffc107] outline-none transition-all">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4">Senha Inicial</label>
+                    <input type="password" x-model="novoUser.password"
+                        class="w-full p-4 bg-gray-50 rounded-2xl border-2 border-transparent focus:border-[#ffc107] outline-none transition-all">
+                    <p class="text-[9px] text-gray-400 ml-4 mt-1">A senha será armazenada como hash SHA-256</p>
+                </div>
+                <div>
+                    <label class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4">Nível de Acesso</label>
+                    <select x-model="novoUser.level"
+                        class="w-full p-4 bg-gray-50 rounded-2xl border-2 border-transparent focus:border-[#ffc107] outline-none transition-all">
+                        <option value="admin">Administrador</option>
+                        <option value="master">Master</option>
+                    </select>
+                </div>
+
+                <button @click="adicionarUsuario()"
+                    :disabled="!novoUser.username || !novoUser.password"
+                    class="w-full bg-[#0f5132] text-white py-4 rounded-2xl font-black uppercase hover:bg-[#0a3d26] transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+                    Adicionar à Lista
+                </button>
+
+                <p x-show="feedback" x-cloak class="text-green-600 font-bold text-center text-sm" x-text="feedback"></p>
+            </div>
+        </div>
+
+        <!-- Lista de Usuários -->
+        <div class="bg-white p-10 rounded-[3rem] shadow-xl">
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-xl font-black text-[#0f5132] uppercase italic">Usuários Cadastrados</h3>
+                <span class="text-[10px] font-black bg-gray-100 px-3 py-1 rounded-full" x-text="usuarios.length + ' usuário(s)'"></span>
+            </div>
+
+            <div x-show="usuarios.length === 0" class="text-center py-6 text-gray-400 text-xs font-bold uppercase">
+                Nenhum usuário carregado
+            </div>
+
+            <div class="space-y-3">
+                <template x-for="(u, i) in usuarios" :key="i">
+                    <div class="flex items-center justify-between p-4 bg-gray-50 rounded-2xl">
+                        <div>
+                            <p class="font-black text-[#0f5132] text-sm" x-text="u.username"></p>
+                            <p class="text-[9px] font-bold uppercase text-gray-400 mt-0.5"
+                               :class="u.level === 'master' ? 'text-amber-600' : ''" x-text="u.level"></p>
+                        </div>
+                        <button @click="removerUsuario(i)"
+                            x-show="u.username !== sessionStorage.getItem('admin_user')"
+                            class="text-red-400 hover:text-red-600 text-xs font-black uppercase transition-all">
+                            Remover
+                        </button>
+                    </div>
+                </template>
+            </div>
+
+            <button @click="baixarXML()" x-show="usuarios.length > 0" x-cloak
+                class="w-full mt-6 bg-[#ffc107] text-[#0f5132] py-4 rounded-2xl font-black uppercase hover:scale-[1.02] transition-all shadow-lg">
+                💾 Baixar user.xml Atualizado
+            </button>
+            <p class="text-[9px] text-gray-400 text-center mt-3 leading-relaxed">
+                Após baixar, substitua o arquivo <code class="bg-gray-100 px-1 rounded">admin/user.xml</code> no repositório.
+            </p>
+        </div>
+    </div>
+
+    <script>
+    function userApp() {
+        return {
+            usuarios: [],
+            novoUser: { username: '', password: '', level: 'admin' },
+            feedback: '',
+
+            async init() {
+                try {
+                    const resp = await fetch('/user.xml');
+                    const text = await resp.text();
+                    const parser = new DOMParser();
+                    const xml = parser.parseFromString(text, 'text/xml');
+                    this.usuarios = Array.from(xml.querySelectorAll('user')).map(u => ({
+                        username: u.querySelector('username').textContent.trim(),
+                        password: u.querySelector('password').textContent.trim(),
+                        level: u.querySelector('level').textContent.trim()
+                    }));
+                } catch (e) {
+                    console.warn('Erro ao carregar user.xml:', e);
+                }
+            },
+
+            async sha256(texto) {
+                const buffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
+                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            },
+
+            async adicionarUsuario() {
+                if (!this.novoUser.username || !this.novoUser.password) return;
+                if (this.usuarios.find(u => u.username === this.novoUser.username)) {
+                    alert('Já existe um usuário com esse nome.');
+                    return;
+                }
+                const hash = await this.sha256(this.novoUser.password);
+                this.usuarios.push({
+                    username: this.novoUser.username,
+                    password: hash,
+                    level: this.novoUser.level
+                });
+                this.feedback = `✅ Usuário "${this.novoUser.username}" adicionado. Clique em "Baixar user.xml" para salvar.`;
+                this.novoUser = { username: '', password: '', level: 'admin' };
+                setTimeout(() => this.feedback = '', 5000);
+            },
+
+            removerUsuario(i) {
+    const user = this.usuarios[i];
+    const currentUser = sessionStorage.getItem('admin_user');
+    
+    if (user.username === currentUser) {
+        alert("Você não pode remover sua própria conta logada.");
+        return;
+    }
+    if (!confirm(`Remover o usuário "${user.username}"?`)) return;
+    this.usuarios.splice(i, 1);
+},
+
+            baixarXML() {
+                const linhas = this.usuarios.map(u => `    <user>
+        <username>${u.username}</username>
+        <password>${u.password}</password>
+        <level>${u.level}</level>
+    </user>`).join('\n');
+
+                const xml = `<?xml version='1.0' encoding='utf-8'?>\n<users_database>\n${linhas}\n</users_database>`;
+                const blob = new Blob([xml], { type: 'application/xml' });
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = 'user.xml';
+                a.click();
+            }
+        }
+    }
+    </script>
+</body>
+</html>

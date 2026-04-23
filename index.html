@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="sliderApp()" x-init="start()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Turismo | Nova Venécia</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="dados/controller.js"></script>
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+
+        body,
+        html {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Animação suave do Slider */
+        .slider-container {
+            transition: transform 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Efeitos dos Cards no Menu */
+        .ponto-card img {
+            opacity: 0.6;
+            transition: all 0.5s ease;
+        }
+
+        .ponto-card:hover img {
+            opacity: 1;
+            transform: scale(1.05);
+        }
+
+        /* Scrollbar Customizada */
+        .custom-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .custom-scroll::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .custom-scroll::-webkit-scrollbar-thumb {
+            background: #ffc107;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-900 text-gray-800 flex flex-col font-sans">
+
+    <header class="bg-[#0f5132] text-white z-50 shadow-lg flex-shrink-0">
+        <div class="flex justify-between items-center p-4 md:px-12 w-full mx-auto"
+     style="
+        background-image: 
+        linear-gradient(rgba(15,81,50,0.95), rgba(15,81,50,0.95)),
+        url('imagens/leao/ouro.jpg');
+
+        background-size: 60px;
+        background-repeat: repeat;
+     ">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                    <img src="imagens/brasao/brasao_nv.png" alt="Brasão Nova Venécia" class="w-8 flex-shrink-0">
+                    <h1 class="text-sm md:text-xl font-black uppercase tracking-tighter">Caminhos de Venécia</h1>
+                </a>
+            </div>
+
+            <div class="flex justify-end gap-4">
+                <button @click="setLang('pt')" :class="lang === 'pt' ? 'scale-125' : 'opacity-50 hover:opacity-100'"
+                    class="transition-all">
+                    <span class="fi fi-br"></span>
+                </button>
+                <button @click="setLang('en')" :class="lang === 'en' ? 'scale-125' : 'opacity-50 hover:opacity-100'"
+                    class="transition-all">
+                    <span class="fi fi-us"></span>
+                </button>
+                <button @click="setLang('es')" :class="lang === 'es' ? 'scale-125' : 'opacity-50 hover:opacity-100'"
+                    class="transition-all">
+                    <span class="fi fi-es"></span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+   <main class="flex-1 relative overflow-hidden bg-black"
+    x-data="{ 
+        touchStartY: 0, 
+        touchEndY: 0,
+        // Funções de navegação
+        next() { if (slides.length) current = (current + 1) % slides.length },
+        prev() { if (slides.length) current = (current - 1 + slides.length) % slides.length },
+        handleSwipe() {
+            const threshold = 50;
+            const diff = this.touchStartY - this.touchEndY;
+            if (Math.abs(diff) > threshold) {
+                diff > 0 ? this.next() : this.prev();
+            }
+        }
+    }"
+    @touchstart="touchStartY = $event.touches[0].screenY"
+    @touchend="touchEndY = $event.changedTouches[0].screenY; handleSwipe()"
+    @keyup.window.up="prev()"
+    @keyup.window.down="next()">
+
+    <div class="h-full flex flex-col slider-container transition-transform duration-700 ease-in-out" 
+         :style="`transform: translateY(-${current * 100}%)`">
+        
+        <template x-for="(slide, i) in slides" :key="slide.id">
+            <div class="h-full w-full relative flex items-center justify-center flex-shrink-0 p-4">
+                <img :src="slide.cover" class="absolute inset-0 w-full h-full object-cover opacity-70">
+                
+                <div class="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/80"></div>
+                
+                <div class="relative z-10 text-white text-center px-4 max-w-4xl mx-auto">
+                    <h2 class="text-4xl md:text-7xl font-black tracking-tighter uppercase italic drop-shadow-2xl leading-none mb-4"
+                        x-text="slide.texts[lang]?.title"></h2>
+                    
+                    <p class="text-lg md:text-2xl font-light opacity-90 mb-8" 
+                       x-text="slide.texts[lang]?.subtitle"></p>
+                    
+                    <a :href="`layout/circuitos.html?id=${slide.id}`"
+                       class="inline-block bg-[#ffc107] text-[#0f5132] px-10 py-4 rounded-full font-black text-lg shadow-xl hover:scale-110 transition-transform">
+                       EXPLORAR
+                    </a>
+                </div>
+            </div>
+        </template>
+    </div>
+
+    <div class="hidden md:flex absolute right-8 top-1/2 -translate-y-1/2 z-30 flex-col gap-4">
+        <button @click="prev()" 
+                class="p-4 rounded-full bg-white/10 text-white hover:bg-[#ffc107] hover:text-[#0f5132] transition-all backdrop-blur-md group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:-translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 15l7-7 7 7" />
+            </svg>
+        </button>
+
+        <button @click="next()" 
+                class="p-4 rounded-full bg-white/10 text-white hover:bg-[#ffc107] hover:text-[#0f5132] transition-all backdrop-blur-md group">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 group-hover:translate-y-1 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7" />
+            </svg>
+        </button>
+    </div>
+
+    <button @click="showMenu = true"
+        class="absolute bottom-8 left-1/2 -translate-x-1/2 z-[40] bg-[#ffc107] text-[#0f5132] px-8 py-3 rounded-full font-black shadow-2xl flex items-center gap-2 border-2 border-[#0f5132] hover:scale-110 transition-all active:scale-95">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+            stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        </svg>
+        <span class="hidden md:inline" x-text="t.menu"></span>
+    </button>
+</main>
+
+    <div x-show="showMenu" x-cloak
+     x-transition:enter="transition ease-out duration-300"
+     x-transition:enter-start="opacity-0"
+     x-transition:enter-end="opacity-100"
+     class="fixed inset-0 z-[60] flex flex-col backdrop-blur-md"
+     style="
+        background-image: 
+        linear-gradient(rgba(15,81,50,0.9), rgba(15,81,50,0.9)),
+        url('../imagens/leao/preto.png');
+        background-size: 120px; /* controla o tamanho */
+        background-repeat: repeat;
+        background-position: center;
+     ">
+
+        <header class="p-6 flex justify-between items-center text-white">
+            <div class="w-10"></div>
+            <h2 class="text-2xl font-black uppercase italic tracking-widest" x-text="t.menuTitle"></h2>
+            <button @click="showMenu = false" class="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-colors">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </header>
+
+        <div class="flex-1 overflow-y-auto custom-scroll px-6 pb-20">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto">
+                <template x-for="circuito in slides" :key="circuito.id">
+                    <a :href="`layout/circuitos.html?id=${circuito.id}`"
+                        class="ponto-card relative h-[40vh] rounded-[2rem] overflow-hidden group shadow-2xl border border-white/10">
+
+                        <img :src="circuito.cover" class="absolute inset-0 w-full h-full object-cover"
+                            alt="Capa Circuito">
+
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/20"></div>
+
+                        <div
+                            class="relative h-full flex flex-col items-center justify-center p-6 text-center text-white">
+                            <h3 class="text-2xl md:text-3xl font-black uppercase italic drop-shadow-lg"
+                                x-text="circuito.texts[lang].title"></h3>
+                            <p class="text-sm opacity-90 mt-2 font-light" x-text="circuito.texts[lang].subtitle"></p>
+                        </div>
+                    </a>
+                </template>
+            </div>
+        </div>
+    </div>
+
+    <footer class="bg-[#1a1a1a] text-white py-4 px-12 border-t border-gray-800 flex-shrink-0">
+        <div class="flex flex-col md:flex-row items-center justify-between gap-4 w-full">
+            <div class="flex items-center gap-3">
+                <img src="imagens/brasao/brasao_nv.png" alt="Prefeitura" class="w-8 opacity-40 grayscale">
+                <div class="text-left border-l border-gray-700 pl-3 leading-tight">
+                    <p class="text-xs font-bold">Prefeitura de Nova Venécia</p>
+                    <p class="text-[9px] uppercase opacity-50 tracking-widest">Secretaria de Cultura e Turismo</p>
+                </div>
+            </div>
+            <p class="text-[10px] md:text-xs font-medium opacity-60">© 2026 | Desenvolvido por IFES Campus Nova Venécia
+            </p>
+        </div>
+    </footer>
+
+    <script>
+        function sliderApp() {
+            return {
+                current: 0,
+                showMenu: false,
+                lang: localStorage.getItem('user_lang') || 'pt',
+                slides: [],
+                timer: null,
+                texts: {
+                    pt: { menu: 'VER TODOS CIRCUITOS', menuTitle: 'Circuitos Turísticos' },
+                    en: { menu: 'VIEW ALL CIRCUITS', menuTitle: 'Tourist Circuits' },
+                    es: { menu: 'VER TODOS LOS CIRCUITOS', menuTitle: 'Circuitos Turísticos' }
+                },
+                get t() { return this.texts[this.lang] },
+                setLang(l) {
+                    this.lang = l;
+                    localStorage.setItem('user_lang', l);
+                },
+                start() {
+                    const load = () => {
+                        if (window.LISTA_CIRCUITOS && window.LISTA_CIRCUITOS.length > 0) {
+                            this.slides = window.LISTA_CIRCUITOS;
+                            if (this.slides.length > 1) {
+                                if (this.timer) clearInterval(this.timer);
+                                this.timer = setInterval(() => this.next(), 6000);
+                            }
+                        }
+                    };
+                    load();
+                    window.addEventListener('locais-ready', load);
+                },
+                next() {
+                    // Só avança se o menu estiver fechado para não distrair o usuário
+                    if (!this.showMenu && this.slides.length > 0) {
+                        this.current = (this.current + 1) % this.slides.length;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

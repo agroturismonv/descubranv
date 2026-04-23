@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="listagemApp()" x-init="init()">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listar Locais | Turismo NV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="auth.js"></script>
+</head>
+<body class="bg-gray-100 p-6 md:p-10 font-sans">
+    <div class="max-w-7xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+            <h1 class="text-3xl font-black text-[#0f5132] italic">Cadastros do Sistema</h1>
+            <a href="./dashboard.html" class="text-xs font-black uppercase text-gray-500 hover:text-[#0f5132]">← Voltar</a>
+        </div>
+
+        <div class="mb-6 flex gap-3">
+            <input x-model="busca" type="text" placeholder="Buscar local, região ou id..."
+                class="w-full p-4 rounded-2xl bg-white shadow outline-none focus:ring-2 focus:ring-[#ffc107]">
+            <button @click="carregar()" class="bg-[#0f5132] text-white px-5 rounded-2xl font-black uppercase text-xs">Atualizar</button>
+        </div>
+
+        <div class="mb-6 flex flex-wrap gap-3">
+            <a href="./cadastro_online.html"
+                class="inline-flex items-center gap-2 bg-[#0f5132] text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+                <span>🌐</span>
+                <span>Atualização Online (Gestão Online)</span>
+            </a>
+            <a href="./cadastro_ZIP.html"
+                class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+                <span>📦</span>
+                <span>Atualização Offline (ZIP)</span>
+            </a>
+        </div>
+
+        <h2 class="text-xl font-black text-[#0f5132] mb-3">Regiões Cadastradas</h2>
+        <div class="bg-white rounded-3xl shadow overflow-hidden mb-8">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Locais</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="item in regioesFiltradas()" :key="'regiao-' + item.id">
+                            <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <img :src="'../' + item.cover" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
+                                </td>
+                                <td class="px-4 py-3">
+                                    <p class="font-black text-[#0f5132]" x-text="item.title"></p>
+                                    <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
+                                </td>
+                                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
+                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.total_locais"></td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <button @click="editarRegiao(item)"
+                                            class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
+                                        <button @click="excluirRegiao(item)"
+                                            class="text-center bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr x-show="regioesFiltradas().length === 0">
+                            <td colspan="5" class="px-4 py-8 text-center text-gray-500 font-semibold">
+                                Nenhuma região encontrada para o filtro informado.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-black text-[#0f5132] mb-3">Locais Cadastrados</h2>
+        <div class="bg-white rounded-3xl shadow overflow-hidden">
+            <div class="overflow-x-auto">
+                <table class="min-w-full text-sm">
+                    <thead class="bg-gray-50 border-b">
+                        <tr>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Local</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Galeria</th>
+                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <template x-for="item in filtrados()" :key="item.regiao + '-' + item.id">
+                            <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                                <td class="px-4 py-3">
+                                    <img :src="'../' + item.hero" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
+                                </td>
+                                <td class="px-4 py-3">
+                                    <p class="font-black text-[#0f5132]" x-text="item.title"></p>
+                                    <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
+                                </td>
+                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.regiao_nome"></td>
+                                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
+                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.gallery_count"></td>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <button @click="editar(item)"
+                                           class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
+                                        <button @click="excluir(item)"
+                                            class="bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
+                                        <button @click="baixarZip(item)"
+                                           class="text-center bg-[#ffc107] text-[#0f5132] px-3 py-2 rounded-xl text-[10px] font-black uppercase">ZIP</button>
+                                    </div>
+                                </td>
+                            </tr>
+                        </template>
+                        <tr x-show="filtrados().length === 0">
+                            <td colspan="6" class="px-4 py-8 text-center text-gray-500 font-semibold">
+                                Nenhum local encontrado para o filtro informado.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+   <script>
+function listagemApp() {
+    return {
+        regioes: [],
+        locais: [],
+        busca: '',
+
+        async init() {
+            await this.carregar();
+        },
+
+        async carregar() {
+            const res = await fetch(apiUrl('/api/listar'));
+            const json = await res.json();
+
+            if (!json.success) return;
+
+            const data = json.data || [];
+
+            // 🔥 TRANSFORMA PARA FORMATO QUE SEU FRONT ESPERA
+            this.regioes = data.map(r => ({
+                id: r.regiao,
+                title: r.titulo,
+                subtitle: '',
+            }));
+
+            this.locais = data.flatMap(r =>
+                r.locais.map(l => ({
+                    id: l.id,
+                    title: l.nome,
+                    description: l.descricao,
+                    regiao: r.regiao,
+                    regiao_nome: r.titulo
+                }))
+            );
+        },
+
+        regioesFiltradas() {
+            const termo = (this.busca || '').toLowerCase().trim();
+            const base = !termo ? this.regioes : this.regioes.filter(item =>
+                item.title.toLowerCase().includes(termo) ||
+                item.id.toLowerCase().includes(termo)
+            );
+            return [...base].sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'));
+        },
+
+        filtrados() {
+            const termo = (this.busca || '').toLowerCase().trim();
+            const base = !termo ? this.locais : this.locais.filter(item =>
+                item.title.toLowerCase().includes(termo) ||
+                item.regiao_nome.toLowerCase().includes(termo) ||
+                item.id.toLowerCase().includes(termo)
+            );
+            return [...base].sort((a, b) => {
+                const regiao = a.regiao_nome.localeCompare(b.regiao_nome, 'pt-BR');
+                if (regiao !== 0) return regiao;
+                return a.title.localeCompare(b.title, 'pt-BR');
+            });
+        },
+
+        async excluir(item) {
+            if (!confirm(`Excluir "${item.title}"?`)) return;
+
+            const res = await fetch(apiUrl('/api/delete'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tipo: 'local',
+                    regiao: item.regiao,
+                    local: item.id
+                })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert('Excluído com sucesso!');
+                this.carregar();
+            } else {
+                alert(data.erro || 'Falha ao excluir.');
+            }
+        },
+
+        editar(item) {
+            const query = new URLSearchParams({
+                regiao: item.regiao,
+                local: item.id
+            });
+            window.location.href = `./alterar_local.html?${query.toString()}`;
+        },
+
+        editarRegiao(item) {
+            const query = new URLSearchParams({ regiao: item.id });
+            window.location.href = `./alterar_regiao.html?${query.toString()}`;
+        },
+
+        async excluirRegiao(item) {
+            if (item.id === 'sem_regiao') {
+                alert('A região sem_regiao não pode ser excluída.');
+                return;
+            }
+
+            if (!confirm(`Excluir a região "${item.title}"?`)) return;
+            if (!confirm('Confirma novamente?')) return;
+
+            const res = await fetch(apiUrl('/api/delete'), {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tipo: 'regiao',
+                    regiao: item.id
+                })
+            });
+
+            const data = await res.json();
+
+            if (data.success) {
+                alert('Região excluída!');
+                this.carregar();
+            } else {
+                alert(data.erro || 'Erro ao excluir.');
+            }
+        },
+
+        async baixarZip(item) {
+            try {
+                const res = await fetch(apiUrl(`/download_zip/${item.regiao}/${item.id}`));
+
+                if (!res.ok) {
+                    throw new Error(`Falha ao gerar ZIP (${res.status})`);
+                }
+
+                const blob = await res.blob();
+                const a = document.createElement('a');
+                a.href = URL.createObjectURL(blob);
+                a.download = `pacote_${item.id}.zip`;
+                a.click();
+                URL.revokeObjectURL(a.href);
+
+            } catch (e) {
+                alert(e.message || 'Falha ao baixar ZIP.');
+            }
+        }
+    }
+}
+</script>
+</body>
+</html>

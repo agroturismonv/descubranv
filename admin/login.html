@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="loginApp()" x-init="init()">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Administrativo | Turismo NV</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="auth.js"></script>
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
+</head>
+
+
+<body class="bg-[#0f5132] h-screen flex items-center justify-center p-6 font-sans">
+
+    <div class="bg-white p-10 rounded-[3rem] shadow-2xl w-full max-w-md">
+        <div class="text-center mb-10">
+            <img src="/imagens/brasao/brasao_nv.png" alt="Brasão Nova Venécia" class="w-16 mx-auto mb-4">
+            <h1 class="text-2xl font-black uppercase italic text-[#0f5132] tracking-tighter">Painel de controle</h1>
+            <p class="text-gray-400 text-[10px] font-bold uppercase tracking-widest mt-1">Acesso Restrito</p>
+        </div>
+
+        <div class="mb-4">
+            <label
+                class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4 tracking-widest">Usuário:</label>
+            <input type="text" x-model="username" @input="erro = false" placeholder="login"
+                class="w-full p-4 bg-gray-50 rounded-2xl border-2 outline-none transition-all text-center"
+                :class="erro ? 'border-red-500 bg-red-50' : 'border-transparent focus:border-[#ffc107]'">
+        </div>
+
+        <div class="mb-8">
+            <label class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4 tracking-widest">Senha:</label>
+            <input type="password" x-model="senha" @input="erro = false" @keydown.enter="autenticar()"
+                placeholder="••••••••"
+                class="w-full p-4 bg-gray-50 rounded-2xl border-2 outline-none transition-all text-center text-lg"
+                :class="erro ? 'border-red-500 bg-red-50' : 'border-transparent focus:border-[#ffc107]'">
+            <p x-show="erro" x-cloak class="text-red-600 text-xs mt-3 ml-4 font-bold flex items-center gap-1">
+                <span>✕</span> Usuário ou senha incorretos.
+            </p>
+        </div>
+
+        <button @click="autenticar()" :disabled="carregando"
+            class="w-full bg-[#ffc107] text-[#0f5132] py-4 rounded-2xl font-black uppercase hover:scale-105 active:scale-95 transition-all shadow-xl disabled:opacity-60 disabled:cursor-not-allowed">
+            <span x-show="!carregando">Entrar no Painel</span>
+            <span x-show="carregando" x-cloak>Verificando...</span>
+        </button>
+    </div>
+
+    <script>
+        function loginApp() {
+            return {
+                username: '',
+                senha: '',
+                erro: false,
+                carregando: false,
+                usuarios: [],
+
+                async init() {
+                    try {
+                        const resp = await fetch('user.xml');
+                        const text = await resp.text();
+                        const parser = new DOMParser();
+                        const xml = parser.parseFromString(text, 'text/xml');
+                        this.usuarios = Array.from(xml.querySelectorAll('user')).map(u => ({
+                            username: u.querySelector('username').textContent.trim(),
+                            password: u.querySelector('password').textContent.trim(),
+                            level: u.querySelector('level').textContent.trim()
+                        }));
+                    } catch (e) {
+                        console.warn('Nao foi possivel carregar user.xml:', e);
+                    }
+                },
+
+                async sha256(texto) {
+                    const buffer = await crypto.subtle.digest(
+                        'SHA-256',
+                        new TextEncoder().encode(texto)
+                    );
+                    return Array.from(new Uint8Array(buffer))
+                        .map(b => b.toString(16).padStart(2, '0'))
+                        .join('');
+                },
+
+                async autenticar() {
+                    if (!this.username || !this.senha) { this.erro = true; return; }
+                    this.carregando = true;
+
+                    try {
+                        // Agora enviamos para o servidor em vez de validar localmente
+                        const res = await fetch(apiUrl('/api/login'), {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                username: this.username,
+                                password: this.senha // O Python fará o hash ou você pode enviar o hash
+                            })
+                        });
+
+                        const data = await res.json();
+
+                        if (res.ok && data.success) {
+                            sessionStorage.setItem('admin_logged', 'true');
+                            sessionStorage.setItem('admin_level', data.level);
+                            sessionStorage.setItem('admin_user', data.username);
+                            sessionStorage.setItem('admin_api_base', window.location.origin);
+                            window.location.href = 'dashboard.html';
+                        } else {
+                            this.erro = true;
+                            this.senha = '';
+                        }
+                    } catch (e) {
+                        console.error("Erro na autenticação:", e);
+                        this.erro = true;
+                    } finally {
+                        this.carregando = false;
+                    }
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>

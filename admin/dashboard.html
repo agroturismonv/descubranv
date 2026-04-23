@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="dashboardApp()">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel de Controle | Turismo NV</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script src="auth.js"></script>
+
+    <style>[x-cloak] { display: none !important; }</style>
+</head>
+
+<body class="bg-slate-100 flex min-h-screen font-sans" x-init="init()">
+
+    <!-- SIDEBAR -->
+    <aside class="bg-gradient-to-b from-[#0f5132] to-[#0b3f28] text-white flex flex-col transition-all duration-300 shadow-xl"
+           :class="sidebarOpen ? 'w-64' : 'w-20'">
+
+        <!-- LOGO -->
+        <div class="p-5 flex items-center gap-3 border-b border-white/10">
+            <img src="/imagens/brasao/brasao_nv.png" class="w-9 h-9 rounded-lg bg-white/10 p-1">
+            <span x-show="sidebarOpen" class="font-black italic text-lg">Admin NV</span>
+        </div>
+
+        <!-- MENU -->
+        <nav class="flex-1 p-3 mt-4 space-y-2">
+
+            <a href="./gestao_user.html"
+               class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition mt-6 border-t border-white/10 pt-4">
+                <span class="text-lg">👤</span>
+                <span x-show="sidebarOpen" class="text-xs font-bold uppercase">Usuários</span>
+            </a>
+
+            <a href="./listar_cadastros.html"
+               class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition">
+                <span class="text-lg">📋</span>
+                <span x-show="sidebarOpen" class="text-xs font-bold uppercase">Cadastros</span>
+            </a>
+
+        </nav>
+
+        <!-- LOGOUT -->
+        <div class="p-3 border-t border-white/10">
+            <button onclick="logout()"
+                class="w-full flex items-center gap-4 p-3 rounded-xl bg-red-500/10 text-red-200 hover:bg-red-500 hover:text-white transition">
+                <span>🚪</span>
+                <span x-show="sidebarOpen" class="text-xs font-bold uppercase">Sair</span>
+            </button>
+        </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="flex-1 flex flex-col min-w-0">
+
+        <!-- HEADER -->
+        <header class="bg-white/90 backdrop-blur px-6 py-4 shadow-sm flex justify-between items-center border-b border-slate-200">
+            <button @click="sidebarOpen = !sidebarOpen"
+                class="text-[#0f5132] p-2 rounded-lg hover:bg-gray-100">
+                ☰
+            </button>
+
+            <div class="flex items-center gap-3">
+                <div class="text-right">
+                    <p class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Sessão</p>
+                    <p class="text-xs font-bold text-slate-700" x-text="adminUser"></p>
+                </div>
+                <div class="w-9 h-9 rounded-full bg-[#0f5132] text-white flex items-center justify-center font-black text-sm" x-text="adminInitial"></div>
+            </div>
+        </header>
+
+        <section class="flex-1 p-6 md:p-8">
+            <div class="max-w-6xl mx-auto space-y-6">
+                <div class="bg-gradient-to-r from-[#0f5132] to-[#16603d] text-white rounded-3xl p-6 md:p-8 shadow-lg">
+                    <p class="text-[11px] uppercase tracking-widest opacity-75 font-bold">Painel Administrativo</p>
+                    <h2 class="text-3xl md:text-4xl font-black italic mt-1">Gestão de Turismo NV</h2>
+                    <p class="text-sm md:text-base opacity-90 mt-2">Controle regiões, locais e processamento do conteúdo em um único fluxo.</p>
+                    <div class="mt-5 flex flex-wrap gap-3">
+                        <button @click="rebuild()"
+                            class="bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+                            Rebuild Manual
+                        </button>
+                        <a href="./listar_locais.html"
+                            class="bg-white/15 border border-white/20 text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:bg-white/20">
+                            Ver Cadastros
+                        </a>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Total Locais</p>
+                        <p class="text-3xl font-black text-[#0f5132]" x-text="stats.total_locais"></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Total Regiões</p>
+                        <p class="text-3xl font-black text-[#0f5132]" x-text="stats.total_regioes"></p>
+                    </div>
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                        <p class="text-[10px] font-black uppercase text-slate-400">Status do Sistema</p>
+                        <p class="text-2xl font-black mt-1" :class="stats.status === 'ok' ? 'text-green-600' : 'text-amber-600'" x-text="statusLabel"></p>
+                        <p class="text-xs text-slate-500 mt-1" x-text="'Atualizado: ' + lastUpdated"></p>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
+                    <a href="./listar_locais.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-orange-100 text-orange-600 p-3 rounded-xl text-lg">📋</div>
+                            <h3 class="font-black text-[#0f5132]">Cadastros</h3>
+                        </div>
+                        <p class="text-sm text-slate-500">Liste, edite, exclua e baixe ZIP de regiões e locais.</p>
+                    </a>
+
+                    <a href="./gestao_user.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+                        <div class="flex items-center gap-3 mb-4">
+                            <div class="bg-purple-100 text-purple-600 p-3 rounded-xl text-lg">👤</div>
+                            <h3 class="font-black text-[#0f5132]">Gestão de Usuários</h3>
+                        </div>
+                        <p class="text-sm text-slate-500">Gerencie credenciais e níveis de acesso administrativo.</p>
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+<script>
+function dashboardApp() {
+    return {
+        sidebarOpen: true,
+        stats: { total_locais: 0, total_regioes: 0, status: 'ok' },
+        adminUser: sessionStorage.getItem('admin_user') || 'Administrador',
+        lastUpdated: '--:--',
+        get adminInitial() {
+            return (this.adminUser || 'A').charAt(0).toUpperCase();
+        },
+        get statusLabel() {
+            return this.stats.status === 'ok' ? 'Operacional' : 'Processando';
+        },
+        async init() {
+            try {
+                const res = await fetch(apiUrl('/api/dashboard'));
+                const data = await res.json();
+                this.stats = data;
+                this.lastUpdated = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+            } catch (e) {
+                console.warn('Falha ao carregar dashboard:', e);
+            }
+        },
+        async rebuild() {
+            const res = await fetch(apiUrl('/rebuild'), { method: 'POST' });
+            const data = await res.json();
+            alert(data.message || 'Rebuild iniciado.');
+        }
+    }
+}
+</script>
+</body>
+</html>

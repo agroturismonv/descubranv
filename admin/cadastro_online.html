@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="adminApp()" x-init="init()">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel de Cadastro | Turismo NV</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .inp {
+      width: 100%; padding: .9rem 1rem;
+      background: #f9fafb; border-radius: 1rem;
+      border: none; outline: none;
+      font-weight: 700; color: #0f5132; font-size: 14px;
+    }
+    .inp:focus { box-shadow: 0 0 0 2px #ffc107; }
+    .inp::placeholder { color: #9ca3af; font-weight: 400; }
+    label.lbl {
+      display: block; font-size: 8px; font-weight: 900;
+      text-transform: uppercase; color: #9ca3af;
+      margin-bottom: .4rem; margin-left: .8rem; letter-spacing: .08em;
+    }
+    .toast {
+      position: fixed; bottom: 2rem; right: 2rem;
+      padding: .75rem 1.5rem; border-radius: 1rem;
+      font-size: 13px; font-weight: 700; z-index: 9999;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 md:p-12">
+
+<!-- Toast -->
+<div x-show="toast.show" x-cloak
+     :class="toast.ok ? 'bg-[#0f5132] text-white' : 'bg-red-600 text-white'"
+     class="toast" x-text="toast.msg"></div>
+
+     <div class="max-w-4xl mx-auto mb-4 flex justify-start">
+  <a href="./dashboard.html"
+     class="flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-2 rounded-2xl text-xs font-black uppercase shadow hover:opacity-90 transition">
+     
+    <span>←</span>
+    <span>Voltar</span>
+
+  </a>
+</div>
+<div class="max-w-4xl mx-auto bg-white rounded-[2.5rem] shadow-2xl overflow-hidden">
+
+  <!-- HEADER -->
+  <header class="bg-[#0f5132] px-10 py-8 text-white flex justify-between items-center flex-wrap gap-4">
+    <div>
+      <h1 class="text-2xl font-black uppercase italic">Painel de Cadastro</h1>
+      <p class="text-[10px] opacity-50 uppercase tracking-widest mt-1">Turismo Nova Venécia</p>
+    </div>
+    <div class="flex bg-black/20 p-1 rounded-xl">
+      <button @click="modo = 'regiao'; resetar()"
+        :class="modo === 'regiao' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
+        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all">
+        🗺 Região
+      </button>
+      <button @click="modo = 'local'; resetar()"
+        :class="modo === 'local' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
+        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all ml-1">
+        📍 Local
+      </button>
+    </div>
+  </header>
+
+  <div class="p-8 md:p-10 space-y-8">
+
+    <!-- ══════════════════════════════════════
+         MODO REGIÃO → alimenta circuitos.html
+    ══════════════════════════════════════════ -->
+    <template x-if="modo === 'regiao'">
+      <div class="space-y-8">
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <!-- ID -->
+          <div>
+            <label class="lbl">ID da Região <span class="text-red-400">*</span></label>
+            <input x-model="r.id" @input="r.id = slug(r.id)" class="inp" placeholder="ex: cachoeiras_norte">
+            <p class="text-[9px] text-gray-400 mt-1 ml-2">
+              URL gerada: <code class="text-[#0f5132]" x-text="r.id ? `circuitos.html?id=${r.id}` : '—'"></code>
+            </p>
+          </div>
+
+          <!-- Foto de fundo (hero do card na index) -->
+          <div>
+            <label class="lbl">Foto de Fundo <span class="text-red-400">*</span></label>
+            <input type="file" accept="image/*" @change="uploadBg($event)" id="bgFile" class="hidden">
+            <label for="bgFile"
+              :class="r.bgFoto ? 'border-[#0f5132] bg-green-50' : 'border-gray-200 bg-gray-50'"
+              class="flex items-center justify-center h-14 rounded-2xl border-2 border-dashed cursor-pointer hover:border-[#0f5132] transition-colors text-[10px] font-black uppercase text-gray-400 hover:text-[#0f5132]">
+              <span x-text="r.bgFoto ? '✔ ' + r.bgFoto.name : '+ Escolher Foto'"></span>
+            </label>
+            <div x-show="r.bgFoto" class="mt-2 h-28 rounded-2xl overflow-hidden">
+              <img :src="r.bgFoto?.url" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+
+        <!-- TEXTOS REGIÃO -->
+        <div class="border-t pt-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="lbl">Textos do Circuito</label>
+            <button @click="traduzir('r')" :disabled="traduzindo"
+              class="text-[8px] font-black uppercase bg-[#0f5132] text-white px-3 py-1.5 rounded-full disabled:opacity-50">
+              <span x-text="traduzindo ? '⏳ Traduzindo...' : '🌐 Traduzir PT → EN / ES'"></span>
+            </button>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-gray-500 ml-1">🇧🇷 Português</p>
+              <input x-model="r.pt.title" class="inp" placeholder="Título do Circuito">
+              <input x-model="r.pt.subtitle" class="inp" placeholder="Subtítulo">
+            </div>
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-blue-400 ml-1">🇺🇸 English</p>
+              <input x-model="r.en.title" class="inp" placeholder="Title">
+              <input x-model="r.en.subtitle" class="inp" placeholder="Subtitle">
+            </div>
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-orange-400 ml-1">🇪🇸 Español</p>
+              <input x-model="r.es.title" class="inp" placeholder="Título">
+              <input x-model="r.es.subtitle" class="inp" placeholder="Subtítulo">
+            </div>
+          </div>
+        </div>
+
+    </template>
+
+    <!-- ══════════════════════════════════════
+         MODO LOCAL → alimenta local.html
+    ══════════════════════════════════════════ -->
+    <template x-if="modo === 'local'">
+      <div class="space-y-8">
+
+        <div class="grid md:grid-cols-2 gap-6">
+          <div class="space-y-4">
+
+            <!-- Região vinculada -->
+            <div>
+              <label class="lbl">Região Vinculada <span class="text-red-400">*</span></label>
+              <select x-model="l.id_regiao" class="inp">
+                <option value="">Selecione...</option>
+                <template x-for="reg in regioes" :key="reg.id">
+                  <option :value="reg.id" x-text="reg.nome"></option>
+                </template>
+              </select>
+              <div class="flex gap-2 mt-2">
+                <input x-model="novaRegiao" @input="novaRegiao = slug(novaRegiao)"
+                       class="inp text-xs" placeholder="Ou digita ID da região...">
+                <button @click="addRegiao()"
+                  class="bg-[#0f5132] text-white px-3 rounded-xl text-[9px] font-black uppercase whitespace-nowrap">
+                  + Add
+                </button>
+              </div>
+            </div>
+
+            <!-- ID do local -->
+            <div>
+              <label class="lbl">ID do Local <span class="text-red-400">*</span></label>
+              <input x-model="l.id" @input="l.id = slug(l.id)" class="inp" placeholder="ex: cachoeira_das_pedras">
+              <p class="text-[9px] text-gray-400 mt-1 ml-2">
+                URL: <code class="text-[#0f5132]" x-text="l.id ? `local.html?id=${l.id}` : '—'"></code>
+              </p>
+            </div>
+          </div>
+
+          <!-- GPS -->
+          <div class="bg-gray-50 p-5 rounded-2xl space-y-3">
+            <label class="lbl">Localização GPS</label>
+            <div class="flex gap-1.5">
+              <button @click="gps = 'link'"
+                :class="gps === 'link' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
+                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Link Maps</button>
+              <button @click="gps = 'coords'"
+                :class="gps === 'coords' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
+                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Coordenadas</button>
+            </div>
+            <input x-show="gps === 'link'" x-model="l.map_link" class="inp text-xs"
+                   placeholder="https://maps.app.goo.gl/...">
+            <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
+              <input x-model="l.lat" class="inp text-xs" placeholder="Latitude">
+              <input x-model="l.lng" class="inp text-xs" placeholder="Longitude">
+            </div>
+          </div>
+        </div>
+
+        <!-- TEXTOS LOCAL -->
+        <div class="border-t pt-6 space-y-4">
+          <div class="flex items-center justify-between">
+            <label class="lbl">Textos do Local</label>
+            <button @click="traduzir('l')" :disabled="traduzindo"
+              class="text-[8px] font-black uppercase bg-[#0f5132] text-white px-3 py-1.5 rounded-full disabled:opacity-50">
+              <span x-text="traduzindo ? '⏳ Traduzindo...' : '🌐 Traduzir PT → EN / ES'"></span>
+            </button>
+          </div>
+          <div class="grid md:grid-cols-3 gap-4">
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-gray-500 ml-1">🇧🇷 Português</p>
+              <input x-model="l.pt.title" class="inp" placeholder="Nome do Local">
+              <input x-model="l.pt.subtitle" class="inp" placeholder="Subtítulo">
+              <textarea x-model="l.pt.desc" class="inp h-20" placeholder="Descrição"></textarea>
+            </div>
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-blue-400 ml-1">🇺🇸 English</p>
+              <input x-model="l.en.title" class="inp" placeholder="Name">
+              <input x-model="l.en.subtitle" class="inp" placeholder="Subtitle">
+              <textarea x-model="l.en.desc" class="inp h-20" placeholder="Description"></textarea>
+            </div>
+            <div class="space-y-3">
+              <p class="text-[9px] font-black uppercase text-orange-400 ml-1">🇪🇸 Español</p>
+              <input x-model="l.es.title" class="inp" placeholder="Nombre">
+              <input x-model="l.es.subtitle" class="inp" placeholder="Subtítulo">
+              <textarea x-model="l.es.desc" class="inp h-20" placeholder="Descripción"></textarea>
+            </div>
+          </div>
+        </div>
+
+        <!-- GALERIA -->
+        <div class="border-t pt-6">
+          <div class="flex justify-between items-center mb-4">
+            <label class="lbl">
+              Galeria de Fotos
+              <span x-show="l.fotos.length" class="text-[#0f5132] normal-case"
+                    x-text="`— ${l.fotos.length} foto(s) · capa: ${l.fotos[l.cover]?.name || '—'}`"></span>
+            </label>
+            <div class="flex gap-2">
+              <button x-show="l.fotos.length > 0" @click="l.fotos = []; l.cover = 0"
+                class="border border-red-200 text-red-400 px-3 py-1.5 rounded-full text-[8px] font-black uppercase hover:bg-red-50">
+                Limpar
+              </button>
+              <input type="file" multiple accept="image/*" @change="uploadFotos($event)" id="galFile" class="hidden">
+              <label for="galFile"
+                class="bg-[#0f5132] text-white px-5 py-2 rounded-full text-[9px] font-black uppercase cursor-pointer hover:bg-[#0a3d26]">
+                + Fotos
+              </label>
+            </div>
+          </div>
+
+          <p x-show="l.fotos.length === 0"
+             class="text-center text-gray-400 text-xs py-10 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+            Nenhuma foto. Clique em "+ Fotos" para adicionar. A foto marcada será o hero da página.
+          </p>
+
+          <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
+            <template x-for="(f, i) in l.fotos" :key="i">
+              <div class="relative cursor-pointer" @click="l.cover = i">
+                <img :src="f.url"
+                     :class="l.cover === i ? 'ring-4 ring-[#ffc107] opacity-100' : 'opacity-40 hover:opacity-70'"
+                     class="h-20 w-full object-cover rounded-xl transition-all">
+                <div x-show="l.cover === i"
+                     class="absolute top-1 left-1 bg-[#ffc107] text-[#0f5132] text-[6px] font-black px-1.5 py-0.5 rounded-full uppercase">
+                  CAPA
+                </div>
+              </div>
+            </template>
+          </div>
+          <p x-show="l.fotos.length > 0" class="text-[9px] text-gray-400 mt-2 ml-1">
+            Clique numa foto para definir como hero (imagem principal da página).
+          </p>
+        </div>
+
+        <!-- 360 -->
+        <div class="border-t pt-6">
+          <label class="lbl">Tour Virtual 360°</label>
+          <div class="flex items-center gap-3 mb-3">
+            <input type="checkbox" x-model="l.has360" class="w-5 h-5 accent-[#0f5132] cursor-pointer">
+            <span class="text-xs font-bold text-gray-600 uppercase">Possui experiência 360°</span>
+          </div>
+          <input x-show="l.has360" x-model="l.ra_link" class="inp text-xs"
+                 placeholder="https://novavenecia360.com.br/local/...">
+        </div>
+
+
+      </div>
+    </template>
+
+    <!-- BOTÃO GERAR -->
+    <button @click="baixar()" :disabled="loading"
+      class="w-full bg-[#0f5132] hover:bg-[#0a3d26] disabled:opacity-50 disabled:cursor-not-allowed
+             text-white py-5 rounded-2xl font-black uppercase text-sm tracking-widest shadow-xl transition-all">
+      <span x-text="loading ? 'Enviando...' : '🚀 Enviar para o servidor'"></span>
+    </button>
+
+  </div>
+</div>
+
+<script>
+function adminApp() {
+  return {
+
+    /* ───────── STATE ───────── */
+    modo: 'regiao',
+    loading: false,
+    traduzindo: false,
+    toast: { show: false, msg: '', ok: true },
+
+    r: {
+      id: '',
+      bgFoto: null,
+      pt: { title: '', subtitle: '', desc: '' },
+      en: { title: '', subtitle: '', desc: '' },
+      es: { title: '', subtitle: '', desc: '' },
+    },
+
+    l: {
+      id: '',
+      id_regiao: '',
+      map_link: '',
+      lat: '',
+      lng: '',
+      fotos: [],
+      cover: 0,
+      has360: false,
+      ra_link: '',
+      pt: { title: '', subtitle: '', desc: '' },
+      en: { title: '', subtitle: '', desc: '' },
+      es: { title: '', subtitle: '', desc: '' },
+    },
+
+    /* ───────── INIT ───────── */
+    init() {
+      const params = new URLSearchParams(window.location.search);
+      const regiao = params.get('regiao');
+      const local = params.get('local');
+
+      if (regiao) {
+        this.modo = local ? 'local' : 'regiao';
+        this.carregar(regiao, local);
+      }
+    },
+
+    /* ───────── UTIL ───────── */
+    slug(v) {
+      return (v || '')
+        .toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, '_')
+        .replace(/[^a-z0-9_]/g, '');
+    },
+
+    notify(msg, ok = true) {
+      this.toast = { show: true, msg, ok };
+      setTimeout(() => this.toast.show = false, 3000);
+    },
+
+    /* ───────── LOAD EDIT ───────── */
+    async carregar(regiao, local) {
+      try {
+        const url = new URL(apiUrl('/api/cadastro'));
+        url.searchParams.append('tipo', local ? 'local' : 'regiao');
+        url.searchParams.append('regiao', regiao);
+        if (local) url.searchParams.append('local', local);
+
+        const res = await fetch(url);
+        const json = await res.json();
+
+        if (!json.success) throw new Error();
+
+        const raw = json.raw;
+
+        const match = raw.match(/Object\.freeze\((\{[\s\S]*\})\)/);
+        if (!match) return;
+
+        let obj = match[1]
+          .replace(/([{,]\s*)(\w+):/g, '$1"$2":')
+          .replace(/'/g, '"');
+
+        obj = JSON.parse(obj);
+
+        if (local) {
+          this.l.id = obj.id;
+          this.l.id_regiao = regiao;
+
+          this.l.pt = obj.texts?.pt || {};
+          this.l.en = obj.texts?.en || {};
+          this.l.es = obj.texts?.es || {};
+
+          this.l.map_link = obj.location?.maps || '';
+          this.l.has360 = obj.RAvisionScreen || false;
+          this.l.ra_link = obj.RAvisionlink || '';
+
+          this.l.fotos = (obj.gallery || []).map(g => ({
+            name: g.split('/').pop(),
+            url: g,
+            existing: true
+          }));
+
+        } else {
+          this.r.id = obj.id;
+          this.r.pt = obj.texts?.pt || {};
+          this.r.en = obj.texts?.en || {};
+          this.r.es = obj.texts?.es || {};
+        }
+
+        this.notify('Modo edição ativo');
+
+      } catch {
+        this.notify('Erro ao carregar dados', false);
+      }
+    },
+
+    /* ───────── UPLOADS ───────── */
+    uploadBg(e) {
+      const f = e.target.files[0];
+      if (!f) return;
+      this.r.bgFoto = { file: f, name: f.name };
+    },
+
+    uploadFotos(e) {
+      const files = Array.from(e.target.files);
+      this.l.fotos.push(...files.map(f => ({ file: f, name: f.name })));
+    },
+
+    /* ───────── MAPA ───────── */
+    buildMapa() {
+      if (this.l.lat && this.l.lng)
+        return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
+      return this.l.map_link || '';
+    },
+
+    /* ───────── SALVAR ───────── */
+    async salvar() {
+      this.loading = true;
+
+      try {
+        let payload;
+
+        if (this.modo === 'regiao') {
+
+          if (!this.r.id) throw new Error('ID obrigatório');
+          if (!this.r.pt.title) throw new Error('Título PT obrigatório');
+
+          payload = {
+            tipo: 'regiao',
+            modo: this.r.id ? 'editar' : 'create',
+            regiao: this.slug(this.r.id),
+
+            cover_file: this.r.bgFoto?.name,
+
+            dados: {
+              texts: {
+                pt: this.r.pt,
+                en: this.r.en,
+                es: this.r.es
+              }
+            }
+          };
+
+        } else {
+
+          if (!this.l.id) throw new Error('ID obrigatório');
+          if (!this.l.id_regiao) throw new Error('Região obrigatória');
+
+          payload = {
+            tipo: 'local',
+            modo: this.l.id ? 'editar' : 'create',
+
+            regiao: this.l.id_regiao,
+            local: this.slug(this.l.id),
+
+            cover_file: this.l.fotos[this.l.cover]?.name,
+
+            dados: {
+              texts: {
+                pt: this.l.pt,
+                en: this.l.en,
+                es: this.l.es
+              },
+              location: {
+                maps: this.buildMapa()
+              },
+              gallery: this.l.fotos.map(f => f.name),
+              RAvisionScreen: this.l.has360,
+              RAvisionlink: this.l.ra_link
+            }
+          };
+        }
+
+        const res = await fetch(apiUrl('/api/cadastro'), {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        const json = await res.json();
+
+        if (!json.success) throw new Error(json.erro || 'Erro');
+
+        this.notify('Salvo com sucesso!');
+        setTimeout(() => location.href = 'listar_cadastros.html', 1200);
+
+      } catch (e) {
+        this.notify(e.message, false);
+      } finally {
+        this.loading = false;
+      }
+    }
+  };
+}
+</script>
+</body>
+</html>
