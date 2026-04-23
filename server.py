@@ -123,20 +123,43 @@ def save_upload_files(payload, files):
 
 
 def build_listagem_data():
-    controller_path = os.path.join(BASE_DIR, "dados", "controller.js")
-    controller = site_manager.carregar_js_objeto(controller_path) or {}
-    regioes = controller.get("regioes", [])
-
     data = []
-    for reg in regioes:
-        textos = reg.get("texts", {}).get("pt", {})
+    if not os.path.isdir(DADOS_DIR):
+        return data
+
+    for regiao_id in sorted(os.listdir(DADOS_DIR)):
+        regiao_dir = os.path.join(DADOS_DIR, regiao_id)
+        if not os.path.isdir(regiao_dir):
+            continue
+
+        config_path = os.path.join(regiao_dir, "config.js")
+        config = site_manager.carregar_js_objeto(config_path) or {}
+        if not config:
+            continue
+
+        textos = config.get("texts", {}).get("pt", {})
         locais = []
 
-        for local in reg.get("locais", []):
+        local_ids = list(config.get("locais", []))
+        # fallback: if config.js has no locais[] yet, discover by folder names
+        if not local_ids:
+            for item in sorted(os.listdir(regiao_dir)):
+                local_dir = os.path.join(regiao_dir, item)
+                local_js = os.path.join(local_dir, f"{item}.js")
+                if os.path.isdir(local_dir) and os.path.isfile(local_js):
+                    local_ids.append(item)
+
+        for local_id in sorted(set(local_ids)):
+            local_dir = os.path.join(regiao_dir, local_id)
+            local_js = os.path.join(local_dir, f"{local_id}.js")
+            local = site_manager.carregar_js_objeto(local_js) or {}
+            if not local:
+                continue
+
             local_texts = local.get("texts", {}).get("pt", {})
             locais.append(
                 {
-                    "id": local.get("id", ""),
+                    "id": local.get("id", local_id),
                     "nome": local_texts.get("title", ""),
                     "subtitulo": local_texts.get("subtitle", ""),
                     "capa": local.get("hero", ""),
@@ -150,11 +173,11 @@ def build_listagem_data():
 
         data.append(
             {
-                "regiao": reg.get("id", ""),
+                "regiao": config.get("id", regiao_id),
                 "titulo": textos.get("title", ""),
                 "descricao": textos.get("subtitle", ""),
-                "capa": reg.get("cover", ""),
-                "texts": reg.get("texts", {}),
+                "capa": config.get("cover", ""),
+                "texts": config.get("texts", {}),
                 "locais": locais,
             }
         )
