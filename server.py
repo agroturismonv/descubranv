@@ -36,6 +36,11 @@ def admin(path):
 def ra():
     return send_from_directory(".", "ra.html")
 
+@app.route("/api/check")
+def check():
+    return jsonify({
+        "logado": session.get("logado", False)
+    })
 
 @app.route('/api/login', methods=['POST'])
 def login():
