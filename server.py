@@ -1,144 +1,160 @@
-// admin/auth.js
-(function () {
-    "use strict";
+from flask import Flask, request, jsonify, session, send_from_directory
+from functools import wraps
+import os
+from manager import SiteManager
 
-    // 🔥 PADRÃO ÚNICO DE LOGIN
-    const LOGIN_URL = '/admin/login.html';
+app = Flask(__name__, static_folder=".", static_url_path="")
+app.secret_key = "super-secret-key"
 
-    /**
-     * ============================
-     * 🔐 CONTROLE DE AUTENTICAÇÃO
-     * ============================
-     */
-    const isLogged = sessionStorage.getItem('admin_logged');
+manager = SiteManager()
 
-    const isLoginPage = window.location.pathname.includes('/admin/login.html');
+# =========================
+# AUTH DECORATOR
+# =========================
+def login_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        if not session.get("logado"):
+            return jsonify({"success": False, "erro": "não autorizado"}), 403
+        return f(*args, **kwargs)
+    return decorated
 
-    if (!isLogged && !isLoginPage) {
-        window.location.href = LOGIN_URL;
-        return;
-    }
+# =========================
+# FRONTEND
+# =========================
+@app.route("/")
+def index():
+    return send_from_directory(".", "index.html")
 
-    /**
-     * ============================
-     * 🌐 RESOLUÇÃO DE URL DA API
-     * ============================
-     */
-    function apiUrl(path) {
-        const normalized = path.startsWith('/') ? path : `/${path}`;
-        const savedBase = sessionStorage.getItem('admin_api_base');
+@app.route("/admin/<path:path>")
+def admin(path):
+    return send_from_directory("admin", path)
 
-        if (savedBase) return `${savedBase}${normalized}`;
+# =========================
+# AUTH API
+# =========================
+@app.route("/api/login", methods=["POST"])
+def api_login():
+    data = request.json
 
-        if (window.location.protocol === 'file:') {
-            return `http://127.0.0.1:5000${normalized}`;
-        }
+    user = data.get("user")
+    password = data.get("password")
 
-        if (
-            (window.location.hostname === 'localhost' ||
-                window.location.hostname === '127.0.0.1') &&
-            window.location.port &&
-            window.location.port !== '5000'
-        ) {
-            return `http://127.0.0.1:5000${normalized}`;
-        }
+    if user == "admin" and password == "123":
+        session["logado"] = True
+        return jsonify({"success": True})
 
-        return `${window.location.origin}${normalized}`;
-    }
+    return jsonify({"success": False}), 403
 
-    window.apiUrl = apiUrl;
 
-    /**
-     * ============================
-     * 🚪 LOGOUT (FIXO)
-     * ============================
-     */
-    window.logout = function () {
-        sessionStorage.removeItem('admin_logged');
-        sessionStorage.removeItem('admin_api_base');
+@app.route("/api/logout", methods=["POST"])
+def api_logout():
+    session.clear()
+    return jsonify({"success": True})
 
-        window.location.href = LOGIN_URL;
-    };
 
-    /**
-     * ============================
-     * 📡 CLIENTE DE API
-     * ============================
-     */
-    async function apiRequest(path, options = {}) {
-        try {
-            const response = await fetch(apiUrl(path), {
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...(options.headers || {})
-                },
-                ...options
-            });
+@app.route("/api/check", methods=["GET"])
+def api_check():
+    return jsonify({"logado": bool(session.get("logado"))})
 
-            if (!response.ok) {
-                throw new Error(`Erro HTTP: ${response.status}`);
-            }
+# =========================
+# API PROTEGIDA
+# =========================
+@app.route('/api/listar', methods=['GET'])
+@login_required
+def listar():
+    try:
+        base = os.path.join("dados", "circuitos")
+        resultado = []
 
-            return await response.json();
+        if not os.path.exists(base):
+            return jsonify({"success": True, "data": []})
 
-        } catch (error) {
-            console.error('Erro na API:', error);
-            throw error;
-        }
-    }
+        import re
 
-    /**
-     * ============================
-     * 📦 ENDPOINTS
-     * ============================
-     */
-    const API = {
-        dashboard: () => apiRequest('/api/dashboard'),
-        locais: () => apiRequest('/api/locais'),
-        regioes: () => apiRequest('/api/regioes'),
-        status: () => apiRequest('/status'),
-        rebuild: () => apiRequest('/rebuild', { method: 'POST' }),
-        limpar: () => apiRequest('/limpar', { method: 'POST' }),
+        for regiao in sorted(os.listdir(base)):
+            path_regiao = os.path.join(base, regiao)
 
-        delete: (body) => apiRequest('/delete', {
-            method: 'POST',
-            body: JSON.stringify(body)
-        })
-    };
+            if not os.path.isdir(path_regiao):
+                continue
 
-    window.API = API;
+            config_path = os.path.join(path_regiao, "config.js")
+            if not os.path.exists(config_path):
+                continue
 
-    /**
-     * ============================
-     * 📊 DASHBOARD
-     * ============================
-     */
-    async function carregarDashboard() {
-        try {
-            const data = await API.dashboard();
+            with open(config_path, "r", encoding="utf-8") as f:
+                config_raw = f.read()
 
-            console.log('Dashboard:', data);
+            titulo = regiao
+            match = re.search(r'title.*?:\s*"(.*?)"', config_raw)
+            if match:
+                titulo = match.group(1)
 
-            const el = document.getElementById('resultado');
-            if (!el) return;
+            locais = []
 
-            el.innerText =
-                `📍 Locais: ${data.total_locais} | 🌎 Regiões: ${data.total_regioes} | ⚙️ Status: ${data.status}`;
+            for item in os.listdir(path_regiao):
+                path_local = os.path.join(path_regiao, item)
 
-        } catch (error) {
-            console.error('Erro ao carregar dashboard:', error);
-        }
-    }
+                if not os.path.isdir(path_local):
+                    continue
 
-    /**
-     * ============================
-     * 🔄 AUTO START
-     * ============================
-     */
-    document.addEventListener('DOMContentLoaded', () => {
-        if (isLogged) {
-            carregarDashboard();
-        }
-    });
+                js_path = os.path.join(path_local, f"{item}.js")
+                if not os.path.exists(js_path):
+                    continue
 
-})();
+                with open(js_path, "r", encoding="utf-8") as f:
+                    raw = f.read()
+
+                nome = item
+                desc = ""
+
+                m1 = re.search(r'title.*?:\s*"(.*?)"', raw)
+                m2 = re.search(r'description.*?:\s*"(.*?)"', raw)
+
+                if m1:
+                    nome = m1.group(1)
+                if m2:
+                    desc = m2.group(1)
+
+                locais.append({
+                    "id": item,
+                    "nome": nome,
+                    "descricao": desc
+                })
+
+            resultado.append({
+                "regiao": regiao,
+                "titulo": titulo,
+                "locais": locais
+            })
+
+        return jsonify({"success": True, "data": resultado})
+
+    except Exception as e:
+        return jsonify({"success": False, "erro": str(e)})
+
+# =========================
+# UPLOAD ZIP
+# =========================
+@app.route('/api/upload_zip', methods=['POST'])
+@login_required
+def upload_zip():
+    try:
+        file = request.files['file']
+
+        os.makedirs("pendentes", exist_ok=True)
+        path = os.path.join("pendentes", file.filename)
+
+        file.save(path)
+        manager.processar_lote()
+
+        return jsonify({"success": True})
+
+    except Exception as e:
+        return jsonify({"success": False, "erro": str(e)})
+
+# =========================
+# RUN
+# =========================
+if __name__ == '__main__':
+    app.run(debug=True)
