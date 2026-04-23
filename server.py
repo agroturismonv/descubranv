@@ -9,6 +9,7 @@ app.secret_key = "super-secret-key"  # troque isso em produção
 manager = SiteManager()
 
 
+
 # -------------------------
 # AUTH
 # -------------------------
@@ -19,6 +20,16 @@ def login_required(f):
             return jsonify({"success": False, "erro": "não autorizado"}), 403
         return f(*args, **kwargs)
     return decorated
+
+@app.route("/")
+def index():
+    return send_from_directory(".", "index.html")
+
+
+@app.route("/admin/<path:path>")
+def admin(path):
+    return send_from_directory("admin", path)
+
 
 #Página do leo
 @app.route("/ra")
