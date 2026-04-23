@@ -73,7 +73,14 @@ def build():
             "locais": []
         }
 
-        locais_ids = sorted(config.get("locais", []))
+        locais_ids = []
+
+for item in sorted(os.listdir(path_regiao)):
+    local_dir = os.path.join(path_regiao, item)
+    local_js = os.path.join(local_dir, f"{item}.js")
+
+    if os.path.isdir(local_dir) and os.path.isfile(local_js):
+        locais_ids.append(item)
 
         for local_id in locais_ids:
             path_local = os.path.join(path_regiao, local_id)
