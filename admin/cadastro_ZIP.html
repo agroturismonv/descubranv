@@ -383,9 +383,15 @@ function adminApp() {
         if (this.modo === 'regiao') {
 
           zip.file('config.json', JSON.stringify({
-            id: this.r.id,
-            texts: this.r
-          }, null, 2));
+  id: this.r.id,
+  cover: this.r.bgFoto?.name || null,
+  texts: {
+    pt: this.r.pt,
+    en: this.r.en,
+    es: this.r.es
+  },
+  locais: []
+}, null, 2));
 
           if (this.r.bgFoto)
             zip.file(this.r.bgFoto.name, this.r.bgFoto.file);
@@ -395,12 +401,20 @@ function adminApp() {
           const cover = this.l.fotos[this.l.cover] || this.l.fotos[0];
 
           zip.file('config.json', JSON.stringify({
-            id: this.l.id,
-            regiao: this.l.id_regiao,
-            cover: cover?.name || null,
-            texts: this.l.pt,
-            gallery: this.l.fotos.map(f => f.name)
-          }, null, 2));
+  id: this.l.id,
+  hero: cover?.name || null,
+  texts: {
+    pt: this.l.pt,
+    en: this.l.en,
+    es: this.l.es
+  },
+  location: {
+    link: this.buildMapa()
+  },
+  gallery: this.l.fotos.map(f => f.name),
+  RAvisionScreen: this.l.has360,
+  RAvisionlink: this.l.ra_link || ""
+}, null, 2));
 
           this.l.fotos.forEach(f => zip.file(f.name, f.file));
         }
