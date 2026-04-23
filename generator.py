@@ -7,16 +7,12 @@ DADOS_DIR = os.path.join(BASE_DIR, "dados", "circuitos")
 OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
-# -------------------------
-# PARSER JS → JSON
-# -------------------------
 def parse_js_object(content):
     match = re.search(r'Object\.freeze\((\{.*\})\);?', content, re.DOTALL)
     if not match:
         return None
 
     obj = match.group(1)
-
     obj = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj)
     obj = obj.replace("'", '"')
 
@@ -36,9 +32,6 @@ def carregar_js(path):
         return None
 
 
-# -------------------------
-# DETECTA LOCAIS REALMENTE EXISTENTES
-# -------------------------
 def detectar_locais(path_regiao):
     locais = []
 
@@ -52,20 +45,15 @@ def detectar_locais(path_regiao):
 
         if os.path.isfile(js_file):
             locais.append(item)
-        else:
-            print(f"[LIXO REMOVIDO] {item} (sem JS válido)")
 
     return sorted(locais)
 
 
-# -------------------------
-# BUILD
-# -------------------------
 def build():
     controller = {"regioes": []}
 
     if not os.path.exists(DADOS_DIR):
-        print("[ERRO] pasta dados/circuitos não existe")
+        print("[ERRO] pasta não existe")
         return
 
     for regiao in sorted(os.listdir(DADOS_DIR)):
@@ -74,29 +62,22 @@ def build():
         if not os.path.isdir(path_regiao):
             continue
 
-        config_path = os.path.join(path_regiao, "config.js")
-        config = carregar_js(config_path) or {}
+        config = carregar_js(os.path.join(path_regiao, "config.js")) or {}
 
-        # 🔥 AUTOCORREÇÃO
         locais_reais = detectar_locais(path_regiao)
 
-        regiao_id = config.get("id") or regiao
-
         regiao_obj = {
-            "id": regiao_id,
+            "id": config.get("id", regiao),
             "cover": config.get("cover", ""),
             "texts": config.get("texts", {}),
             "locais": []
         }
 
         for local_id in locais_reais:
-            path_local = os.path.join(path_regiao, local_id)
-            path_js = os.path.join(path_local, f"{local_id}.js")
+            path_js = os.path.join(path_regiao, local_id, f"{local_id}.js")
 
             local = carregar_js(path_js)
-
             if not local:
-                print(f"[ERRO] JS inválido: {regiao}/{local_id}")
                 continue
 
             regiao_obj["locais"].append({
@@ -112,12 +93,9 @@ def build():
         controller["regioes"].append(regiao_obj)
 
     salvar_controller(controller)
-    print("[OK] BUILD LIMPO E CONSISTENTE")
+    print("[OK] build concluído")
 
 
-# -------------------------
-# OUTPUT
-# -------------------------
 def salvar_controller(obj):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
@@ -134,7 +112,6 @@ def salvar_controller(obj):
 
     lista_body = json.dumps(lista, indent=2, ensure_ascii=False)
 
-    # estilo JS
     body = re.sub(r'"(\w+)":', r'\1:', body)
     lista_body = re.sub(r'"(\w+)":', r'\1:', lista_body)
 
@@ -143,8 +120,5 @@ def salvar_controller(obj):
         f.write(f"window.LISTA_CIRCUITOS = Object.freeze({lista_body});")
 
 
-# -------------------------
-# EXEC
-# -------------------------
 if __name__ == "__main__":
     build()
