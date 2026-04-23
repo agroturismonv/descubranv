@@ -131,148 +131,131 @@
 
    <script>
 function listagemApp() {
-    return {
-        regioes: [],
-        locais: [],
-        busca: '',
+  return {
 
-        async init() {
-            await this.carregar();
-        },
+    regioes: [],
+    locais: [],
+    busca: '',
 
-        async carregar() {
-            const res = await fetch(apiUrl('/api/listar'));
-            const json = await res.json();
+    async init() {
+      await this.carregar();
+    },
 
-            if (!json.success) return;
+    async carregar() {
+      try {
+        const res = await apiFetch('/api/listar');
+        const json = await res.json();
 
-            const data = json.data || [];
+        if (!json.success) return;
 
-            // 🔥 TRANSFORMA PARA FORMATO QUE SEU FRONT ESPERA
-            this.regioes = data.map(r => ({
-                id: r.regiao,
-                title: r.titulo,
-                subtitle: '',
-            }));
+        const data = json.data || [];
 
-            this.locais = data.flatMap(r =>
-                r.locais.map(l => ({
-                    id: l.id,
-                    title: l.nome,
-                    description: l.descricao,
-                    regiao: r.regiao,
-                    regiao_nome: r.titulo
-                }))
-            );
-        },
+        this.regioes = data.map(r => ({
+          id: r.regiao,
+          title: r.titulo,
+          subtitle: r.descricao || '',
+          cover: r.capa || '',
+          total_locais: r.locais?.length || 0
+        }));
 
-        regioesFiltradas() {
-            const termo = (this.busca || '').toLowerCase().trim();
-            const base = !termo ? this.regioes : this.regioes.filter(item =>
-                item.title.toLowerCase().includes(termo) ||
-                item.id.toLowerCase().includes(termo)
-            );
-            return [...base].sort((a, b) => a.title.localeCompare(b.title, 'pt-BR'));
-        },
+        this.locais = data.flatMap(r =>
+          (r.locais || []).map(l => ({
+            id: l.id,
+            title: l.nome,
+            subtitle: l.subtitulo || '',
+            hero: l.capa || '',
+            gallery_count: l.fotos?.length || 0,
+            regiao: r.regiao,
+            regiao_nome: r.titulo
+          }))
+        );
 
-        filtrados() {
-            const termo = (this.busca || '').toLowerCase().trim();
-            const base = !termo ? this.locais : this.locais.filter(item =>
-                item.title.toLowerCase().includes(termo) ||
-                item.regiao_nome.toLowerCase().includes(termo) ||
-                item.id.toLowerCase().includes(termo)
-            );
-            return [...base].sort((a, b) => {
-                const regiao = a.regiao_nome.localeCompare(b.regiao_nome, 'pt-BR');
-                if (regiao !== 0) return regiao;
-                return a.title.localeCompare(b.title, 'pt-BR');
-            });
-        },
+      } catch (e) {
+        alert('Erro ao carregar dados');
+      }
+    },
 
-        async excluir(item) {
-            if (!confirm(`Excluir "${item.title}"?`)) return;
+    regioesFiltradas() {
+      const t = this.busca.toLowerCase();
+      return this.regioes.filter(r =>
+        r.title.toLowerCase().includes(t) ||
+        r.id.toLowerCase().includes(t)
+      );
+    },
 
-            const res = await fetch(apiUrl('/api/delete'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    tipo: 'local',
-                    regiao: item.regiao,
-                    local: item.id
-                })
-            });
+    filtrados() {
+      const t = this.busca.toLowerCase();
+      return this.locais.filter(l =>
+        l.title.toLowerCase().includes(t) ||
+        l.regiao_nome.toLowerCase().includes(t) ||
+        l.id.toLowerCase().includes(t)
+      );
+    },
 
-            const data = await res.json();
+    async excluir(item) {
+      if (!confirm('Excluir?')) return;
 
-            if (data.success) {
-                alert('Excluído com sucesso!');
-                this.carregar();
-            } else {
-                alert(data.erro || 'Falha ao excluir.');
-            }
-        },
+      const res = await apiFetch('/api/delete', {
+        method: 'POST',
+        body: JSON.stringify({
+          tipo: 'local',
+          regiao: item.regiao,
+          local: item.id
+        })
+      });
 
-        editar(item) {
-            const query = new URLSearchParams({
-                regiao: item.regiao,
-                local: item.id
-            });
-            window.location.href = `./alterar_local.html?${query.toString()}`;
-        },
+      const data = await res.json();
 
-        editarRegiao(item) {
-            const query = new URLSearchParams({ regiao: item.id });
-            window.location.href = `./alterar_regiao.html?${query.toString()}`;
-        },
+      if (data.success) {
+        alert('Excluído!');
+        this.carregar();
+      }
+    },
 
-        async excluirRegiao(item) {
-            if (item.id === 'sem_regiao') {
-                alert('A região sem_regiao não pode ser excluída.');
-                return;
-            }
+    editar(item) {
+      window.location.href =
+        `alterar_local.html?regiao=${item.regiao}&local=${item.id}`;
+    },
 
-            if (!confirm(`Excluir a região "${item.title}"?`)) return;
-            if (!confirm('Confirma novamente?')) return;
+    editarRegiao(item) {
+      window.location.href =
+        `alterar_regiao.html?regiao=${item.id}`;
+    },
 
-            const res = await fetch(apiUrl('/api/delete'), {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    tipo: 'regiao',
-                    regiao: item.id
-                })
-            });
+    async excluirRegiao(item) {
+      if (!confirm('Excluir região?')) return;
 
-            const data = await res.json();
+      const res = await apiFetch('/api/delete', {
+        method: 'POST',
+        body: JSON.stringify({
+          tipo: 'regiao',
+          regiao: item.id
+        })
+      });
 
-            if (data.success) {
-                alert('Região excluída!');
-                this.carregar();
-            } else {
-                alert(data.erro || 'Erro ao excluir.');
-            }
-        },
+      const data = await res.json();
 
-        async baixarZip(item) {
-            try {
-                const res = await fetch(apiUrl(`/download_zip/${item.regiao}/${item.id}`));
+      if (data.success) {
+        alert('Excluído!');
+        this.carregar();
+      }
+    },
 
-                if (!res.ok) {
-                    throw new Error(`Falha ao gerar ZIP (${res.status})`);
-                }
+    async baixarZip(item) {
+      try {
+        const res = await apiFetch(`/download_zip/${item.regiao}/${item.id}`);
+        const blob = await res.blob();
 
-                const blob = await res.blob();
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = `pacote_${item.id}.zip`;
-                a.click();
-                URL.revokeObjectURL(a.href);
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `${item.id}.zip`;
+        a.click();
 
-            } catch (e) {
-                alert(e.message || 'Falha ao baixar ZIP.');
-            }
-        }
+      } catch {
+        alert('Erro ao baixar ZIP');
+      }
     }
+  }
 }
 </script>
 </body>
