@@ -47,11 +47,6 @@
             window.location.href = '/login.html';
             return;
         }
-        else{
-
-            window.location.href = 'admin/login.html';
-            return;
-        }
 
         if (!res.ok) {
             throw new Error(`Erro HTTP: ${res.status}`);
@@ -75,7 +70,10 @@
 
             const data = await res.json();
 
-            if (!data.logado && !window.location.pathname.includes('login.html')) {
+            if (
+                !data.logado &&
+                !window.location.pathname.includes('login.html')
+            ) {
                 window.location.href = '/login.html';
             }
 
