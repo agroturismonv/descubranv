@@ -307,12 +307,10 @@
 <script>
 function adminApp() {
   return {
+
     modo: 'regiao',
     loading: false,
-    traduzindo: false,
     gps: 'link',
-    regioes: [],
-    novaRegiao: '',
     toast: { show: false, msg: '', ok: true },
 
     r: {
@@ -326,211 +324,98 @@ function adminApp() {
       id: '', id_regiao: '',
       map_link: '', lat: '', lng: '',
       fotos: [], cover: 0,
-      has360: false, ra_link: 'https://novavenecia360.com.br/',
+      has360: false, ra_link: '',
       pt: { title: '', subtitle: '', desc: '' },
       en: { title: '', subtitle: '', desc: '' },
       es: { title: '', subtitle: '', desc: '' },
     },
 
-    /* ── init ─────────────────────────────── */
-    init() {
-      ['/dados/controller.js', './dados/controller.js', 'dados/controller.js'].forEach(src => {
-        const s = document.createElement('script');
-        s.src = src;
-        s.onload = () => {
-          if (window.LISTA_CIRCUITOS)
-            this.regioes = window.LISTA_CIRCUITOS.map(r => ({ id: r.id, nome: r.texts?.pt?.title || r.id }));
-          window.addEventListener('locais-ready', () => {
-            if (window.LISTA_CIRCUITOS)
-              this.regioes = window.LISTA_CIRCUITOS.map(r => ({ id: r.id, nome: r.texts?.pt?.title || r.id }));
-          });
-        };
-        document.head.appendChild(s);
-      });
-    },
-
-    /* ── helpers ──────────────────────────── */
-    slug(v) {
-      return (v || '').replace(/\s/g, '_').toLowerCase()
-        .normalize('NFD').replace(/[\u0300-\u036f]/g, '');
-    },
-
-    resetar() {
-      this.r = { id:'', bgFoto:null, pt:{title:'',subtitle:'',desc:''}, en:{title:'',subtitle:'',desc:''}, es:{title:'',subtitle:'',desc:''} };
-      this.l = { id:'', id_regiao:'', map_link:'', lat:'', lng:'', fotos:[], cover:0, has360:false, ra_link:'https://novavenecia360.com.br/', pt:{title:'',subtitle:'',desc:''}, en:{title:'',subtitle:'',desc:''}, es:{title:'',subtitle:'',desc:''} };
-      this.gps = 'link';
-    },
-
-    addRegiao() {
-      const id = this.slug(this.novaRegiao);
-      if (!id) return;
-      if (!this.regioes.find(r => r.id === id)) this.regioes.push({ id, nome: id });
-      this.l.id_regiao = id;
-      this.novaRegiao = '';
-    },
-
     notify(msg, ok = true) {
       this.toast = { show: true, msg, ok };
-      setTimeout(() => this.toast.show = false, 3500);
+      setTimeout(() => this.toast.show = false, 3000);
+    },
+
+    slug(v) {
+      return (v || '').toLowerCase().replace(/\s/g, '_');
     },
 
     uploadBg(e) {
       const f = e.target.files[0];
       if (!f) return;
-      this.r.bgFoto = { file: f, name: f.name, url: URL.createObjectURL(f) };
-      e.target.value = '';
+      this.r.bgFoto = {
+        file: f,
+        name: f.name,
+        url: URL.createObjectURL(f)
+      };
     },
 
     uploadFotos(e) {
-      const novos = Array.from(e.target.files).map(f => ({ file: f, name: f.name, url: URL.createObjectURL(f) }));
-      this.l.fotos = [...this.l.fotos, ...novos];
-      e.target.value = '';
+      const files = Array.from(e.target.files);
+      this.l.fotos.push(...files.map(f => ({
+        file: f,
+        name: f.name,
+        url: URL.createObjectURL(f)
+      })));
     },
 
-    /* ── tradução (MyMemory, gratuita) ──────── */
-    async traduzir(alvo) {
-      const src = alvo === 'r' ? this.r : this.l;
-      if (!src.pt.title) { this.notify('Preencha o Título em PT primeiro.', false); return; }
-      this.traduzindo = true;
-      const tr = async (txt, lang) => {
-        if (!txt) return '';
-        try {
-          const d = await (await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=pt|${lang}`)).json();
-          return d?.responseData?.translatedText || '';
-        } catch { return ''; }
-      };
-      try {
-        const [eT,sT,eS,sS,eD,sD] = await Promise.all([
-          tr(src.pt.title,'en'),   tr(src.pt.title,'es'),
-          tr(src.pt.subtitle,'en'),tr(src.pt.subtitle,'es'),
-          tr(src.pt.desc,'en'),    tr(src.pt.desc,'es'),
-        ]);
-        src.en = { title:eT, subtitle:eS, desc:eD };
-        src.es = { title:sT, subtitle:sS, desc:sD };
-        this.notify('Tradução concluída! ✔');
-      } catch { this.notify('Erro na tradução.', false); }
-      finally { this.traduzindo = false; }
-    },
-
-    /* ── mapa ─────────────────────────────── */
     buildMapa() {
-      const url = (this.gps === 'coords' && this.l.lat && this.l.lng)
-        ? `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`
-        : this.l.map_link;
-      if (!url) return { maps: '', embed: '', qr: '' };
-      return {
-        maps: url,
-        embed: `${url}${url.includes('?') ? '&' : '?'}output=embed`,
-        qr: `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent(url)}`
-      };
+      if (this.l.lat && this.l.lng)
+        return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
+      return this.l.map_link || '';
     },
 
-    /* ── gerar ZIP ────────────────────────── */
     async baixar() {
-      if (this.modo === 'regiao') {
-        if (!this.r.id)       { this.notify('ID da Região é obrigatório.', false); return; }
-        if (!this.r.pt.title) { this.notify('Título em PT é obrigatório.', false); return; }
-        if (!this.r.bgFoto)   { this.notify('Adicione a foto de fundo.', false); return; }
-      } else {
-        if (!this.l.id)              { this.notify('ID do Local é obrigatório.', false); return; }
-        if (!this.l.id_regiao)       { this.notify('Selecione ou adicione uma Região.', false); return; }
-        if (!this.l.pt.title)        { this.notify('Título em PT é obrigatório.', false); return; }
-        if (!this.l.fotos.length)    { this.notify('Adicione ao menos 1 foto.', false); return; }
+      if (this.modo === 'regiao' && !this.r.id) {
+        this.notify('ID obrigatório', false);
+        return;
+      }
+
+      if (this.modo === 'local' && !this.l.id) {
+        this.notify('ID obrigatório', false);
+        return;
       }
 
       this.loading = true;
+
       try {
         const zip = new JSZip();
 
         if (this.modo === 'regiao') {
-          /* ── payload REGIÃO ──
-             Gera CONFIG_{ID} (usado por circuitos.html) e entrada LISTA_CIRCUITOS (usada pela index) */
-          const bgPath = `dados/regioes/${this.r.id}/${this.r.bgFoto.name}`;
 
-          const payload = {
-            tipo: 'regiao',
-            instrucoes: [
-              `1) Mova a foto para: ${bgPath}`,
-              `2) Adicione ao controller.js o bloco lista_entry dentro de LISTA_CIRCUITOS[]`,
-              `3) Adicione ao controller.js o bloco config_entry como: window["CONFIG_${this.r.id.toUpperCase()}"] = config_entry`
-            ],
+          zip.file('config.json', JSON.stringify({
+            id: this.r.id,
+            texts: this.r
+          }, null, 2));
 
-            /* ← colar dentro de LISTA_CIRCUITOS[] */
-            lista_entry: {
-              id: this.r.id,
-              hero: bgPath,
-              texts: {
-                pt: { title: this.r.pt.title, subtitle: this.r.pt.subtitle, description: this.r.pt.desc },
-                en: { title: this.r.en.title, subtitle: this.r.en.subtitle, description: this.r.en.desc },
-                es: { title: this.r.es.title, subtitle: this.r.es.subtitle, description: this.r.es.desc },
-              }
-            },
-
-            /* ← window["CONFIG_ID"] = config_entry */
-            config_entry: {
-              texts: {
-                pt: { title: this.r.pt.title, subtitle: this.r.pt.subtitle },
-                en: { title: this.r.en.title, subtitle: this.r.en.subtitle },
-                es: { title: this.r.es.title, subtitle: this.r.es.subtitle },
-              },
-              locais: []  /* adicionar IDs dos locais conforme forem cadastrados */
-            }
-          };
-
-          zip.file('config.json', JSON.stringify(payload, null, 2));
-          zip.file(this.r.bgFoto.name, this.r.bgFoto.file);
+          if (this.r.bgFoto)
+            zip.file(this.r.bgFoto.name, this.r.bgFoto.file);
 
         } else {
-          /* ── payload LOCAL ──
-             Gera LOCAIS["id"] (usado por local.html)
-             e instrução para atualizar CONFIG_{regiao}.locais[] */
-          const mapa    = this.buildMapa();
-          const heroPath = `dados/locais/${this.l.id}/${this.l.fotos[this.l.cover].name}`;
-          const galPaths = this.l.fotos.map(f => `dados/locais/${this.l.id}/${f.name}`);
 
-          /* Estrutura exata que local.html espera em window.LOCAIS[id] */
-          const locaisEntry = {
+          const cover = this.l.fotos[this.l.cover] || this.l.fotos[0];
+
+          zip.file('config.json', JSON.stringify({
             id: this.l.id,
-            hero: heroPath,
-            gallery: galPaths,
-            location: { maps: mapa.maps, embed: mapa.embed, qr: mapa.qr },
-            texts: {
-              pt: { title: this.l.pt.title, subtitle: this.l.pt.subtitle, description: this.l.pt.desc },
-              en: { title: this.l.en.title, subtitle: this.l.en.subtitle, description: this.l.en.desc },
-              es: { title: this.l.es.title, subtitle: this.l.es.subtitle, description: this.l.es.desc },
-            },
-            RAvisionScreen: this.l.has360,
-            RAvisionlink: this.l.has360 ? (this.l.ra_link || '') : ''
-          };
+            regiao: this.l.id_regiao,
+            cover: cover?.name || null,
+            texts: this.l.pt,
+            gallery: this.l.fotos.map(f => f.name)
+          }, null, 2));
 
-          const payload = {
-            tipo: 'local',
-            instrucoes: [
-              `1) Mova as fotos para: dados/locais/${this.l.id}/`,
-              `2) No controller.js, adicione dentro de window.LOCAIS: "${this.l.id}": <locais_entry>`,
-              `3) No controller.js, adicione "${this.l.id}" ao array locais[] de window["CONFIG_${this.l.id_regiao.toUpperCase()}"]`
-            ],
-
-            /* ← window.LOCAIS["id"] = locais_entry */
-            locais_entry: locaisEntry,
-
-            /* referência rápida */
-            regiao_vinculada: this.l.id_regiao
-          };
-
-          zip.file('config.json', JSON.stringify(payload, null, 2));
           this.l.fotos.forEach(f => zip.file(f.name, f.file));
         }
 
         const blob = await zip.generateAsync({ type: 'blob' });
+
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `${this.modo}_${this.modo === 'regiao' ? this.r.id : this.l.id}.zip`;
+        a.download = 'cadastro.zip';
         a.click();
 
-        this.notify('ZIP gerado com sucesso! 🎉');
-      } catch (err) {
-        this.notify('Erro: ' + err.message, false);
+        this.notify('ZIP gerado!');
+
+      } catch (e) {
+        this.notify(e.message, false);
       } finally {
         this.loading = false;
       }
