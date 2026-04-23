@@ -292,7 +292,6 @@
 function adminApp() {
   return {
 
-    /* ───────── STATE ───────── */
     modo: 'regiao',
     loading: false,
     traduzindo: false,
@@ -321,19 +320,6 @@ function adminApp() {
       es: { title: '', subtitle: '', desc: '' },
     },
 
-    /* ───────── INIT ───────── */
-    init() {
-      const params = new URLSearchParams(window.location.search);
-      const regiao = params.get('regiao');
-      const local = params.get('local');
-
-      if (regiao) {
-        this.modo = local ? 'local' : 'regiao';
-        this.carregar(regiao, local);
-      }
-    },
-
-    /* ───────── UTIL ───────── */
     slug(v) {
       return (v || '')
         .toLowerCase()
@@ -347,82 +333,31 @@ function adminApp() {
       setTimeout(() => this.toast.show = false, 3000);
     },
 
-    /* ───────── LOAD EDIT ───────── */
-    async carregar(regiao, local) {
-      try {
-        const url = new URL(apiUrl('/api/cadastro'));
-        url.searchParams.append('tipo', local ? 'local' : 'regiao');
-        url.searchParams.append('regiao', regiao);
-        if (local) url.searchParams.append('local', local);
-
-        const res = await fetch(url);
-        const json = await res.json();
-
-        if (!json.success) throw new Error();
-
-        const raw = json.raw;
-
-        const match = raw.match(/Object\.freeze\((\{[\s\S]*\})\)/);
-        if (!match) return;
-
-        let obj = match[1]
-          .replace(/([{,]\s*)(\w+):/g, '$1"$2":')
-          .replace(/'/g, '"');
-
-        obj = JSON.parse(obj);
-
-        if (local) {
-          this.l.id = obj.id;
-          this.l.id_regiao = regiao;
-
-          this.l.pt = obj.texts?.pt || {};
-          this.l.en = obj.texts?.en || {};
-          this.l.es = obj.texts?.es || {};
-
-          this.l.map_link = obj.location?.maps || '';
-          this.l.has360 = obj.RAvisionScreen || false;
-          this.l.ra_link = obj.RAvisionlink || '';
-
-          this.l.fotos = (obj.gallery || []).map(g => ({
-            name: g.split('/').pop(),
-            url: g,
-            existing: true
-          }));
-
-        } else {
-          this.r.id = obj.id;
-          this.r.pt = obj.texts?.pt || {};
-          this.r.en = obj.texts?.en || {};
-          this.r.es = obj.texts?.es || {};
-        }
-
-        this.notify('Modo edição ativo');
-
-      } catch {
-        this.notify('Erro ao carregar dados', false);
-      }
-    },
-
-    /* ───────── UPLOADS ───────── */
     uploadBg(e) {
       const f = e.target.files[0];
       if (!f) return;
-      this.r.bgFoto = { file: f, name: f.name };
+      this.r.bgFoto = {
+        file: f,
+        name: f.name,
+        url: URL.createObjectURL(f)
+      };
     },
 
     uploadFotos(e) {
       const files = Array.from(e.target.files);
-      this.l.fotos.push(...files.map(f => ({ file: f, name: f.name })));
+      this.l.fotos.push(...files.map(f => ({
+        file: f,
+        name: f.name,
+        url: URL.createObjectURL(f)
+      })));
     },
 
-    /* ───────── MAPA ───────── */
     buildMapa() {
       if (this.l.lat && this.l.lng)
         return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
       return this.l.map_link || '';
     },
 
-    /* ───────── SALVAR ───────── */
     async salvar() {
       this.loading = true;
 
@@ -432,15 +367,12 @@ function adminApp() {
         if (this.modo === 'regiao') {
 
           if (!this.r.id) throw new Error('ID obrigatório');
-          if (!this.r.pt.title) throw new Error('Título PT obrigatório');
+          if (!this.r.pt.title) throw new Error('Título obrigatório');
 
           payload = {
             tipo: 'regiao',
-            modo: this.r.id ? 'editar' : 'create',
             regiao: this.slug(this.r.id),
-
-            cover_file: this.r.bgFoto?.name,
-
+            cover_file: this.r.bgFoto?.name || null,
             dados: {
               texts: {
                 pt: this.r.pt,
@@ -457,13 +389,9 @@ function adminApp() {
 
           payload = {
             tipo: 'local',
-            modo: this.l.id ? 'editar' : 'create',
-
             regiao: this.l.id_regiao,
             local: this.slug(this.l.id),
-
-            cover_file: this.l.fotos[this.l.cover]?.name,
-
+            cover_file: this.l.fotos[this.l.cover]?.name || null,
             dados: {
               texts: {
                 pt: this.l.pt,
@@ -480,15 +408,14 @@ function adminApp() {
           };
         }
 
-        const res = await fetch(apiUrl('/api/cadastro'), {
+        const res = await apiFetch('/api/cadastro', {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
 
         const json = await res.json();
 
-        if (!json.success) throw new Error(json.erro || 'Erro');
+        if (!json.success) throw new Error(json.erro);
 
         this.notify('Salvo com sucesso!');
         setTimeout(() => location.href = 'listar_cadastros.html', 1200);
