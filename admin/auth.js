@@ -2,7 +2,6 @@
 (function () {
     "use strict";
 
-    // ✅ PADRONIZA LOGIN
     const LOGIN_URL = '/admin/login.html';
 
     /**
@@ -33,6 +32,68 @@
 
     /**
      * ============================
+     * 🔐 CHECK AUTH
+     * ============================
+     */
+    async function checkAuth() {
+        const isLoginPage = window.location.pathname.includes('/admin/login.html');
+
+        try {
+            const res = await fetch(apiUrl('/api/check'), {
+                credentials: 'include'
+            });
+
+            if (!res.ok) return;
+
+            const data = await res.json();
+
+            if (!data.logado && !isLoginPage) {
+                window.location.href = LOGIN_URL;
+            }
+
+        } catch (e) {
+            console.error("Erro auth:", e);
+        }
+    }
+
+    checkAuth();
+
+    /**
+     * ============================
+     * 🔑 LOGIN
+     * ============================
+     */
+    window.login = async function (user, password) {
+        const res = await fetch(apiUrl('/api/login'), {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ user, password })
+        });
+
+        if (res.ok) {
+            window.location.href = '/admin/dashboard.html';
+        } else {
+            alert('Login inválido');
+        }
+    };
+
+    /**
+     * ============================
+     * 🚪 LOGOUT
+     * ============================
+     */
+    window.logout = async function () {
+        await fetch(apiUrl('/api/logout'), {
+            method: 'POST',
+            credentials: 'include'
+        });
+
+        window.location.href = LOGIN_URL;
+    };
+
+    /**
+     * ============================
      * 📡 API REQUEST
      * ============================
      */
@@ -46,7 +107,6 @@
             ...options
         });
 
-        // ✅ CORREÇÃO AQUI
         if (res.status === 403) {
             window.location.href = LOGIN_URL;
             return;
@@ -63,52 +123,13 @@
 
     /**
      * ============================
-     * 🔐 CHECK LOGIN REAL
+     * 📦 API
      * ============================
      */
-    async function checkAuth() {
-        try {
-            const res = await fetch(apiUrl('/api/check'), {
-                credentials: 'include'
-            });
-
-            const data = await res.json();
-
-            const isLoginPage = window.location.pathname.includes('/admin/login.html');
-
-            // ✅ CORREÇÃO AQUI
-            if (!data.logado && !isLoginPage) {
-                window.location.href = LOGIN_URL;
-            }
-
-        } catch {
-            window.location.href = LOGIN_URL;
-        }
-    }
-
-    checkAuth();
-
-    /**
-     * ============================
-     * 🚪 LOGOUT
-     * ============================
-     */
-    window.logout = async function () {
-        await fetch(apiUrl('/api/logout'), {
-            method: 'POST',
-            credentials: 'include'
-        });
-
-        // ✅ CORREÇÃO AQUI
-        window.location.href = LOGIN_URL;
-    };
-
-    /**
-     * ============================
-     * 📦 API CENTRAL
-     * ============================
-     */
-    const API = {
+    window.API = {
+        dashboard: () => apiRequest('/api/dashboard'),
+        locais: () => apiRequest('/api/locais'),
+        regioes: () => apiRequest('/api/regioes'),
         listar: () => apiRequest('/api/listar'),
 
         salvar: (body) => apiRequest('/api/cadastro', {
@@ -127,66 +148,5 @@
             credentials: 'include'
         })
     };
-
-    window.API = API;
-
-    /**
-     * ============================
-     * 📊 DASHBOARD
-     * ============================
-     */
-    async function carregarDashboard() {
-        try {
-            const data = await API.listar();
-
-            const el = document.getElementById('resultado');
-            if (!el || !data.success) return;
-
-            const totalRegioes = data.data.length;
-            const totalLocais = data.data.reduce((acc, r) => acc + r.locais.length, 0);
-
-            el.innerText =
-                `📍 Locais: ${totalLocais} | 🌎 Regiões: ${totalRegioes} | ⚙️ Status: OK`;
-
-        } catch (error) {
-            console.error('Erro dashboard:', error);
-        }
-    }
-
-    /**
-     * ============================
-     * 🧰 UTILS
-     * ============================
-     */
-    window.TurismoUtils = {
-        slug: (v) =>
-            (v || '')
-                .toLowerCase()
-                .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-                .replace(/\s+/g, '_')
-                .replace(/[^a-z0-9_]/g, ''),
-
-        async traduzir(texto, lang) {
-            if (!texto) return '';
-            try {
-                const res = await fetch(
-                    `https://api.mymemory.translated.net/get?q=${encodeURIComponent(texto)}&langpair=pt|${lang}`
-                );
-                const d = await res.json();
-                return d?.responseData?.translatedText || '';
-            } catch {
-                return '';
-            }
-        }
-    };
-
-    /**
-     * ============================
-     * 🔄 AUTO START
-     * ============================
-     */
-    document.addEventListener('DOMContentLoaded', () => {
-        carregarDashboard();
-    });
 
 })();
