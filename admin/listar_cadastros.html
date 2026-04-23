@@ -1,251 +1,264 @@
 <!DOCTYPE html>
 <html lang="pt-BR" x-data="listagemApp()" x-init="init()">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listar Locais | Turismo NV</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
-    <script src="auth.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Listar Locais | Turismo NV</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="auth.js"></script>
 </head>
+
 <body class="bg-gray-100 p-6 md:p-10 font-sans">
-    <div class="max-w-7xl mx-auto">
-        <div class="flex items-center justify-between mb-6">
-            <h1 class="text-3xl font-black text-[#0f5132] italic">Cadastros do Sistema</h1>
-            <a href="./dashboard.html" class="text-xs font-black uppercase text-gray-500 hover:text-[#0f5132]">← Voltar</a>
-        </div>
-
-        <div class="mb-6 flex gap-3">
-            <input x-model="busca" type="text" placeholder="Buscar local, região ou id..."
-                class="w-full p-4 rounded-2xl bg-white shadow outline-none focus:ring-2 focus:ring-[#ffc107]">
-            <button @click="carregar()" class="bg-[#0f5132] text-white px-5 rounded-2xl font-black uppercase text-xs">Atualizar</button>
-        </div>
-
-        <div class="mb-6 flex flex-wrap gap-3">
-            <a href="./cadastro_online.html"
-                class="inline-flex items-center gap-2 bg-[#0f5132] text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
-                <span>🌐</span>
-                <span>Atualização Online (Gestão Online)</span>
-            </a>
-            <a href="./cadastro_ZIP.html"
-                class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
-                <span>📦</span>
-                <span>Atualização Offline (ZIP)</span>
-            </a>
-        </div>
-
-        <h2 class="text-xl font-black text-[#0f5132] mb-3">Regiões Cadastradas</h2>
-        <div class="bg-white rounded-3xl shadow overflow-hidden mb-8">
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm">
-                    <thead class="bg-gray-50 border-b">
-                        <tr>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Locais</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template x-for="item in regioesFiltradas()" :key="'regiao-' + item.id">
-                            <tr class="border-b last:border-b-0 hover:bg-gray-50">
-                                <td class="px-4 py-3">
-                                    <img :src="'../' + item.cover" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <p class="font-black text-[#0f5132]" x-text="item.title"></p>
-                                    <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
-                                </td>
-                                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
-                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.total_locais"></td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center gap-2">
-                                        <button @click="editarRegiao(item)"
-                                            class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
-                                        <button @click="excluirRegiao(item)"
-                                            class="text-center bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                        <tr x-show="regioesFiltradas().length === 0">
-                            <td colspan="5" class="px-4 py-8 text-center text-gray-500 font-semibold">
-                                Nenhuma região encontrada para o filtro informado.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
-        <h2 class="text-xl font-black text-[#0f5132] mb-3">Locais Cadastrados</h2>
-        <div class="bg-white rounded-3xl shadow overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="min-w-full text-sm">
-                    <thead class="bg-gray-50 border-b">
-                        <tr>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Local</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Galeria</th>
-                            <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <template x-for="item in filtrados()" :key="item.regiao + '-' + item.id">
-                            <tr class="border-b last:border-b-0 hover:bg-gray-50">
-                                <td class="px-4 py-3">
-                                    <img :src="'../' + item.hero" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
-                                </td>
-                                <td class="px-4 py-3">
-                                    <p class="font-black text-[#0f5132]" x-text="item.title"></p>
-                                    <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
-                                </td>
-                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.regiao_nome"></td>
-                                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
-                                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.gallery_count"></td>
-                                <td class="px-4 py-3">
-                                    <div class="flex items-center gap-2">
-                                        <button @click="editar(item)"
-                                           class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
-                                        <button @click="excluir(item)"
-                                            class="bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
-                                        <button @click="baixarZip(item)"
-                                           class="text-center bg-[#ffc107] text-[#0f5132] px-3 py-2 rounded-xl text-[10px] font-black uppercase">ZIP</button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                        <tr x-show="filtrados().length === 0">
-                            <td colspan="6" class="px-4 py-8 text-center text-gray-500 font-semibold">
-                                Nenhum local encontrado para o filtro informado.
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
+  <div class="max-w-7xl mx-auto">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="text-3xl font-black text-[#0f5132] italic">Cadastros do Sistema</h1>
+      <a href="./dashboard.html" class="text-xs font-black uppercase text-gray-500 hover:text-[#0f5132]">← Voltar</a>
     </div>
 
-   <script>
-function listagemApp() {
-  return {
+    <div class="mb-6 flex gap-3">
+      <input x-model="busca" type="text" placeholder="Buscar local, região ou id..."
+        class="w-full p-4 rounded-2xl bg-white shadow outline-none focus:ring-2 focus:ring-[#ffc107]">
+      <button @click="carregar()"
+        class="bg-[#0f5132] text-white px-5 rounded-2xl font-black uppercase text-xs">Atualizar</button>
+    </div>
 
-    regioes: [],
-    locais: [],
-    busca: '',
+    <div class="mb-6 flex flex-wrap gap-3">
+      <a href="./cadastro_online.html"
+        class="inline-flex items-center gap-2 bg-[#0f5132] text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+        <span>🌐</span>
+        <span>Atualização Online (Gestão Online)</span>
+      </a>
 
-    async init() {
-      await this.carregar();
-    },
+      <a href="./gerador_ZIP.html"
+      class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+      <span>📦</span>
+      <span>Cadastro offline (ZIP)</span>
+    </a>
+    
+      <a href="./cadastro_ZIP.html"
+        class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
+        <span>📦</span>
+        <span>Atualização Offline (ZIP)</span>
+      </a>
 
-    async carregar() {
-      try {
-        const json = await API.listar();
+     
+    </div>
 
-        if (!json.success) return;
+    <h2 class="text-xl font-black text-[#0f5132] mb-3">Regiões Cadastradas</h2>
+    <div class="bg-white rounded-3xl shadow overflow-hidden mb-8">
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-50 border-b">
+            <tr>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Locais</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="item in regioesFiltradas()" :key="'regiao-' + item.id">
+              <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                <td class="px-4 py-3">
+                  <img :src="'../' + item.cover" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
+                </td>
+                <td class="px-4 py-3">
+                  <p class="font-black text-[#0f5132]" x-text="item.title"></p>
+                  <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
+                </td>
+                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
+                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.total_locais"></td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-2">
+                    <button @click="editarRegiao(item)"
+                      class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
+                    <button @click="excluirRegiao(item)"
+                      class="text-center bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
+                  </div>
+                </td>
+              </tr>
+            </template>
+            <tr x-show="regioesFiltradas().length === 0">
+              <td colspan="5" class="px-4 py-8 text-center text-gray-500 font-semibold">
+                Nenhuma região encontrada para o filtro informado.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-        const data = json.data || [];
+    <h2 class="text-xl font-black text-[#0f5132] mb-3">Locais Cadastrados</h2>
+    <div class="bg-white rounded-3xl shadow overflow-hidden">
+      <div class="overflow-x-auto">
+        <table class="min-w-full text-sm">
+          <thead class="bg-gray-50 border-b">
+            <tr>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Imagem</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Local</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Região</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">ID</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Galeria</th>
+              <th class="text-left px-4 py-3 text-[10px] font-black uppercase text-gray-500">Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <template x-for="item in filtrados()" :key="item.regiao + '-' + item.id">
+              <tr class="border-b last:border-b-0 hover:bg-gray-50">
+                <td class="px-4 py-3">
+                  <img :src="'../' + item.hero" class="w-16 h-12 object-cover rounded-lg bg-gray-200">
+                </td>
+                <td class="px-4 py-3">
+                  <p class="font-black text-[#0f5132]" x-text="item.title"></p>
+                  <p class="text-xs text-gray-500" x-text="item.subtitle"></p>
+                </td>
+                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.regiao_nome"></td>
+                <td class="px-4 py-3 font-mono text-xs text-gray-500" x-text="item.id"></td>
+                <td class="px-4 py-3 font-semibold text-gray-700" x-text="item.gallery_count"></td>
+                <td class="px-4 py-3">
+                  <div class="flex items-center gap-2">
+                    <button @click="editar(item)"
+                      class="text-center bg-blue-100 text-blue-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Editar</button>
+                    <button @click="excluir(item)"
+                      class="bg-red-100 text-red-700 px-3 py-2 rounded-xl text-[10px] font-black uppercase">Excluir</button>
+                    <button @click="baixarZip(item)"
+                      class="text-center bg-[#ffc107] text-[#0f5132] px-3 py-2 rounded-xl text-[10px] font-black uppercase">ZIP</button>
+                  </div>
+                </td>
+              </tr>
+            </template>
+            <tr x-show="filtrados().length === 0">
+              <td colspan="6" class="px-4 py-8 text-center text-gray-500 font-semibold">
+                Nenhum local encontrado para o filtro informado.
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
-        this.regioes = data.map(r => ({
-          id: r.regiao,
-          title: r.titulo,
-          subtitle: r.descricao || '',
-          cover: r.capa || '',
-          total_locais: r.locais?.length || 0
-        }));
+  <script>
+    function listagemApp() {
+      return {
 
-        this.locais = data.flatMap(r =>
-          (r.locais || []).map(l => ({
-            id: l.id,
-            title: l.nome,
-            subtitle: l.subtitulo || '',
-            hero: l.capa || '',
-            gallery_count: l.fotos?.length || 0,
-            regiao: r.regiao,
-            regiao_nome: r.titulo
-          }))
-        );
+        regioes: [],
+        locais: [],
+        busca: '',
 
-      } catch (e) {
-        alert('Erro ao carregar dados');
-      }
-    },
+        async init() {
+          await this.carregar();
+        },
 
-    regioesFiltradas() {
-      const t = this.busca.toLowerCase();
-      return this.regioes.filter(r =>
-        r.title.toLowerCase().includes(t) ||
-        r.id.toLowerCase().includes(t)
-      );
-    },
+        async carregar() {
+          try {
+            const json = await API.listar();
 
-    filtrados() {
-      const t = this.busca.toLowerCase();
-      return this.locais.filter(l =>
-        l.title.toLowerCase().includes(t) ||
-        l.regiao_nome.toLowerCase().includes(t) ||
-        l.id.toLowerCase().includes(t)
-      );
-    },
+            if (!json.success) return;
 
-    async excluir(item) {
-      if (!confirm('Excluir?')) return;
+            const data = json.data || [];
 
-      const data = await API.delete({
-        tipo: 'local',
-        regiao: item.regiao,
-        local: item.id
-      });
+            this.regioes = data.map(r => ({
+              id: r.regiao,
+              title: r.titulo,
+              subtitle: r.descricao || '',
+              cover: r.capa || '',
+              total_locais: r.locais?.length || 0
+            }));
 
-      if (data.success) {
-        alert('Excluído!');
-        this.carregar();
-      }
-    },
+            this.locais = data.flatMap(r =>
+              (r.locais || []).map(l => ({
+                id: l.id,
+                title: l.nome,
+                subtitle: l.subtitulo || '',
+                hero: l.capa || '',
+                gallery_count: l.fotos?.length || 0,
+                regiao: r.regiao,
+                regiao_nome: r.titulo
+              }))
+            );
 
-    editar(item) {
-      window.location.href =
-        `alterar_local.html?regiao=${item.regiao}&local=${item.id}`;
-    },
+          } catch (e) {
+            alert('Erro ao carregar dados');
+          }
+        },
 
-    editarRegiao(item) {
-      window.location.href =
-        `alterar_regiao.html?regiao=${item.id}`;
-    },
+        regioesFiltradas() {
+          const t = this.busca.toLowerCase();
+          return this.regioes.filter(r =>
+            r.title.toLowerCase().includes(t) ||
+            r.id.toLowerCase().includes(t)
+          );
+        },
 
-    async excluirRegiao(item) {
-      if (!confirm('Excluir região?')) return;
+        filtrados() {
+          const t = this.busca.toLowerCase();
+          return this.locais.filter(l =>
+            l.title.toLowerCase().includes(t) ||
+            l.regiao_nome.toLowerCase().includes(t) ||
+            l.id.toLowerCase().includes(t)
+          );
+        },
 
-      const data = await API.delete({
-        tipo: 'regiao',
-        regiao: item.id
-      });
+        async excluir(item) {
+          if (!confirm('Excluir?')) return;
 
-      if (data.success) {
-        alert('Excluído!');
-        this.carregar();
-      }
-    },
+          const data = await API.delete({
+            tipo: 'local',
+            regiao: item.regiao,
+            local: item.id
+          });
 
-    async baixarZip(item) {
-      try {
-        const res = await API.downloadZip(item.regiao, item.id);
-        const blob = await res.blob();
+          if (data.success) {
+            alert('Excluído!');
+            this.carregar();
+          }
+        },
 
-        const a = document.createElement('a');
-        a.href = URL.createObjectURL(blob);
-        a.download = `${item.id}.zip`;
-        a.click();
+        editar(item) {
+          window.location.href =
+            `alterar_local.html?regiao=${item.regiao}&local=${item.id}`;
+        },
 
-      } catch {
-        alert('Erro ao baixar ZIP');
+        editarRegiao(item) {
+          window.location.href =
+            `alterar_regiao.html?regiao=${item.id}`;
+        },
+
+        async excluirRegiao(item) {
+          if (!confirm('Excluir região?')) return;
+
+          const data = await API.delete({
+            tipo: 'regiao',
+            regiao: item.id
+          });
+
+          if (data.success) {
+            alert('Excluído!');
+            this.carregar();
+          }
+        },
+
+        async baixarZip(item) {
+          try {
+            const res = await API.downloadZip(item.regiao, item.id);
+            const blob = await res.blob();
+
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = `${item.id}.zip`;
+            a.click();
+
+          } catch {
+            alert('Erro ao baixar ZIP');
+          }
+        }
       }
     }
-  }
-}
-</script>
+  </script>
 </body>
+
 </html>
