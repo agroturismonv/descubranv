@@ -87,32 +87,33 @@
                 },
 
                 async autenticar() {
-                    if (!this.username || !this.senha) { this.erro = true; return; }
+                    if (!this.username || !this.senha) {
+                        this.erro = true;
+                        return;
+                    }
+
                     this.carregando = true;
 
                     try {
-                        // Agora enviamos para o servidor em vez de validar localmente
                         const res = await fetch(apiUrl('/api/login'), {
                             method: 'POST',
                             headers: { 'Content-Type': 'application/json' },
+                            credentials: 'include',
                             body: JSON.stringify({
-                                username: this.username,
-                                password: this.senha // O Python fará o hash ou você pode enviar o hash
+                                user: this.username,
+                                password: this.senha
                             })
                         });
 
                         const data = await res.json();
 
                         if (res.ok && data.success) {
-                            sessionStorage.setItem('admin_logged', 'true');
-                            sessionStorage.setItem('admin_level', data.level);
-                            sessionStorage.setItem('admin_user', data.username);
-                            sessionStorage.setItem('admin_api_base', window.location.origin);
-                            window.location.href = 'dashboard.html';
+                            window.location.href = '/admin/dashboard.html';
                         } else {
                             this.erro = true;
                             this.senha = '';
                         }
+
                     } catch (e) {
                         console.error("Erro na autenticação:", e);
                         this.erro = true;
