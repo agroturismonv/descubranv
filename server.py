@@ -133,9 +133,12 @@ def build_listagem_data():
             continue
 
         config_path = os.path.join(regiao_dir, "config.js")
-        config = site_manager.carregar_js_objeto(config_path) or {}
-        if not config:
-            continue
+        config = site_manager.carregar_js_objeto(config_path) or {
+            "id": regiao_id,
+            "cover": "",
+            "texts": {},
+            "locais": [],
+        }
 
         textos = config.get("texts", {}).get("pt", {})
         locais = []
@@ -152,9 +155,15 @@ def build_listagem_data():
         for local_id in sorted(set(local_ids)):
             local_dir = os.path.join(regiao_dir, local_id)
             local_js = os.path.join(local_dir, f"{local_id}.js")
-            local = site_manager.carregar_js_objeto(local_js) or {}
-            if not local:
-                continue
+            local = site_manager.carregar_js_objeto(local_js) or {
+                "id": local_id,
+                "hero": "",
+                "gallery": [],
+                "texts": {},
+                "location": {},
+                "RAvisionScreen": False,
+                "RAvisionlink": "",
+            }
 
             local_texts = local.get("texts", {}).get("pt", {})
             locais.append(
