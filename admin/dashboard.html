@@ -129,29 +129,93 @@
 function dashboardApp() {
     return {
         sidebarOpen: true,
-        stats: { total_locais: 0, total_regioes: 0, status: 'ok' },
+
+        stats: {
+            total_locais: 0,
+            total_regioes: 0,
+            status: 'ok'
+        },
+
         adminUser: sessionStorage.getItem('admin_user') || 'Administrador',
         lastUpdated: '--:--',
+
         get adminInitial() {
             return (this.adminUser || 'A').charAt(0).toUpperCase();
         },
+
         get statusLabel() {
-            return this.stats.status === 'ok' ? 'Operacional' : 'Processando';
+            return this.stats.status === 'ok'
+                ? 'Operacional'
+                : 'Processando';
         },
+
         async init() {
+            await this.carregarDashboard();
+
+            // 🔄 atualiza a cada 30s
+            setInterval(() => {
+                this.carregarDashboard();
+            }, 30000);
+        },
+
+        async carregarDashboard() {
             try {
-                const res = await fetch(apiUrl('/api/dashboard'));
+                const res = await fetch(apiUrl('/api/dashboard'), {
+                    credentials: 'include'
+                });
+
+                if (res.status === 403) {
+                    window.location.href = '/admin/login.html';
+                    return;
+                }
+
+                if (!res.ok) {
+                    throw new Error('Erro ao carregar dashboard');
+                }
+
                 const data = await res.json();
+
                 this.stats = data;
-                this.lastUpdated = new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+                this.lastUpdated = new Date().toLocaleTimeString('pt-BR', {
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+
             } catch (e) {
                 console.warn('Falha ao carregar dashboard:', e);
+
+                this.stats.status = 'erro';
             }
         },
+
         async rebuild() {
-            const res = await fetch(apiUrl('/rebuild'), { method: 'POST' });
-            const data = await res.json();
-            alert(data.message || 'Rebuild iniciado.');
+            if (!confirm('Deseja realmente executar o rebuild do sistema?')) {
+                return;
+            }
+
+            try {
+                const res = await fetch(apiUrl('/api/rebuild'), {
+                    method: 'POST',
+                    credentials: 'include'
+                });
+
+                if (res.status === 403) {
+                    window.location.href = '/admin/login.html';
+                    return;
+                }
+
+                const data = await res.json();
+
+                alert(data.message || 'Rebuild executado com sucesso 🚀');
+
+                // 🔄 atualiza após rebuild
+                await this.carregarDashboard();
+
+            } catch (e) {
+                console.error('Erro no rebuild:', e);
+                alert('Erro ao executar rebuild');
+            }
         }
     }
 }
