@@ -2,57 +2,85 @@ import os
 import re
 import json
 
-
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DADOS_DIR = os.path.join(BASE_DIR, "dados", "circuitos")
 OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
-# -------------------------
-# UTIL
-# -------------------------
-def parse_js_object(content):
-    match = re.search(r'Object\.freeze\((\{.*\})\);?\s*$', content, flags=re.DOTALL)
+# =========================================================
+# PARSER ROBUSTO
+# =========================================================
+def parse_js_object(content, origem=""):
+    """
+    Extrai objeto de:
+    window.APP_CONFIG = Object.freeze({...});
+    """
+
+    match = re.search(r'Object\.freeze\((\{.*\})\)', content, re.DOTALL)
     if not match:
+        print(f"[ERRO] Object.freeze não encontrado: {origem}")
         return None
 
     obj_src = match.group(1)
 
-    # Corrige JS → JSON
-    obj_src = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj_src)
-    obj_src = obj_src.replace("'", '"')
-
     try:
+        # remove comentários
+        obj_src = re.sub(r'//.*', '', obj_src)
+
+        # remove trailing commas
+        obj_src = re.sub(r',(\s*[}\]])', r'\1', obj_src)
+
+        # coloca aspas nas chaves
+        obj_src = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj_src)
+
+        # aspas simples -> duplas
+        obj_src = obj_src.replace("'", '"')
+
         return json.loads(obj_src)
-    except:
+
+    except Exception as e:
+        print(f"[ERRO PARSER] {origem}: {e}")
         return None
 
 
 def carregar_js(path):
     if not os.path.exists(path):
+        print(f"[ERRO] Arquivo inexistente: {path}")
         return None
 
     try:
         with open(path, "r", encoding="utf-8") as f:
-            return parse_js_object(f.read())
-    except:
+            return parse_js_object(f.read(), path)
+    except Exception as e:
+        print(f"[ERRO LEITURA] {path}: {e}")
         return None
 
 
-# -------------------------
-# BUILD
-# -------------------------
-def build():
-    controller = {
-        "regioes": []
-    }
+# =========================================================
+# SALVA JS
+# =========================================================
+def salvar_js(path, objeto, nome_objeto):
+    body = json.dumps(objeto, indent=2, ensure_ascii=False)
 
-    if not os.path.exists(DADOS_DIR):
-        print("[WARN] Pasta dados nao existe")
+    # estilo JS sem aspas nas chaves
+    body = re.sub(r'"(\w+)":', r'\1:', body)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"window.{nome_objeto} = Object.freeze({body});\n")
+
+
+# =========================================================
+# BUILD PRINCIPAL
+# =========================================================
+def build():
+    controller = {"regioes": []}
+
+    if not os.path.isdir(DADOS_DIR):
+        print("[WARN] pasta dados/circuitos não existe")
         return
 
-    for regiao in sorted(os.listdir(DADOS_DIR)):
-        path_regiao = os.path.join(DADOS_DIR, regiao)
+    for regiao_id in sorted(os.listdir(DADOS_DIR)):
+        path_regiao = os.path.join(DADOS_DIR, regiao_id)
 
         if not os.path.isdir(path_regiao):
             continue
@@ -61,22 +89,15 @@ def build():
         config = carregar_js(config_path)
 
         if not config:
-            print(f"[WARN] Regiao ignorada (config invalido): {regiao}")
+            print(f"[WARN] Região ignorada: {regiao_id}")
             continue
 
-        textos = config.get("texts", {})
-
-        regiao_obj = {
-            "id": config.get("id", regiao),
-            "cover": config.get("cover", ""),
-            "texts": textos,
-            "locais": []
-        }
-
-        locais_ids = []
         locais_validos = []
+        locais_ids = []
 
-        # 🔎 VARRE PASTAS REAIS (FONTE DA VERDADE)
+        # -------------------------------------------------
+        # varre pastas reais da região
+        # -------------------------------------------------
         for item in sorted(os.listdir(path_regiao)):
             local_dir = os.path.join(path_regiao, item)
             local_js = os.path.join(local_dir, f"{item}.js")
@@ -84,85 +105,94 @@ def build():
             if not (os.path.isdir(local_dir) and os.path.isfile(local_js)):
                 continue
 
-            local_data = carregar_js(local_js)
+            local = carregar_js(local_js)
 
-            if not local_data:
-                print(f"[LIXO] JS inválido removido: {regiao}/{item}")
+            if not local:
+                print(f"[LIXO] local inválido ignorado: {regiao_id}/{item}")
                 continue
 
-            # 🚨 valida ID
-            if local_data.get("id") != item:
-                print(f"[ERRO] ID divergente: pasta={item} js={local_data.get('id')}")
+            # valida id
+            if local.get("id") != item:
+                print(f"[ERRO] id divergente: pasta={item}, js={local.get('id')}")
                 continue
 
-            # 🚨 valida conteúdo mínimo
-            if not local_data.get("texts"):
-                print(f"[LIXO] Local sem texto ignorado: {regiao}/{item}")
-                continue
-
-            # evita duplicação
-            if item in locais_ids:
-                continue
+            # corrige hero se vazio
+            if not local.get("hero"):
+                imagens_dir = os.path.join(local_dir, "images")
+                if os.path.isdir(imagens_dir):
+                    arquivos = sorted(os.listdir(imagens_dir))
+                    if arquivos:
+                        local["hero"] = f"dados/circuitos/{regiao_id}/{item}/images/{arquivos[0]}"
 
             locais_ids.append(item)
 
             locais_validos.append({
-                "id": local_data.get("id"),
-                "hero": local_data.get("hero"),
-                "texts": local_data.get("texts", {}),
-                "location": local_data.get("location", {}),
-                "gallery": local_data.get("gallery", []),
-                "RAvisionScreen": local_data.get("RAvisionScreen", False),
-                "RAvisionlink": local_data.get("RAvisionlink", "")
+                "id": local.get("id"),
+                "hero": local.get("hero", ""),
+                "texts": local.get("texts", {}),
+                "location": local.get("location", {}),
+                "gallery": local.get("gallery", []),
+                "RAvisionScreen": local.get("RAvisionScreen", False),
+                "RAvisionlink": local.get("RAvisionlink", "")
             })
 
-        # 🔧 AUTO CORRIGE config.js
-        try:
-            config["locais"] = locais_ids
+        # -------------------------------------------------
+        # corrige config.js automaticamente
+        # -------------------------------------------------
+        config["id"] = regiao_id
+        config["locais"] = locais_ids
 
-            novo_body = json.dumps(config, indent=2, ensure_ascii=False)
-            novo_body = re.sub(r'"(\w+)":', r'\1:', novo_body)
+        if not config.get("cover"):
+            imagens_dir = os.path.join(path_regiao, "images")
+            if os.path.isdir(imagens_dir):
+                arquivos = sorted(os.listdir(imagens_dir))
+                if arquivos:
+                    config["cover"] = f"dados/circuitos/{regiao_id}/images/{arquivos[0]}"
 
-            with open(config_path, "w", encoding="utf-8") as f:
-                f.write(f"window.APP_CONFIG = Object.freeze({novo_body});")
+        salvar_js(config_path, config, "APP_CONFIG")
 
-        except Exception as e:
-            print(f"[ERRO] Falha ao corrigir config.js: {regiao} -> {e}")
-
-        regiao_obj["locais"] = locais_validos
-        controller["regioes"].append(regiao_obj)
+        # -------------------------------------------------
+        # adiciona ao controller
+        # -------------------------------------------------
+        controller["regioes"].append({
+            "id": config.get("id"),
+            "cover": config.get("cover", ""),
+            "texts": config.get("texts", {}),
+            "locais": locais_validos
+        })
 
     salvar_controller(controller)
-    print("[OK] Build limpo e consistente")
+    print("[OK] rebuild concluído com sucesso")
 
-# -------------------------
-# OUTPUT
-# -------------------------
-def salvar_controller(obj):
+
+# =========================================================
+# CONTROLLER FINAL
+# =========================================================
+def salvar_controller(controller):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
-    body = json.dumps(obj, indent=2, ensure_ascii=False)
     lista_circuitos = [
         {
             "id": regiao.get("id", ""),
             "cover": regiao.get("cover", ""),
-            "texts": regiao.get("texts", {}),
+            "texts": regiao.get("texts", {})
         }
-        for regiao in obj.get("regioes", [])
+        for regiao in controller.get("regioes", [])
     ]
-    lista_body = json.dumps(lista_circuitos, indent=2, ensure_ascii=False)
 
-    # deixa estilo JS (sem aspas nas chaves)
-    body = re.sub(r'"(\w+)":', r'\1:', body)
-    lista_body = re.sub(r'"(\w+)":', r'\1:', lista_body)
+    body_controller = json.dumps(controller, indent=2, ensure_ascii=False)
+    body_lista = json.dumps(lista_circuitos, indent=2, ensure_ascii=False)
+
+    body_controller = re.sub(r'"(\w+)":', r'\1:', body_controller)
+    body_lista = re.sub(r'"(\w+)":', r'\1:', body_lista)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(f"window.APP_CONTROLLER = Object.freeze({body});\n")
-        f.write(f"window.LISTA_CIRCUITOS = Object.freeze({lista_body});")
+        f.write(f"window.APP_CONTROLLER = Object.freeze({body_controller});\n")
+        f.write(f"window.LISTA_CIRCUITOS = Object.freeze({body_lista});\n")
 
 
-# -------------------------
+# =========================================================
 # EXEC
-# -------------------------
+# =========================================================
 if __name__ == "__main__":
     build()
