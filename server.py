@@ -1,15 +1,16 @@
-from flask import Flask, request, jsonify, session, send_from_directory
+from flask import Flask, request, jsonify, session, send_from_directory, redirect
 from functools import wraps
 import os
+import re
 from manager import SiteManager
 
 app = Flask(__name__, static_folder=".", static_url_path="")
-app.secret_key = "super-secret-key"
+app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
 
 manager = SiteManager()
 
 # =========================
-# AUTH DECORATOR
+# 🔐 AUTH DECORATOR
 # =========================
 def login_required(f):
     @wraps(f)
@@ -20,7 +21,7 @@ def login_required(f):
     return decorated
 
 # =========================
-# FRONTEND
+# 🌐 FRONTEND
 # =========================
 @app.route("/")
 def index():
@@ -28,10 +29,12 @@ def index():
 
 @app.route("/admin/<path:path>")
 def admin(path):
+    if not session.get("logado") and not path.endswith("login.html"):
+        return redirect("/admin/login.html")
     return send_from_directory("admin", path)
 
 # =========================
-# AUTH API
+# 🔐 AUTH API
 # =========================
 @app.route("/api/login", methods=["POST"])
 def api_login():
@@ -40,9 +43,10 @@ def api_login():
     user = data.get("user")
     password = data.get("password")
 
-    if user == "admin" and password == "123":
+    if user == "admin" and password == "Admin@NV2026!":
         session["logado"] = True
-        return jsonify({"success": True})
+        session["user"] = user
+        return jsonify({"success": True, "username": user})
 
     return jsonify({"success": False}), 403
 
@@ -55,10 +59,60 @@ def api_logout():
 
 @app.route("/api/check", methods=["GET"])
 def api_check():
-    return jsonify({"logado": bool(session.get("logado"))})
+    return jsonify({
+        "logado": bool(session.get("logado")),
+        "user": session.get("user")
+    })
+
+
+@app.route("/api/me", methods=["GET"])
+@login_required
+def api_me():
+    return jsonify({
+        "user": session.get("user")
+    })
 
 # =========================
-# API PROTEGIDA
+# 📊 DASHBOARD
+# =========================
+@app.route("/api/dashboard", methods=["GET"])
+@login_required
+def api_dashboard():
+    try:
+        base = os.path.join("dados", "circuitos")
+
+        total_regioes = 0
+        total_locais = 0
+
+        if os.path.exists(base):
+            for regiao in os.listdir(base):
+                path_regiao = os.path.join(base, regiao)
+
+                if not os.path.isdir(path_regiao):
+                    continue
+
+                total_regioes += 1
+
+                for item in os.listdir(path_regiao):
+                    if os.path.isdir(os.path.join(path_regiao, item)):
+                        total_locais += 1
+
+        return jsonify({
+            "total_locais": total_locais,
+            "total_regioes": total_regioes,
+            "status": "ok"
+        })
+
+    except Exception as e:
+        return jsonify({
+            "total_locais": 0,
+            "total_regioes": 0,
+            "status": "erro",
+            "erro": str(e)
+        })
+
+# =========================
+# 📋 LISTAR
 # =========================
 @app.route('/api/listar', methods=['GET'])
 @login_required
@@ -69,8 +123,6 @@ def listar():
 
         if not os.path.exists(base):
             return jsonify({"success": True, "data": []})
-
-        import re
 
         for regiao in sorted(os.listdir(base)):
             path_regiao = os.path.join(base, regiao)
@@ -134,7 +186,33 @@ def listar():
         return jsonify({"success": False, "erro": str(e)})
 
 # =========================
-# UPLOAD ZIP
+# 💾 CADASTRO
+# =========================
+@app.route('/api/cadastro', methods=['POST'])
+@login_required
+def cadastro():
+    try:
+        payload = request.json
+        manager.criar_ou_atualizar(payload)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "erro": str(e)})
+
+# =========================
+# 🗑 DELETE
+# =========================
+@app.route('/api/delete', methods=['POST'])
+@login_required
+def delete():
+    try:
+        payload = request.json
+        manager.deletar(payload)
+        return jsonify({"success": True})
+    except Exception as e:
+        return jsonify({"success": False, "erro": str(e)})
+
+# =========================
+# 📦 UPLOAD ZIP
 # =========================
 @app.route('/api/upload_zip', methods=['POST'])
 @login_required
@@ -154,7 +232,19 @@ def upload_zip():
         return jsonify({"success": False, "erro": str(e)})
 
 # =========================
-# RUN
+# 🔁 REBUILD
+# =========================
+@app.route('/api/rebuild', methods=['POST'])
+@login_required
+def rebuild():
+    try:
+        manager.processar_lote()
+        return jsonify({"success": True, "message": "Rebuild executado com sucesso 🚀"})
+    except Exception as e:
+        return jsonify({"success": False, "erro": str(e)})
+
+# =========================
+# ▶️ RUN
 # =========================
 if __name__ == '__main__':
     app.run(debug=True)
