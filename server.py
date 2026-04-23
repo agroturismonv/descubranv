@@ -1,250 +1,234 @@
-from flask import Flask, request, jsonify, session, send_from_directory, redirect
-from functools import wraps
-import os
-import re
-from manager import SiteManager
+from flask import Flask, request, jsonify, send_file
+import os, json, zipfile
+from io import BytesIO
+from werkzeug.utils import secure_filename
 
-app = Flask(__name__, static_folder=".", static_url_path="")
-app.secret_key = os.getenv("SECRET_KEY", "dev-secret-key")
+app = Flask(__name__)
 
-manager = SiteManager()
-
-# =========================
-# 🔐 AUTH DECORATOR
-# =========================
-def login_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        if not session.get("logado"):
-            return jsonify({"success": False, "erro": "não autorizado"}), 403
-        return f(*args, **kwargs)
-    return decorated
-
-# =========================
-# 🌐 FRONTEND
-# =========================
-@app.route("/")
-def index():
-    return send_from_directory(".", "index.html")
-
-@app.route("/admin/<path:path>")
-def admin(path):
-    if not session.get("logado") and not path.endswith("login.html"):
-        return redirect("/admin/login.html")
-    return send_from_directory("admin", path)
-
-# =========================
-# 🔐 AUTH API
-# =========================
-@app.route("/api/login", methods=["POST"])
-def api_login():
-    data = request.json
-
-    user = data.get("user")
-    password = data.get("password")
-
-    if user == "admin" and password == "Admin@NV2026!":
-        session["logado"] = True
-        session["user"] = user
-        return jsonify({"success": True, "username": user})
-
-    return jsonify({"success": False}), 403
+DATA_FILE = "dados.json"
+UPLOAD_DIR = "dados"
 
 
-@app.route("/api/logout", methods=["POST"])
-def api_logout():
-    session.clear()
-    return jsonify({"success": True})
+# ───────────────────────────────
+# UTIL
+# ───────────────────────────────
+def load_data():
+    if not os.path.exists(DATA_FILE):
+        return []
+    with open(DATA_FILE, "r", encoding="utf-8") as f:
+        return json.load(f)
 
 
-@app.route("/api/check", methods=["GET"])
-def api_check():
-    return jsonify({
-        "logado": bool(session.get("logado")),
-        "user": session.get("user")
-    })
+def save_data(data):
+    with open(DATA_FILE, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
 
 
-@app.route("/api/me", methods=["GET"])
-@login_required
-def api_me():
-    return jsonify({
-        "user": session.get("user")
-    })
+def find_regiao(data, regiao_id):
+    return next((r for r in data if r["regiao"] == regiao_id), None)
 
-# =========================
-# 📊 DASHBOARD
-# =========================
-@app.route("/api/dashboard", methods=["GET"])
-@login_required
-def api_dashboard():
-    try:
-        base = os.path.join("dados", "circuitos")
 
-        total_regioes = 0
-        total_locais = 0
+def ensure_dir(path):
+    os.makedirs(path, exist_ok=True)
 
-        if os.path.exists(base):
-            for regiao in os.listdir(base):
-                path_regiao = os.path.join(base, regiao)
 
-                if not os.path.isdir(path_regiao):
-                    continue
-
-                total_regioes += 1
-
-                for item in os.listdir(path_regiao):
-                    if os.path.isdir(os.path.join(path_regiao, item)):
-                        total_locais += 1
-
-        return jsonify({
-            "total_locais": total_locais,
-            "total_regioes": total_regioes,
-            "status": "ok"
-        })
-
-    except Exception as e:
-        return jsonify({
-            "total_locais": 0,
-            "total_regioes": 0,
-            "status": "erro",
-            "erro": str(e)
-        })
-
-# =========================
-# 📋 LISTAR
-# =========================
-@app.route('/api/listar', methods=['GET'])
-@login_required
-def listar():
-    try:
-        base = os.path.join("dados", "circuitos")
-        resultado = []
-
-        if not os.path.exists(base):
-            return jsonify({"success": True, "data": []})
-
-        for regiao in sorted(os.listdir(base)):
-            path_regiao = os.path.join(base, regiao)
-
-            if not os.path.isdir(path_regiao):
-                continue
-
-            config_path = os.path.join(path_regiao, "config.js")
-            if not os.path.exists(config_path):
-                continue
-
-            with open(config_path, "r", encoding="utf-8") as f:
-                config_raw = f.read()
-
-            titulo = regiao
-            match = re.search(r'title.*?:\s*"(.*?)"', config_raw)
-            if match:
-                titulo = match.group(1)
-
-            locais = []
-
-            for item in os.listdir(path_regiao):
-                path_local = os.path.join(path_regiao, item)
-
-                if not os.path.isdir(path_local):
-                    continue
-
-                js_path = os.path.join(path_local, f"{item}.js")
-                if not os.path.exists(js_path):
-                    continue
-
-                with open(js_path, "r", encoding="utf-8") as f:
-                    raw = f.read()
-
-                nome = item
-                desc = ""
-
-                m1 = re.search(r'title.*?:\s*"(.*?)"', raw)
-                m2 = re.search(r'description.*?:\s*"(.*?)"', raw)
-
-                if m1:
-                    nome = m1.group(1)
-                if m2:
-                    desc = m2.group(1)
-
-                locais.append({
-                    "id": item,
-                    "nome": nome,
-                    "descricao": desc
-                })
-
-            resultado.append({
-                "regiao": regiao,
-                "titulo": titulo,
-                "locais": locais
-            })
-
-        return jsonify({"success": True, "data": resultado})
-
-    except Exception as e:
-        return jsonify({"success": False, "erro": str(e)})
-
-# =========================
-# 💾 CADASTRO
-# =========================
-@app.route('/api/cadastro', methods=['POST'])
-@login_required
+# ───────────────────────────────
+# CADASTRO COM UPLOAD
+# ───────────────────────────────
+@app.route("/api/cadastro", methods=["POST"])
 def cadastro():
-    try:
-        payload = request.json
-        manager.criar_ou_atualizar(payload)
-        return jsonify({"success": True})
-    except Exception as e:
-        return jsonify({"success": False, "erro": str(e)})
 
-# =========================
-# 🗑 DELETE
-# =========================
-@app.route('/api/delete', methods=['POST'])
-@login_required
+    data = load_data()
+
+    # recebe JSON dentro do FormData
+    raw_json = request.form.get("json")
+    if not raw_json:
+        return jsonify(success=False, erro="JSON não enviado")
+
+    body = json.loads(raw_json)
+    files = request.files.getlist("files")
+
+    tipo = body.get("tipo")
+
+    # ───────── REGIÃO ─────────
+    if tipo == "regiao":
+
+        regiao_id = body.get("regiao")
+        dados = body.get("dados", {})
+
+        pasta = os.path.join(UPLOAD_DIR, "regioes", regiao_id)
+        ensure_dir(pasta)
+
+        capa_path = None
+
+        for f in files:
+            filename = secure_filename(f.filename)
+            save_path = os.path.join(pasta, filename)
+            f.save(save_path)
+            capa_path = f"{UPLOAD_DIR}/regioes/{regiao_id}/{filename}"
+
+        reg = find_regiao(data, regiao_id)
+
+        if not reg:
+            reg = {
+                "regiao": regiao_id,
+                "titulo": dados.get("texts", {}).get("pt", {}).get("title", ""),
+                "descricao": dados.get("texts", {}).get("pt", {}).get("desc", ""),
+                "capa": capa_path,
+                "locais": []
+            }
+            data.append(reg)
+        else:
+            reg["titulo"] = dados.get("texts", {}).get("pt", {}).get("title", "")
+            reg["descricao"] = dados.get("texts", {}).get("pt", {}).get("desc", "")
+            if capa_path:
+                reg["capa"] = capa_path
+
+        save_data(data)
+        return jsonify(success=True)
+
+    # ───────── LOCAL ─────────
+    elif tipo == "local":
+
+        regiao_id = body.get("regiao")
+        local_id = body.get("local")
+        dados = body.get("dados", {})
+
+        reg = find_regiao(data, regiao_id)
+        if not reg:
+            return jsonify(success=False, erro="Região não encontrada")
+
+        pasta = os.path.join(UPLOAD_DIR, "locais", local_id)
+        ensure_dir(pasta)
+
+        fotos_salvas = []
+
+        for f in files:
+            filename = secure_filename(f.filename)
+            path = os.path.join(pasta, filename)
+            f.save(path)
+            fotos_salvas.append(f"{UPLOAD_DIR}/locais/{local_id}/{filename}")
+
+        capa = fotos_salvas[0] if fotos_salvas else None
+
+        obj = {
+            "id": local_id,
+            "nome": dados.get("texts", {}).get("pt", {}).get("title", ""),
+            "subtitulo": dados.get("texts", {}).get("pt", {}).get("subtitle", ""),
+            "descricao": dados.get("texts", {}).get("pt", {}).get("desc", ""),
+            "capa": capa,
+            "fotos": fotos_salvas
+        }
+
+        existente = next((l for l in reg["locais"] if l["id"] == local_id), None)
+
+        if existente:
+            reg["locais"] = [
+                obj if l["id"] == local_id else l
+                for l in reg["locais"]
+            ]
+        else:
+            reg["locais"].append(obj)
+
+        save_data(data)
+        return jsonify(success=True)
+
+    return jsonify(success=False, erro="Tipo inválido")
+
+
+# ───────────────────────────────
+# LISTAR
+# ───────────────────────────────
+@app.route("/api/listar", methods=["GET"])
+def listar():
+    return jsonify(success=True, data=load_data())
+
+
+# ───────────────────────────────
+# DELETE
+# ───────────────────────────────
+@app.route("/api/delete", methods=["POST"])
 def delete():
-    try:
-        payload = request.json
-        manager.deletar(payload)
-        return jsonify({"success": True})
-    except Exception as e:
-        return jsonify({"success": False, "erro": str(e)})
+    data = load_data()
+    body = request.json
 
-# =========================
-# 📦 UPLOAD ZIP
-# =========================
-@app.route('/api/upload_zip', methods=['POST'])
-@login_required
-def upload_zip():
-    try:
-        file = request.files['file']
+    tipo = body.get("tipo")
 
-        os.makedirs("pendentes", exist_ok=True)
-        path = os.path.join("pendentes", file.filename)
+    if tipo == "regiao":
+        regiao_id = body.get("regiao")
 
-        file.save(path)
-        manager.processar_lote()
+        data = [r for r in data if r["regiao"] != regiao_id]
 
-        return jsonify({"success": True})
+        # remove pasta
+        path = os.path.join(UPLOAD_DIR, "regioes", regiao_id)
+        if os.path.exists(path):
+            import shutil
+            shutil.rmtree(path)
 
-    except Exception as e:
-        return jsonify({"success": False, "erro": str(e)})
+        save_data(data)
+        return jsonify(success=True)
 
-# =========================
-# 🔁 REBUILD
-# =========================
-@app.route('/api/rebuild', methods=['POST'])
-@login_required
-def rebuild():
-    try:
-        manager.processar_lote()
-        return jsonify({"success": True, "message": "Rebuild executado com sucesso 🚀"})
-    except Exception as e:
-        return jsonify({"success": False, "erro": str(e)})
+    elif tipo == "local":
+        regiao_id = body.get("regiao")
+        local_id = body.get("local")
 
-# =========================
-# ▶️ RUN
-# =========================
-if __name__ == '__main__':
+        reg = find_regiao(data, regiao_id)
+        if not reg:
+            return jsonify(success=False)
+
+        reg["locais"] = [l for l in reg["locais"] if l["id"] != local_id]
+
+        path = os.path.join(UPLOAD_DIR, "locais", local_id)
+        if os.path.exists(path):
+            import shutil
+            shutil.rmtree(path)
+
+        save_data(data)
+        return jsonify(success=True)
+
+    return jsonify(success=False)
+
+
+# ───────────────────────────────
+# DOWNLOAD ZIP (COM IMAGENS)
+# ───────────────────────────────
+@app.route("/download_zip/<regiao>/<local>")
+def download_zip(regiao, local):
+
+    data = load_data()
+    reg = find_regiao(data, regiao)
+    if not reg:
+        return jsonify(success=False), 404
+
+    loc = next((l for l in reg["locais"] if l["id"] == local), None)
+    if not loc:
+        return jsonify(success=False), 404
+
+    memory = BytesIO()
+
+    with zipfile.ZipFile(memory, 'w') as zf:
+
+        zf.writestr("config.json", json.dumps(loc, indent=2, ensure_ascii=False))
+
+        for foto in loc.get("fotos", []):
+            if os.path.exists(foto):
+                zf.write(foto, os.path.basename(foto))
+
+    memory.seek(0)
+
+    return send_file(memory, as_attachment=True, download_name=f"{local}.zip")
+
+
+# ───────────────────────────────
+# SERVIR IMAGENS
+# ───────────────────────────────
+@app.route("/dados/<path:filename>")
+def media(filename):
+    return send_file(os.path.join("dados", filename))
+
+
+# ───────────────────────────────
+# RUN
+# ───────────────────────────────
+if __name__ == "__main__":
     app.run(debug=True)
