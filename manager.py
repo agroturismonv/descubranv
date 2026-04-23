@@ -34,7 +34,7 @@ class SiteManager:
             with open(path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            match = re.search(r'Object\.freeze\((\{.*\})\)', content, re.DOTALL)
+            match = re.search(r'Object\.freeze\((\{.*\})\);?', content, re.DOTALL)
             if not match:
                 return None
 
@@ -43,17 +43,18 @@ class SiteManager:
             obj = obj.replace("'", '"')
 
             return json.loads(obj)
-        except:
+        except Exception as e:
+            print("[ERRO PARSE]", path, e)
             return None
 
     # -------------------------
-    # LISTAGEM (ESSENCIAL)
+    # LISTAR (🔥 ESSENCIAL)
     # -------------------------
     def listar(self):
-        resultado = []
+        data = []
 
         if not os.path.exists(self.base):
-            return resultado
+            return data
 
         for regiao in sorted(os.listdir(self.base)):
             path_regiao = os.path.join(self.base, regiao)
@@ -65,41 +66,50 @@ class SiteManager:
             config = self.carregar_js_objeto(config_path)
 
             if not config:
-                print(f"[ERRO] config inválido: {regiao}")
+                print(f"[WARN] Região ignorada (config inválido): {regiao}")
                 continue
 
-            locais = []
+            textos = config.get("texts", {}).get("pt", {})
 
-            # 🔥 fallback inteligente
-            locais_ids = config.get("locais", [])
+            regiao_obj = {
+                "regiao": config.get("id", regiao),
+                "titulo": textos.get("title", ""),
+                "descricao": textos.get("subtitle", ""),
+                "capa": config.get("cover", ""),
+                "texts": config.get("texts", {}),
+                "locais": []
+            }
 
-            if not locais_ids:
-                for pasta in os.listdir(path_regiao):
-                    local_path = os.path.join(path_regiao, pasta)
-                    js_path = os.path.join(local_path, f"{pasta}.js")
+            # detectar locais automaticamente
+            for item in sorted(os.listdir(path_regiao)):
+                path_local = os.path.join(path_regiao, item)
 
-                    if os.path.isdir(local_path) and os.path.exists(js_path):
-                        locais_ids.append(pasta)
-
-            for local in set(locais_ids):
-                path_local = os.path.join(path_regiao, local)
-                js_path = os.path.join(path_local, f"{local}.js")
-
-                data = self.carregar_js_objeto(js_path)
-
-                if not data:
-                    print(f"[ERRO] local inválido: {regiao}/{local}")
+                if not os.path.isdir(path_local):
                     continue
 
-                locais.append(data)
+                path_js = os.path.join(path_local, f"{item}.js")
 
-            resultado.append({
-                "regiao": regiao,
-                "locais": locais,
-                "config": config
-            })
+                local = self.carregar_js_objeto(path_js)
+                if not local:
+                    continue
 
-        return resultado
+                textos_local = local.get("texts", {}).get("pt", {})
+
+                regiao_obj["locais"].append({
+                    "id": local.get("id", item),
+                    "nome": textos_local.get("title", ""),
+                    "subtitulo": textos_local.get("subtitle", ""),
+                    "capa": local.get("hero", ""),
+                    "fotos": local.get("gallery", []),
+                    "texts": local.get("texts", {}),
+                    "location": local.get("location", {}),
+                    "RAvisionScreen": local.get("RAvisionScreen", False),
+                    "RAvisionlink": local.get("RAvisionlink", "")
+                })
+
+            data.append(regiao_obj)
+
+        return data
 
     # -------------------------
     # CREATE / UPDATE
@@ -122,8 +132,7 @@ class SiteManager:
         obj = {
             "id": regiao,
             "cover": payload.get("cover_file", ""),
-            "texts": dados.get("texts", {}),
-            "locais": []  # 🔥 obrigatório
+            "texts": dados.get("texts", {})
         }
 
         self.salvar_js(os.path.join(path, "config.js"), obj)
@@ -151,17 +160,6 @@ class SiteManager:
 
         self.salvar_js(os.path.join(path_local, f"{local}.js"), obj)
 
-        # 🔥 atualiza config automaticamente
-        config_path = os.path.join(path_regiao, "config.js")
-        config = self.carregar_js_objeto(config_path) or {}
-
-        locais = config.get("locais", [])
-        if local not in locais:
-            locais.append(local)
-
-        config["locais"] = sorted(set(locais))
-        self.salvar_js(config_path, config)
-
     # -------------------------
     # DELETE
     # -------------------------
@@ -183,15 +181,3 @@ class SiteManager:
 
             if os.path.exists(path):
                 shutil.rmtree(path)
-
-            # 🔥 remove do config
-            config_path = os.path.join(self.base, regiao, "config.js")
-            config = self.carregar_js_objeto(config_path)
-
-            if config:
-                locais = config.get("locais", [])
-                if local in locais:
-                    locais.remove(local)
-
-                config["locais"] = locais
-                self.salvar_js(config_path, config)
