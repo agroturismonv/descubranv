@@ -1,51 +1,88 @@
-from flask import Flask, request, jsonify, send_file
-import os, json, zipfile
-from io import BytesIO
+from flask import Flask, request, jsonify
+import os, json, shutil
 from werkzeug.utils import secure_filename
+import subprocess
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 
-DATA_FILE = "dados.json"
-UPLOAD_DIR = "dados"
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DADOS_DIR = os.path.join(BASE_DIR, "dados", "circuitos")
 
 
 # ───────────────────────────────
 # UTIL
 # ───────────────────────────────
-def load_data():
-    if not os.path.exists(DATA_FILE):
-        return []
-    with open(DATA_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-
-def save_data(data):
-    with open(DATA_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-
-def find_regiao(data, regiao_id):
-    return next((r for r in data if r["regiao"] == regiao_id), None)
-
-
 def ensure_dir(path):
     os.makedirs(path, exist_ok=True)
 
 
+def slug(txt):
+    return (
+        txt.lower()
+        .replace(" ", "_")
+        .encode("ascii", "ignore")
+        .decode()
+    )
+
+
+def run_build():
+    try:
+        subprocess.run(["python", "build.py"], check=True)
+    except:
+        print("⚠️ Falha ao rodar build.py")
+
+
 # ───────────────────────────────
-# CADASTRO COM UPLOAD
+# GERAR JS
+# ───────────────────────────────
+def salvar_config(regiao_id, dados, cover_path):
+    path = os.path.join(DADOS_DIR, regiao_id, "config.js")
+
+    obj = {
+        "id": regiao_id,
+        "cover": cover_path,
+        "texts": dados.get("texts", {}),
+        "locais": dados.get("locais", [])
+    }
+
+    content = json.dumps(obj, indent=2, ensure_ascii=False)
+    content = content.replace('"', '"')
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"window.CONFIG_{regiao_id.upper()} = Object.freeze({content});")
+
+
+def salvar_local(regiao_id, local_id, dados, hero, gallery):
+    pasta = os.path.join(DADOS_DIR, regiao_id, local_id)
+    path = os.path.join(pasta, f"{local_id}.js")
+
+    obj = {
+        "id": local_id,
+        "hero": hero,
+        "gallery": gallery,
+        "texts": dados.get("texts", {}),
+        "location": dados.get("location", {}),
+        "RAvisionScreen": dados.get("RAvisionScreen", False),
+        "RAvisionlink": dados.get("RAvisionlink", "")
+    }
+
+    content = json.dumps(obj, indent=2, ensure_ascii=False)
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"window.LOCAL_{local_id.upper()} = Object.freeze({content});")
+
+
+# ───────────────────────────────
+# CADASTRO
 # ───────────────────────────────
 @app.route("/api/cadastro", methods=["POST"])
 def cadastro():
 
-    data = load_data()
-
-    # recebe JSON dentro do FormData
-    raw_json = request.form.get("json")
-    if not raw_json:
+    raw = request.form.get("json")
+    if not raw:
         return jsonify(success=False, erro="JSON não enviado")
 
-    body = json.loads(raw_json)
+    body = json.loads(raw)
     files = request.files.getlist("files")
 
     tipo = body.get("tipo")
@@ -53,95 +90,62 @@ def cadastro():
     # ───────── REGIÃO ─────────
     if tipo == "regiao":
 
-        regiao_id = body.get("regiao")
+        regiao = slug(body.get("regiao"))
         dados = body.get("dados", {})
 
-        pasta = os.path.join(UPLOAD_DIR, "regioes", regiao_id)
+        pasta = os.path.join(DADOS_DIR, regiao)
         ensure_dir(pasta)
 
-        capa_path = None
+        cover_path = ""
 
         for f in files:
-            filename = secure_filename(f.filename)
-            save_path = os.path.join(pasta, filename)
+            name = secure_filename(f.filename)
+            save_path = os.path.join(pasta, name)
             f.save(save_path)
-            capa_path = f"{UPLOAD_DIR}/regioes/{regiao_id}/{filename}"
+            cover_path = f"dados/circuitos/{regiao}/{name}"
 
-        reg = find_regiao(data, regiao_id)
+        salvar_config(regiao, dados, cover_path)
 
-        if not reg:
-            reg = {
-                "regiao": regiao_id,
-                "titulo": dados.get("texts", {}).get("pt", {}).get("title", ""),
-                "descricao": dados.get("texts", {}).get("pt", {}).get("desc", ""),
-                "capa": capa_path,
-                "locais": []
-            }
-            data.append(reg)
-        else:
-            reg["titulo"] = dados.get("texts", {}).get("pt", {}).get("title", "")
-            reg["descricao"] = dados.get("texts", {}).get("pt", {}).get("desc", "")
-            if capa_path:
-                reg["capa"] = capa_path
-
-        save_data(data)
+        run_build()
         return jsonify(success=True)
 
     # ───────── LOCAL ─────────
     elif tipo == "local":
 
-        regiao_id = body.get("regiao")
-        local_id = body.get("local")
+        regiao = slug(body.get("regiao"))
+        local = slug(body.get("local"))
         dados = body.get("dados", {})
 
-        reg = find_regiao(data, regiao_id)
-        if not reg:
-            return jsonify(success=False, erro="Região não encontrada")
-
-        pasta = os.path.join(UPLOAD_DIR, "locais", local_id)
+        pasta = os.path.join(DADOS_DIR, regiao, local)
         ensure_dir(pasta)
 
-        fotos_salvas = []
+        gallery = []
 
         for f in files:
-            filename = secure_filename(f.filename)
-            path = os.path.join(pasta, filename)
-            f.save(path)
-            fotos_salvas.append(f"{UPLOAD_DIR}/locais/{local_id}/{filename}")
+            name = secure_filename(f.filename)
+            save_path = os.path.join(pasta, name)
+            f.save(save_path)
+            gallery.append(f"dados/circuitos/{regiao}/{local}/{name}")
 
-        capa = fotos_salvas[0] if fotos_salvas else None
+        hero = gallery[0] if gallery else ""
 
-        obj = {
-            "id": local_id,
-            "nome": dados.get("texts", {}).get("pt", {}).get("title", ""),
-            "subtitulo": dados.get("texts", {}).get("pt", {}).get("subtitle", ""),
-            "descricao": dados.get("texts", {}).get("pt", {}).get("desc", ""),
-            "capa": capa,
-            "fotos": fotos_salvas
-        }
+        salvar_local(regiao, local, dados, hero, gallery)
 
-        existente = next((l for l in reg["locais"] if l["id"] == local_id), None)
+        # atualizar config.js (adiciona local)
+        config_path = os.path.join(DADOS_DIR, regiao, "config.js")
+        if os.path.exists(config_path):
+            with open(config_path, "r", encoding="utf-8") as f:
+                txt = f.read()
 
-        if existente:
-            reg["locais"] = [
-                obj if l["id"] == local_id else l
-                for l in reg["locais"]
-            ]
-        else:
-            reg["locais"].append(obj)
+            if local not in txt:
+                txt = txt.replace("locais: [", f'locais: ["{local}", ')
+                with open(config_path, "w", encoding="utf-8") as f:
+                    f.write(txt)
 
-        save_data(data)
+        run_build()
         return jsonify(success=True)
 
-    return jsonify(success=False, erro="Tipo inválido")
-
-
-# ───────────────────────────────
-# LISTAR
-# ───────────────────────────────
-@app.route("/api/listar", methods=["GET"])
-def listar():
-    return jsonify(success=True, data=load_data())
+    return jsonify(success=False)
 
 
 # ───────────────────────────────
@@ -149,82 +153,27 @@ def listar():
 # ───────────────────────────────
 @app.route("/api/delete", methods=["POST"])
 def delete():
-    data = load_data()
-    body = request.json
 
+    body = request.json
     tipo = body.get("tipo")
 
-    if tipo == "regiao":
-        regiao_id = body.get("regiao")
+    if tipo == "local":
+        regiao = body.get("regiao")
+        local = body.get("local")
 
-        data = [r for r in data if r["regiao"] != regiao_id]
-
-        # remove pasta
-        path = os.path.join(UPLOAD_DIR, "regioes", regiao_id)
+        path = os.path.join(DADOS_DIR, regiao, local)
         if os.path.exists(path):
-            import shutil
             shutil.rmtree(path)
 
-        save_data(data)
-        return jsonify(success=True)
+    elif tipo == "regiao":
+        regiao = body.get("regiao")
 
-    elif tipo == "local":
-        regiao_id = body.get("regiao")
-        local_id = body.get("local")
-
-        reg = find_regiao(data, regiao_id)
-        if not reg:
-            return jsonify(success=False)
-
-        reg["locais"] = [l for l in reg["locais"] if l["id"] != local_id]
-
-        path = os.path.join(UPLOAD_DIR, "locais", local_id)
+        path = os.path.join(DADOS_DIR, regiao)
         if os.path.exists(path):
-            import shutil
             shutil.rmtree(path)
 
-        save_data(data)
-        return jsonify(success=True)
-
-    return jsonify(success=False)
-
-
-# ───────────────────────────────
-# DOWNLOAD ZIP (COM IMAGENS)
-# ───────────────────────────────
-@app.route("/download_zip/<regiao>/<local>")
-def download_zip(regiao, local):
-
-    data = load_data()
-    reg = find_regiao(data, regiao)
-    if not reg:
-        return jsonify(success=False), 404
-
-    loc = next((l for l in reg["locais"] if l["id"] == local), None)
-    if not loc:
-        return jsonify(success=False), 404
-
-    memory = BytesIO()
-
-    with zipfile.ZipFile(memory, 'w') as zf:
-
-        zf.writestr("config.json", json.dumps(loc, indent=2, ensure_ascii=False))
-
-        for foto in loc.get("fotos", []):
-            if os.path.exists(foto):
-                zf.write(foto, os.path.basename(foto))
-
-    memory.seek(0)
-
-    return send_file(memory, as_attachment=True, download_name=f"{local}.zip")
-
-
-# ───────────────────────────────
-# SERVIR IMAGENS
-# ───────────────────────────────
-@app.route("/dados/<path:filename>")
-def media(filename):
-    return send_file(os.path.join("dados", filename))
+    run_build()
+    return jsonify(success=True)
 
 
 # ───────────────────────────────
