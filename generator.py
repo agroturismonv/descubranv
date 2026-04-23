@@ -51,9 +51,7 @@ def build():
         print("[WARN] Pasta dados nao existe")
         return
 
-    regioes = sorted(os.listdir(DADOS_DIR))
-
-    for regiao in regioes:
+    for regiao in sorted(os.listdir(DADOS_DIR)):
         path_regiao = os.path.join(DADOS_DIR, regiao)
 
         if not os.path.isdir(path_regiao):
@@ -66,33 +64,49 @@ def build():
             print(f"[WARN] Regiao ignorada (config invalido): {regiao}")
             continue
 
+        textos = config.get("texts", {})
+
         regiao_obj = {
-            "id": config.get("id"),
-            "cover": config.get("cover"),
-            "texts": config.get("texts", {}),
+            "id": config.get("id", regiao),
+            "cover": config.get("cover", ""),
+            "texts": textos,
             "locais": []
         }
 
         locais_ids = []
+        locais_validos = []
 
-for item in sorted(os.listdir(path_regiao)):
-    local_dir = os.path.join(path_regiao, item)
-    local_js = os.path.join(local_dir, f"{item}.js")
+        # 🔎 VARRE PASTAS REAIS (FONTE DA VERDADE)
+        for item in sorted(os.listdir(path_regiao)):
+            local_dir = os.path.join(path_regiao, item)
+            local_js = os.path.join(local_dir, f"{item}.js")
 
-    if os.path.isdir(local_dir) and os.path.isfile(local_js):
-        locais_ids.append(item)
-
-        for local_id in locais_ids:
-            path_local = os.path.join(path_regiao, local_id)
-            path_js = os.path.join(path_local, f"{local_id}.js")
-
-            local_data = carregar_js(path_js)
-
-            if not local_data:
-                print(f"[WARN] Local ignorado: {regiao}/{local_id}")
+            if not (os.path.isdir(local_dir) and os.path.isfile(local_js)):
                 continue
 
-            regiao_obj["locais"].append({
+            local_data = carregar_js(local_js)
+
+            if not local_data:
+                print(f"[LIXO] JS inválido removido: {regiao}/{item}")
+                continue
+
+            # 🚨 valida ID
+            if local_data.get("id") != item:
+                print(f"[ERRO] ID divergente: pasta={item} js={local_data.get('id')}")
+                continue
+
+            # 🚨 valida conteúdo mínimo
+            if not local_data.get("texts"):
+                print(f"[LIXO] Local sem texto ignorado: {regiao}/{item}")
+                continue
+
+            # evita duplicação
+            if item in locais_ids:
+                continue
+
+            locais_ids.append(item)
+
+            locais_validos.append({
                 "id": local_data.get("id"),
                 "hero": local_data.get("hero"),
                 "texts": local_data.get("texts", {}),
@@ -102,11 +116,24 @@ for item in sorted(os.listdir(path_regiao)):
                 "RAvisionlink": local_data.get("RAvisionlink", "")
             })
 
+        # 🔧 AUTO CORRIGE config.js
+        try:
+            config["locais"] = locais_ids
+
+            novo_body = json.dumps(config, indent=2, ensure_ascii=False)
+            novo_body = re.sub(r'"(\w+)":', r'\1:', novo_body)
+
+            with open(config_path, "w", encoding="utf-8") as f:
+                f.write(f"window.APP_CONFIG = Object.freeze({novo_body});")
+
+        except Exception as e:
+            print(f"[ERRO] Falha ao corrigir config.js: {regiao} -> {e}")
+
+        regiao_obj["locais"] = locais_validos
         controller["regioes"].append(regiao_obj)
 
     salvar_controller(controller)
-    print("[OK] Controller gerado com sucesso")
-
+    print("[OK] Build limpo e consistente")
 
 # -------------------------
 # OUTPUT
