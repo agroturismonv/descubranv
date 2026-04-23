@@ -36,7 +36,7 @@
       <span>📦</span>
       <span>Cadastro offline (ZIP)</span>
     </a>
-    
+
       <a href="./cadastro_ZIP.html"
         class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
         <span>📦</span>
@@ -218,15 +218,16 @@
           }
         },
 
-        editar(item) {
-          window.location.href =
-            `alterar_local.html?regiao=${item.regiao}&local=${item.id}`;
-        },
+    editar(item) {
+      const regiao = encodeURIComponent(item.regiao);
+      const local = encodeURIComponent(item.id);
+      window.location.href = `./cadastro_online.html?regiao=${regiao}&local=${local}`;
+    },
 
-        editarRegiao(item) {
-          window.location.href =
-            `alterar_regiao.html?regiao=${item.id}`;
-        },
+    editarRegiao(item) {
+      const regiao = encodeURIComponent(item.id);
+      window.location.href = `./cadastro_online.html?regiao=${regiao}`;
+    },
 
         async excluirRegiao(item) {
           if (!confirm('Excluir região?')) return;
