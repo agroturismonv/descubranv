@@ -3,7 +3,7 @@ from functools import wraps
 from manager import SiteManager
 import os
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = "super-secret-key"  # troque isso em produção
 
 manager = SiteManager()
