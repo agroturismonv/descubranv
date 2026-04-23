@@ -148,7 +148,12 @@ def listar():
     if denied:
         return denied
 
-    return jsonify(success=True, data=site.listar())
+    try:
+        data = site.listar()
+        return jsonify(success=True, data=data)
+    except Exception as e:
+        print("[ERRO LISTAR]", e)
+        return jsonify(success=False, erro=str(e)), 500
 
 
 # -------------------------
