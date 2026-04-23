@@ -1,6 +1,7 @@
 import os
 import json
 import re
+import shutil
 
 
 class SiteManager:
@@ -33,7 +34,7 @@ class SiteManager:
             with open(path, "r", encoding="utf-8") as f:
                 content = f.read()
 
-            match = re.search(r'Object\.freeze\((\{.*\})\);?', content, re.DOTALL)
+            match = re.search(r'Object\.freeze\((\{.*\})\)', content, re.DOTALL)
             if not match:
                 return None
 
@@ -44,6 +45,61 @@ class SiteManager:
             return json.loads(obj)
         except:
             return None
+
+    # -------------------------
+    # LISTAGEM (ESSENCIAL)
+    # -------------------------
+    def listar(self):
+        resultado = []
+
+        if not os.path.exists(self.base):
+            return resultado
+
+        for regiao in sorted(os.listdir(self.base)):
+            path_regiao = os.path.join(self.base, regiao)
+
+            if not os.path.isdir(path_regiao):
+                continue
+
+            config_path = os.path.join(path_regiao, "config.js")
+            config = self.carregar_js_objeto(config_path)
+
+            if not config:
+                print(f"[ERRO] config inválido: {regiao}")
+                continue
+
+            locais = []
+
+            # 🔥 fallback inteligente
+            locais_ids = config.get("locais", [])
+
+            if not locais_ids:
+                for pasta in os.listdir(path_regiao):
+                    local_path = os.path.join(path_regiao, pasta)
+                    js_path = os.path.join(local_path, f"{pasta}.js")
+
+                    if os.path.isdir(local_path) and os.path.exists(js_path):
+                        locais_ids.append(pasta)
+
+            for local in set(locais_ids):
+                path_local = os.path.join(path_regiao, local)
+                js_path = os.path.join(path_local, f"{local}.js")
+
+                data = self.carregar_js_objeto(js_path)
+
+                if not data:
+                    print(f"[ERRO] local inválido: {regiao}/{local}")
+                    continue
+
+                locais.append(data)
+
+            resultado.append({
+                "regiao": regiao,
+                "locais": locais,
+                "config": config
+            })
+
+        return resultado
 
     # -------------------------
     # CREATE / UPDATE
@@ -66,7 +122,8 @@ class SiteManager:
         obj = {
             "id": regiao,
             "cover": payload.get("cover_file", ""),
-            "texts": dados.get("texts", {})
+            "texts": dados.get("texts", {}),
+            "locais": []  # 🔥 obrigatório
         }
 
         self.salvar_js(os.path.join(path, "config.js"), obj)
@@ -94,6 +151,17 @@ class SiteManager:
 
         self.salvar_js(os.path.join(path_local, f"{local}.js"), obj)
 
+        # 🔥 atualiza config automaticamente
+        config_path = os.path.join(path_regiao, "config.js")
+        config = self.carregar_js_objeto(config_path) or {}
+
+        locais = config.get("locais", [])
+        if local not in locais:
+            locais.append(local)
+
+        config["locais"] = sorted(set(locais))
+        self.salvar_js(config_path, config)
+
     # -------------------------
     # DELETE
     # -------------------------
@@ -105,7 +173,6 @@ class SiteManager:
             path = os.path.join(self.base, regiao)
 
             if os.path.exists(path):
-                import shutil
                 shutil.rmtree(path)
 
         elif tipo == "local":
@@ -115,5 +182,16 @@ class SiteManager:
             path = os.path.join(self.base, regiao, local)
 
             if os.path.exists(path):
-                import shutil
                 shutil.rmtree(path)
+
+            # 🔥 remove do config
+            config_path = os.path.join(self.base, regiao, "config.js")
+            config = self.carregar_js_objeto(config_path)
+
+            if config:
+                locais = config.get("locais", [])
+                if local in locais:
+                    locais.remove(local)
+
+                config["locais"] = locais
+                self.salvar_js(config_path, config)
