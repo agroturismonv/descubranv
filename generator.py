@@ -48,7 +48,7 @@ def build():
     }
 
     if not os.path.exists(DADOS_DIR):
-        print("⚠️ Pasta dados não existe")
+        print("[WARN] Pasta dados nao existe")
         return
 
     regioes = sorted(os.listdir(DADOS_DIR))
@@ -63,7 +63,7 @@ def build():
         config = carregar_js(config_path)
 
         if not config:
-            print(f"⚠️ Região ignorada (config inválido): {regiao}")
+            print(f"[WARN] Regiao ignorada (config invalido): {regiao}")
             continue
 
         regiao_obj = {
@@ -82,7 +82,7 @@ def build():
             local_data = carregar_js(path_js)
 
             if not local_data:
-                print(f"⚠️ Local ignorado: {regiao}/{local_id}")
+                print(f"[WARN] Local ignorado: {regiao}/{local_id}")
                 continue
 
             regiao_obj["locais"].append({
@@ -98,7 +98,7 @@ def build():
         controller["regioes"].append(regiao_obj)
 
     salvar_controller(controller)
-    print("✅ Controller gerado com sucesso")
+    print("[OK] Controller gerado com sucesso")
 
 
 # -------------------------
@@ -108,12 +108,23 @@ def salvar_controller(obj):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
     body = json.dumps(obj, indent=2, ensure_ascii=False)
+    lista_circuitos = [
+        {
+            "id": regiao.get("id", ""),
+            "cover": regiao.get("cover", ""),
+            "texts": regiao.get("texts", {}),
+        }
+        for regiao in obj.get("regioes", [])
+    ]
+    lista_body = json.dumps(lista_circuitos, indent=2, ensure_ascii=False)
 
     # deixa estilo JS (sem aspas nas chaves)
     body = re.sub(r'"(\w+)":', r'\1:', body)
+    lista_body = re.sub(r'"(\w+)":', r'\1:', lista_body)
 
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(f"window.APP_CONTROLLER = Object.freeze({body});")
+        f.write(f"window.APP_CONTROLLER = Object.freeze({body});\n")
+        f.write(f"window.LISTA_CIRCUITOS = Object.freeze({lista_body});")
 
 
 # -------------------------
