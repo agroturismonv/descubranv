@@ -30,6 +30,25 @@ def index():
 def admin(path):
     return send_from_directory("admin", path)
 
+@app.route("/api/login", methods=["POST"])
+def login():
+    data = request.json
+
+    user = data.get("user")
+    password = data.get("password")
+
+    # 🔥 ajuste aqui como quiser
+    if user == "admin" and password == "123":
+        session["logado"] = True
+        return jsonify({"success": True})
+
+    return jsonify({"success": False}), 403
+
+@app.route("/api/logout", methods=["POST"])
+def logout():
+    session.clear()
+    return jsonify({"success": True})
+
 
 #Página do leo
 @app.route("/ra")
