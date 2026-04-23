@@ -2,6 +2,9 @@
 (function () {
     "use strict";
 
+    // ✅ PADRONIZA LOGIN
+    const LOGIN_URL = '/admin/login.html';
+
     /**
      * ============================
      * 🌐 API URL
@@ -35,7 +38,7 @@
      */
     async function apiRequest(path, options = {}) {
         const res = await fetch(apiUrl(path), {
-            credentials: 'include', // 🔥 ESSENCIAL
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
                 ...(options.headers || {})
@@ -43,8 +46,9 @@
             ...options
         });
 
+        // ✅ CORREÇÃO AQUI
         if (res.status === 403) {
-            window.location.href = '/login.html';
+            window.location.href = LOGIN_URL;
             return;
         }
 
@@ -70,15 +74,15 @@
 
             const data = await res.json();
 
-            if (
-                !data.logado &&
-                !window.location.pathname.includes('login.html')
-            ) {
-                window.location.href = '/login.html';
+            const isLoginPage = window.location.pathname.includes('/admin/login.html');
+
+            // ✅ CORREÇÃO AQUI
+            if (!data.logado && !isLoginPage) {
+                window.location.href = LOGIN_URL;
             }
 
         } catch {
-            window.location.href = '/login.html';
+            window.location.href = LOGIN_URL;
         }
     }
 
@@ -95,7 +99,8 @@
             credentials: 'include'
         });
 
-        window.location.href = '/login.html';
+        // ✅ CORREÇÃO AQUI
+        window.location.href = LOGIN_URL;
     };
 
     /**
@@ -127,7 +132,7 @@
 
     /**
      * ============================
-     * 📊 DASHBOARD (AJUSTADO)
+     * 📊 DASHBOARD
      * ============================
      */
     async function carregarDashboard() {
