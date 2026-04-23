@@ -98,12 +98,15 @@
      * ============================
      */
     async function apiRequest(path, options = {}) {
+        const isFormData = options.body instanceof FormData;
+        const mergedHeaders = {
+            ...(isFormData ? {} : { 'Content-Type': 'application/json' }),
+            ...(options.headers || {})
+        };
+
         const res = await fetch(apiUrl(path), {
             credentials: 'include',
-            headers: {
-                'Content-Type': 'application/json',
-                ...(options.headers || {})
-            },
+            headers: mergedHeaders,
             ...options
         });
 
@@ -113,13 +116,25 @@
         }
 
         if (!res.ok) {
-            throw new Error(`Erro HTTP: ${res.status}`);
+            let msg = `Erro HTTP: ${res.status}`;
+            try {
+                const errJson = await res.json();
+                msg = errJson.erro || errJson.message || msg;
+            } catch (_) {
+                // noop
+            }
+            throw new Error(msg);
         }
 
         return await res.json();
     }
 
     window.apiRequest = apiRequest;
+    // Compat alias for legacy pages
+    window.apiFetch = (path, options = {}) => fetch(apiUrl(path), {
+        credentials: 'include',
+        ...options
+    });
 
     /**
      * ============================
@@ -146,7 +161,8 @@
             method: 'POST',
             body: formData,
             credentials: 'include'
-        })
+        }),
+        downloadZip: (regiao, local) => apiFetch(`/download_zip/${regiao}/${local}`)
     };
 
 })();

@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="auth.js"></script>
   <style>
     [x-cloak] { display: none !important; }
     .inp {
@@ -279,7 +280,7 @@
     </template>
 
     <!-- BOTÃO GERAR -->
-    <button @click="baixar()" :disabled="loading"
+    <button @click="salvar()" :disabled="loading"
       class="w-full bg-[#0f5132] hover:bg-[#0a3d26] disabled:opacity-50 disabled:cursor-not-allowed
              text-white py-5 rounded-2xl font-black uppercase text-sm tracking-widest shadow-xl transition-all">
       <span x-text="loading ? 'Enviando...' : '🚀 Enviar para o servidor'"></span>
@@ -290,34 +291,76 @@
 
 <script>
 function adminApp() {
-  return {
+  const emptyRegiao = () => ({
+    id: '',
+    bgFoto: null,
+    pt: { title: '', subtitle: '', desc: '' },
+    en: { title: '', subtitle: '', desc: '' },
+    es: { title: '', subtitle: '', desc: '' },
+  });
 
+  const emptyLocal = () => ({
+    id: '',
+    id_regiao: '',
+    map_link: '',
+    lat: '',
+    lng: '',
+    fotos: [],
+    cover: 0,
+    has360: false,
+    ra_link: '',
+    pt: { title: '', subtitle: '', desc: '' },
+    en: { title: '', subtitle: '', desc: '' },
+    es: { title: '', subtitle: '', desc: '' },
+  });
+
+  return {
     modo: 'regiao',
+    gps: 'link',
     loading: false,
     traduzindo: false,
     toast: { show: false, msg: '', ok: true },
+    regioes: [],
+    novaRegiao: '',
+    r: emptyRegiao(),
+    l: emptyLocal(),
 
-    r: {
-      id: '',
-      bgFoto: null,
-      pt: { title: '', subtitle: '', desc: '' },
-      en: { title: '', subtitle: '', desc: '' },
-      es: { title: '', subtitle: '', desc: '' },
+    async init() {
+      await this.carregarRegioes();
     },
 
-    l: {
-      id: '',
-      id_regiao: '',
-      map_link: '',
-      lat: '',
-      lng: '',
-      fotos: [],
-      cover: 0,
-      has360: false,
-      ra_link: '',
-      pt: { title: '', subtitle: '', desc: '' },
-      en: { title: '', subtitle: '', desc: '' },
-      es: { title: '', subtitle: '', desc: '' },
+    resetar() {
+      this.r = emptyRegiao();
+      this.l = emptyLocal();
+      this.gps = 'link';
+      this.novaRegiao = '';
+    },
+
+    async carregarRegioes() {
+      try {
+        const resp = await API.regioes();
+        this.regioes = (resp.data || []).map((r) => ({
+          id: r.regiao,
+          nome: r.titulo || r.regiao
+        }));
+      } catch (e) {
+        this.notify('Falha ao carregar regiões', false);
+      }
+    },
+
+    addRegiao() {
+      const id = this.slug(this.novaRegiao);
+      if (!id) return;
+
+      if (!this.regioes.find((r) => r.id === id)) {
+        this.regioes.push({ id, nome: id });
+      }
+      this.l.id_regiao = id;
+      this.novaRegiao = '';
+    },
+
+    traduzir() {
+      this.notify('Tradução automática não configurada.', false);
     },
 
     slug(v) {
@@ -336,36 +379,32 @@ function adminApp() {
     uploadBg(e) {
       const f = e.target.files[0];
       if (!f) return;
-      this.r.bgFoto = {
-        file: f,
-        name: f.name,
-        url: URL.createObjectURL(f)
-      };
+      this.r.bgFoto = { file: f, name: f.name, url: URL.createObjectURL(f) };
     },
 
     uploadFotos(e) {
-      const files = Array.from(e.target.files);
-      this.l.fotos.push(...files.map(f => ({
+      const files = Array.from(e.target.files || []);
+      this.l.fotos.push(...files.map((f) => ({
         file: f,
         name: f.name,
-        url: URL.createObjectURL(f)
+        url: URL.createObjectURL(f),
       })));
     },
 
     buildMapa() {
-      if (this.l.lat && this.l.lng)
+      if (this.l.lat && this.l.lng) {
         return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
+      }
       return this.l.map_link || '';
     },
 
     async salvar() {
       this.loading = true;
-
       try {
         let payload;
+        const form = new FormData();
 
         if (this.modo === 'regiao') {
-
           if (!this.r.id) throw new Error('ID obrigatório');
           if (!this.r.pt.title) throw new Error('Título obrigatório');
 
@@ -374,70 +413,44 @@ function adminApp() {
             regiao: this.slug(this.r.id),
             cover_file: this.r.bgFoto?.name || null,
             dados: {
-              texts: {
-                pt: this.r.pt,
-                en: this.r.en,
-                es: this.r.es
-              }
+              texts: { pt: this.r.pt, en: this.r.en, es: this.r.es }
             }
           };
 
+          if (this.r.bgFoto?.file) {
+            form.append('files', this.r.bgFoto.file);
+          }
         } else {
-
           if (!this.l.id) throw new Error('ID obrigatório');
           if (!this.l.id_regiao) throw new Error('Região obrigatória');
 
           payload = {
             tipo: 'local',
-            regiao: this.l.id_regiao,
+            regiao: this.slug(this.l.id_regiao),
             local: this.slug(this.l.id),
             cover_file: this.l.fotos[this.l.cover]?.name || null,
             dados: {
-              texts: {
-                pt: this.l.pt,
-                en: this.l.en,
-                es: this.l.es
-              },
-              location: {
-                maps: this.buildMapa()
-              },
-              gallery: this.l.fotos.map(f => f.name),
+              texts: { pt: this.l.pt, en: this.l.en, es: this.l.es },
+              location: { maps: this.buildMapa() },
+              gallery: this.l.fotos.map((f) => f.name),
               RAvisionScreen: this.l.has360,
-              RAvisionlink: this.l.ra_link
+              RAvisionlink: this.l.ra_link || ''
             }
           };
+
+          this.l.fotos.forEach((f) => {
+            if (f.file) form.append('files', f.file);
+          });
         }
 
-        const res = await apiFetch('/api/cadastro', {
-          method: 'POST',
-          const form = new FormData();
-form.append('json', JSON.stringify(payload));
-
-if (this.modo === 'regiao' && this.r.bgFoto?.file) {
-  form.append('files', this.r.bgFoto.file);
-}
-
-if (this.modo === 'local') {
-  this.l.fotos.forEach(f => {
-    if (f.file) form.append('files', f.file);
-  });
-}
-
-const res = await apiFetch('/api/cadastro', {
-  method: 'POST',
-  body: form
-});
-        });
-
-        const json = await res.json();
-
-        if (!json.success) throw new Error(json.erro);
+        form.append('json', JSON.stringify(payload));
+        const json = await apiRequest('/api/cadastro', { method: 'POST', body: form });
+        if (!json.success) throw new Error(json.erro || 'Erro ao salvar');
 
         this.notify('Salvo com sucesso!');
-        setTimeout(() => location.href = 'listar_cadastros.html', 1200);
-
+        setTimeout(() => (window.location.href = 'listar_cadastros.html'), 900);
       } catch (e) {
-        this.notify(e.message, false);
+        this.notify(e.message || 'Erro inesperado', false);
       } finally {
         this.loading = false;
       }

@@ -78,12 +78,8 @@
                 </template>
             </div>
 
-            <button @click="baixarXML()" x-show="usuarios.length > 0" x-cloak
-                class="w-full mt-6 bg-[#ffc107] text-[#0f5132] py-4 rounded-2xl font-black uppercase hover:scale-[1.02] transition-all shadow-lg">
-                💾 Baixar user.xml Atualizado
-            </button>
-            <p class="text-[9px] text-gray-400 text-center mt-3 leading-relaxed">
-                Após baixar, substitua o arquivo <code class="bg-gray-100 px-1 rounded">admin/user.xml</code> no repositório.
+            <p class="text-[11px] text-gray-500 text-center mt-6 leading-relaxed">
+                As alterações são salvas diretamente no servidor.
             </p>
         </div>
     </div>
@@ -94,70 +90,55 @@
             usuarios: [],
             novoUser: { username: '', password: '', level: 'admin' },
             feedback: '',
+            carregando: false,
 
             async init() {
                 try {
-                    const resp = await fetch('/user.xml');
-                    const text = await resp.text();
-                    const parser = new DOMParser();
-                    const xml = parser.parseFromString(text, 'text/xml');
-                    this.usuarios = Array.from(xml.querySelectorAll('user')).map(u => ({
-                        username: u.querySelector('username').textContent.trim(),
-                        password: u.querySelector('password').textContent.trim(),
-                        level: u.querySelector('level').textContent.trim()
-                    }));
+                    await this.carregarUsuarios();
                 } catch (e) {
-                    console.warn('Erro ao carregar user.xml:', e);
+                    console.warn('Erro ao carregar usuários:', e);
                 }
             },
 
-            async sha256(texto) {
-                const buffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto));
-                return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, '0')).join('');
+            async carregarUsuarios() {
+                const resp = await apiRequest('/api/users');
+                this.usuarios = resp.data || [];
             },
 
             async adicionarUsuario() {
                 if (!this.novoUser.username || !this.novoUser.password) return;
-                if (this.usuarios.find(u => u.username === this.novoUser.username)) {
-                    alert('Já existe um usuário com esse nome.');
-                    return;
+                try {
+                    this.carregando = true;
+                    await apiRequest('/api/users', {
+                        method: 'POST',
+                        body: JSON.stringify(this.novoUser)
+                    });
+
+                    this.feedback = `✅ Usuário "${this.novoUser.username}" adicionado com sucesso.`;
+                    this.novoUser = { username: '', password: '', level: 'admin' };
+                    await this.carregarUsuarios();
+                    setTimeout(() => this.feedback = '', 5000);
+                } catch (e) {
+                    alert(e.message || 'Erro ao adicionar usuário.');
+                } finally {
+                    this.carregando = false;
                 }
-                const hash = await this.sha256(this.novoUser.password);
-                this.usuarios.push({
-                    username: this.novoUser.username,
-                    password: hash,
-                    level: this.novoUser.level
-                });
-                this.feedback = `✅ Usuário "${this.novoUser.username}" adicionado. Clique em "Baixar user.xml" para salvar.`;
-                this.novoUser = { username: '', password: '', level: 'admin' };
-                setTimeout(() => this.feedback = '', 5000);
             },
 
-            removerUsuario(i) {
-    const user = this.usuarios[i];
-    const currentUser = sessionStorage.getItem('admin_user');
-    
-    if (user.username === currentUser) {
-        alert("Você não pode remover sua própria conta logada.");
-        return;
-    }
-    if (!confirm(`Remover o usuário "${user.username}"?`)) return;
-    this.usuarios.splice(i, 1);
-},
+            async removerUsuario(i) {
+                const user = this.usuarios[i];
+                if (!confirm(`Remover o usuário "${user.username}"?`)) return;
 
-            baixarXML() {
-                const linhas = this.usuarios.map(u => `    <user>
-        <username>${u.username}</username>
-        <password>${u.password}</password>
-        <level>${u.level}</level>
-    </user>`).join('\n');
-
-                const xml = `<?xml version='1.0' encoding='utf-8'?>\n<users_database>\n${linhas}\n</users_database>`;
-                const blob = new Blob([xml], { type: 'application/xml' });
-                const a = document.createElement('a');
-                a.href = URL.createObjectURL(blob);
-                a.download = 'user.xml';
-                a.click();
+                try {
+                    await apiRequest(`/api/users/${encodeURIComponent(user.username)}`, {
+                        method: 'DELETE'
+                    });
+                    this.feedback = `✅ Usuário "${user.username}" removido.`;
+                    await this.carregarUsuarios();
+                    setTimeout(() => this.feedback = '', 5000);
+                } catch (e) {
+                    alert(e.message || 'Erro ao remover usuário.');
+                }
             }
         }
     }

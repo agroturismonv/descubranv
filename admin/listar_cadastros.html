@@ -143,8 +143,7 @@ function listagemApp() {
 
     async carregar() {
       try {
-        const res = await apiFetch('/api/listar');
-        const json = await res.json();
+        const json = await API.listar();
 
         if (!json.success) return;
 
@@ -195,16 +194,11 @@ function listagemApp() {
     async excluir(item) {
       if (!confirm('Excluir?')) return;
 
-      const res = await apiFetch('/api/delete', {
-        method: 'POST',
-        body: JSON.stringify({
-          tipo: 'local',
-          regiao: item.regiao,
-          local: item.id
-        })
+      const data = await API.delete({
+        tipo: 'local',
+        regiao: item.regiao,
+        local: item.id
       });
-
-      const data = await res.json();
 
       if (data.success) {
         alert('Excluído!');
@@ -225,15 +219,10 @@ function listagemApp() {
     async excluirRegiao(item) {
       if (!confirm('Excluir região?')) return;
 
-      const res = await apiFetch('/api/delete', {
-        method: 'POST',
-        body: JSON.stringify({
-          tipo: 'regiao',
-          regiao: item.id
-        })
+      const data = await API.delete({
+        tipo: 'regiao',
+        regiao: item.id
       });
-
-      const data = await res.json();
 
       if (data.success) {
         alert('Excluído!');
@@ -243,7 +232,7 @@ function listagemApp() {
 
     async baixarZip(item) {
       try {
-        const res = await apiFetch(`/download_zip/${item.regiao}/${item.id}`);
+        const res = await API.downloadZip(item.regiao, item.id);
         const blob = await res.blob();
 
         const a = document.createElement('a');

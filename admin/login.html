@@ -108,6 +108,7 @@
                         const data = await res.json();
 
                         if (res.ok && data.success) {
+                            sessionStorage.setItem('admin_user', data.user || this.username);
                             window.location.href = '/admin/dashboard.html';
                         } else {
                             this.erro = true;
