@@ -1,48 +1,39 @@
 from flask import Flask, jsonify, request, send_from_directory, session
-import hashlib
-import json
-import os
-import tempfile
-import shutil
-import zipfile
+import hashlib, json, os, re, tempfile, shutil, zipfile
 import xml.etree.ElementTree as ET
 from werkzeug.utils import secure_filename
 
 from manager import SiteManager
 from generator import build
 
-
-# -------------------------
-# CONFIG
-# -------------------------
+# ── CONFIG ────────────────────────────────────────────────
 app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = os.getenv("SECRET_KEY", "dev-secret")
 
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+BASE_DIR  = os.path.dirname(os.path.abspath(__file__))
 DADOS_DIR = os.path.join(BASE_DIR, "dados", "circuitos")
 ADMIN_DIR = os.path.join(BASE_DIR, "admin")
-USER_XML = os.path.join(ADMIN_DIR, "user.xml")
+USER_XML  = os.path.join(ADMIN_DIR, "user.xml")
 PENDENTES = os.path.join(BASE_DIR, "pendentes")
 
 site = SiteManager()
 
+def _sanitize(v):
+    return re.sub(r'[^a-z0-9_]', '', (v or "").lower().replace(" ", "_"))
 
-# -------------------------
-# AUTH
-# -------------------------
+# ── USERS ─────────────────────────────────────────────────
 def load_users():
-    users = {}
     if not os.path.exists(USER_XML):
-        return users
+        return {}
     root = ET.parse(USER_XML).getroot()
-    for u in root.findall("user"):
-        username = u.findtext("username")
-        password = u.findtext("password")
-        level = u.findtext("level") or "admin"
-        if username and password:
-            users[username] = {"password": password, "level": level}
-    return users
-
+    return {
+        u.findtext("username"): {
+            "password": u.findtext("password"),
+            "level": u.findtext("level") or "admin"
+        }
+        for u in root.findall("user")
+        if u.findtext("username") and u.findtext("password")
+    }
 
 def save_users(users):
     root = ET.Element("users_database")
@@ -53,22 +44,17 @@ def save_users(users):
         ET.SubElement(u, "level").text = data["level"]
     ET.ElementTree(root).write(USER_XML, encoding="utf-8", xml_declaration=True)
 
-
+# ── AUTH HELPERS ──────────────────────────────────────────
 def auth_required():
     if not session.get("user"):
         return jsonify(error="unauthorized"), 403
     return None
 
-
-# -------------------------
-# HELPERS
-# -------------------------
 def parse_payload():
     if request.is_json:
-        return request.get_json()
+        return request.get_json() or {}
     raw = request.form.get("json")
     return json.loads(raw) if raw else {}
-
 
 def auto_rebuild():
     try:
@@ -76,29 +62,88 @@ def auto_rebuild():
     except Exception as e:
         print("[ERRO BUILD]", e)
 
+# ── FILE UPLOAD HELPER ────────────────────────────────────
+def save_uploaded_files(files, dest_dir):
+    """
+    Salva lista de FileStorage em dest_dir/images/.
+    Retorna dict {filename: path_relativo_à_BASE_DIR}.
+    """
+    if not files:
+        return {}
+    images_dir = os.path.join(dest_dir, "images")
+    os.makedirs(images_dir, exist_ok=True)
+    result = {}
+    for f in files:
+        fname = secure_filename(f.filename)
+        if not fname:
+            continue
+        full_path = os.path.join(images_dir, fname)
+        f.save(full_path)
+        rel = os.path.relpath(full_path, BASE_DIR).replace(os.sep, "/")
+        result[fname] = rel
+    return result
 
-# -------------------------
-# LOGIN
-# -------------------------
+def enrich_payload_with_files(payload):
+    """
+    Salva os arquivos do request.files e atualiza cover_file e gallery
+    no payload com os paths relativos corretos.
+    Retorna o payload enriquecido.
+    """
+    files = request.files.getlist("files")
+    if not files or not any(f.filename for f in files):
+        return payload
+
+    tipo   = payload.get("tipo", "")
+    regiao = _sanitize(payload.get("regiao", ""))
+    local  = _sanitize(payload.get("local", ""))
+
+    if tipo == "regiao" and regiao:
+        dest = os.path.join(DADOS_DIR, regiao)
+    elif tipo == "local" and regiao and local:
+        dest = os.path.join(DADOS_DIR, regiao, local)
+    else:
+        return payload
+
+    saved = save_uploaded_files(files, dest)
+    if not saved:
+        return payload
+
+    # Atualiza cover_file se for um nome de arquivo simples
+    cover = payload.get("cover_file", "") or ""
+    basename = os.path.basename(cover)
+    if basename in saved:
+        payload["cover_file"] = saved[basename]
+
+    # Atualiza gallery: substitui filenames por paths relativos
+    dados = payload.get("dados", {})
+    gallery = dados.get("gallery", [])
+    if gallery:
+        dados["gallery"] = [
+            saved.get(os.path.basename(g), g) for g in gallery
+        ]
+        payload["dados"] = dados
+
+    return payload
+
+# ── LOGIN ─────────────────────────────────────────────────
 @app.route("/api/login", methods=["POST"])
 def login():
-    data = request.get_json()
-    user = data.get("user")
-    password = data.get("password")
-    users = load_users()
-    hashed = hashlib.sha256(password.encode()).hexdigest()
+    data     = request.get_json() or {}
+    user     = data.get("user", "")
+    password = data.get("password", "")
+    users    = load_users()
+    hashed   = hashlib.sha256(password.encode()).hexdigest()
     if user not in users or users[user]["password"] != hashed:
         return jsonify(success=False), 401
-    session["user"] = user
+    session["user"]  = user
     session["level"] = users[user]["level"]
-    return jsonify(success=True)
-
+    # CORRIGIDO: retorna o username para o JS armazenar no sessionStorage
+    return jsonify(success=True, user=user, level=users[user]["level"])
 
 @app.route("/api/logout", methods=["POST"])
 def logout():
     session.clear()
     return jsonify(success=True)
-
 
 @app.route("/api/check")
 def check():
@@ -108,173 +153,131 @@ def check():
         level=session.get("level"),
     )
 
-
-# -------------------------
-# DASHBOARD
-# -------------------------
+# ── DASHBOARD ────────────────────────────────────────────
 @app.route("/api/dashboard")
 def dashboard():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     data = site.listar()
-    total_locais = sum(len(r["locais"]) for r in data)
-    return jsonify({"total_regioes": len(data), "total_locais": total_locais, "status": "ok"})
-
+    return jsonify({
+        "total_regioes": len(data),
+        "total_locais":  sum(len(r["locais"]) for r in data),
+        "status": "ok"
+    })
 
 @app.route("/api/rebuild", methods=["POST"])
 def rebuild():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     try:
         build()
-        return jsonify(success=True)
+        return jsonify(success=True, message="Rebuild concluído com sucesso.")
     except Exception as e:
         return jsonify(success=False, erro=str(e)), 500
 
-
-# -------------------------
-# LISTAGEM
-# -------------------------
+# ── LISTAGEM ──────────────────────────────────────────────
 @app.route("/api/listar")
 def listar():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     try:
-        data = site.listar()
-        return jsonify(success=True, data=data)
+        return jsonify(success=True, data=site.listar())
     except Exception as e:
         return jsonify(success=False, erro=str(e)), 500
 
-
-# -------------------------
-# REGIOES
-# -------------------------
+# ── REGIÕES ───────────────────────────────────────────────
 @app.route("/api/regioes", methods=["GET"])
 def listar_regioes():
     denied = auth_required()
-    if denied:
-        return denied
-    try:
-        data = site.listar()
-        return jsonify(success=True, data=data)
-    except Exception as e:
-        return jsonify(success=False, erro=str(e)), 500
-
+    if denied: return denied
+    return jsonify(success=True, data=site.listar())
 
 @app.route("/api/regioes", methods=["POST"])
 def criar_regiao():
     denied = auth_required()
-    if denied:
-        return denied
-    payload = parse_payload()
+    if denied: return denied
+    payload = enrich_payload_with_files(parse_payload())
     payload["tipo"] = "regiao"
     site.criar_ou_atualizar(payload)
     auto_rebuild()
     return jsonify(success=True)
-
 
 @app.route("/api/regioes/<regiao>", methods=["GET"])
 def get_regiao(regiao):
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     for r in site.listar():
         if r["regiao"] == regiao:
             return jsonify(success=True, data=r)
-    return jsonify(success=False, erro="nao encontrada"), 404
-
+    return jsonify(success=False, erro="não encontrada"), 404
 
 @app.route("/api/regioes/<regiao>", methods=["PUT"])
 def atualizar_regiao(regiao):
     denied = auth_required()
-    if denied:
-        return denied
-    payload = parse_payload()
-    payload["tipo"] = "regiao"
-    payload["regiao"] = regiao
+    if denied: return denied
+    payload = enrich_payload_with_files(parse_payload())
+    payload.update({"tipo": "regiao", "regiao": regiao})
     site.criar_ou_atualizar(payload)
     auto_rebuild()
     return jsonify(success=True)
 
-
 @app.route("/api/regioes/<regiao>", methods=["DELETE"])
 def deletar_regiao(regiao):
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     site.deletar({"tipo": "regiao", "regiao": regiao})
     auto_rebuild()
     return jsonify(success=True)
 
-
-# -------------------------
-# LOCAIS
-# -------------------------
+# ── LOCAIS ────────────────────────────────────────────────
 @app.route("/api/regioes/<regiao>/locais/<local>", methods=["GET"])
 def get_local(regiao, local):
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     for r in site.listar():
         if r["regiao"] == regiao:
             for loc in r["locais"]:
                 if loc["id"] == local:
                     return jsonify(success=True, data=loc)
-    return jsonify(success=False, erro="nao encontrado"), 404
-
+    return jsonify(success=False, erro="não encontrado"), 404
 
 @app.route("/api/regioes/<regiao>/locais/<local>", methods=["PUT"])
 def atualizar_local(regiao, local):
     denied = auth_required()
-    if denied:
-        return denied
-    payload = parse_payload()
-    payload["tipo"] = "local"
-    payload["regiao"] = regiao
-    payload["local"] = local
+    if denied: return denied
+    payload = enrich_payload_with_files(parse_payload())
+    payload.update({"tipo": "local", "regiao": regiao, "local": local})
     site.criar_ou_atualizar(payload)
     auto_rebuild()
     return jsonify(success=True)
-
 
 @app.route("/api/locais", methods=["POST"])
 def criar_local():
     denied = auth_required()
-    if denied:
-        return denied
-    payload = parse_payload()
+    if denied: return denied
+    payload = enrich_payload_with_files(parse_payload())
     payload["tipo"] = "local"
     site.criar_ou_atualizar(payload)
     auto_rebuild()
     return jsonify(success=True)
 
-
 @app.route("/api/locais", methods=["DELETE"])
 def deletar_local():
     denied = auth_required()
-    if denied:
-        return denied
-    payload = request.get_json()
-    site.deletar(payload)
+    if denied: return denied
+    site.deletar(request.get_json() or {})
     auto_rebuild()
     return jsonify(success=True)
 
-
-# -------------------------
-# CADASTRO UNIFICADO
-# -------------------------
+# ── CADASTRO UNIFICADO ────────────────────────────────────
 @app.route("/api/cadastro", methods=["POST"])
 def cadastro():
-    """Rota usada por cadastro_online.html para criar regiao ou local."""
+    """Rota usada por cadastro_online.html para criar região ou local."""
     denied = auth_required()
-    if denied:
-        return denied
-    payload = parse_payload()
+    if denied: return denied
+    payload = enrich_payload_with_files(parse_payload())
     if not payload.get("tipo"):
-        return jsonify(success=False, erro="campo tipo obrigatorio"), 400
+        return jsonify(success=False, erro="campo tipo obrigatório"), 400
     try:
         site.criar_ou_atualizar(payload)
         auto_rebuild()
@@ -283,19 +286,15 @@ def cadastro():
         print("[ERRO CADASTRO]", e)
         return jsonify(success=False, erro=str(e)), 500
 
-
-# -------------------------
-# DELETE UNIFICADO
-# -------------------------
+# ── DELETE UNIFICADO ──────────────────────────────────────
 @app.route("/api/delete", methods=["POST"])
 def delete_unificado():
     """Rota usada por API.delete() em auth.js."""
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     payload = request.get_json() or {}
     if payload.get("tipo") not in ("regiao", "local"):
-        return jsonify(success=False, erro="tipo invalido"), 400
+        return jsonify(success=False, erro="tipo inválido"), 400
     try:
         site.deletar(payload)
         auto_rebuild()
@@ -303,15 +302,11 @@ def delete_unificado():
     except Exception as e:
         return jsonify(success=False, erro=str(e)), 500
 
-
-# -------------------------
-# USUARIOS
-# -------------------------
+# ── USUÁRIOS ──────────────────────────────────────────────
 @app.route("/api/users", methods=["GET"])
 def listar_users():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     if session.get("level") != "master":
         return jsonify(error="forbidden"), 403
     users = load_users()
@@ -319,23 +314,21 @@ def listar_users():
         {"username": u, "level": d["level"]} for u, d in users.items()
     ])
 
-
 @app.route("/api/users", methods=["POST"])
 def criar_user():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     if session.get("level") != "master":
         return jsonify(error="forbidden"), 403
-    payload = request.get_json() or {}
+    payload  = request.get_json() or {}
     username = payload.get("username", "").strip()
     password = payload.get("password", "")
-    level = payload.get("level", "admin")
+    level    = payload.get("level", "admin")
     if not username or not password:
-        return jsonify(success=False, erro="username e password obrigatorios"), 400
+        return jsonify(success=False, erro="username e password obrigatórios"), 400
     users = load_users()
     if username in users:
-        return jsonify(success=False, erro="usuario ja existe"), 409
+        return jsonify(success=False, erro="usuário já existe"), 409
     users[username] = {
         "password": hashlib.sha256(password.encode()).hexdigest(),
         "level": level
@@ -343,32 +336,26 @@ def criar_user():
     save_users(users)
     return jsonify(success=True)
 
-
 @app.route("/api/users/<username>", methods=["DELETE"])
 def deletar_user(username):
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     if session.get("level") != "master":
         return jsonify(error="forbidden"), 403
     if username == session.get("user"):
-        return jsonify(success=False, erro="nao pode remover o proprio usuario"), 400
+        return jsonify(success=False, erro="não pode remover o próprio usuário"), 400
     users = load_users()
     if username not in users:
-        return jsonify(success=False, erro="usuario nao encontrado"), 404
+        return jsonify(success=False, erro="usuário não encontrado"), 404
     del users[username]
     save_users(users)
     return jsonify(success=True)
 
-
-# -------------------------
-# UPLOAD ZIP
-# -------------------------
+# ── UPLOAD ZIP ────────────────────────────────────────────
 @app.route("/api/upload_zip", methods=["POST"])
 def upload_zip():
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     file = request.files.get("file")
     if not file:
         return jsonify(success=False, erro="sem arquivo")
@@ -394,34 +381,24 @@ def upload_zip():
         if os.path.exists(temp_zip):
             os.remove(temp_zip)
 
-
-# -------------------------
-# DOWNLOAD ZIP
-# -------------------------
+# ── DOWNLOAD ZIP ──────────────────────────────────────────
 @app.route("/download/<regiao>/<local>")
 def download(regiao, local):
     denied = auth_required()
-    if denied:
-        return denied
+    if denied: return denied
     path = os.path.join(DADOS_DIR, regiao, local)
     if not os.path.isdir(path):
-        return jsonify(error="nao encontrado"), 404
+        return jsonify(error="não encontrado"), 404
     temp = tempfile.mkdtemp()
     zip_path = os.path.join(temp, local)
     shutil.make_archive(zip_path, "zip", path)
     return send_from_directory(temp, f"{local}.zip", as_attachment=True)
 
-
-# -------------------------
-# STATIC
-# -------------------------
+# ── STATIC ────────────────────────────────────────────────
 @app.route("/")
 def root():
     return send_from_directory(BASE_DIR, "index.html")
 
-
-# -------------------------
-# START
-# -------------------------
+# ── START ─────────────────────────────────────────────────
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
