@@ -1,5 +1,4 @@
 import os
-import re
 import json
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -7,47 +6,64 @@ DADOS_DIR = os.path.join(BASE_DIR, "dados", "circuitos")
 OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
-def parse_js_object(content):
-    obj = extrair_objeto(content)
-    if not obj:
+def extrair_objeto_js(content):
+    start = content.find("Object.freeze(")
+    if start == -1:
         return None
 
-    obj = match.group(1)
+    start = content.find("{", start)
+    if start == -1:
+        return None
 
-    # Remove comentários
+    count = 0
+    for i in range(start, len(content)):
+        if content[i] == "{":
+            count += 1
+        elif content[i] == "}":
+            count -= 1
+            if count == 0:
+                return content[start:i+1]
+
+    return None
+
+
+def limpar_js_para_json(obj):
+    import re
+
+    # remove comentários
     obj = re.sub(r'//.*', '', obj)
     obj = re.sub(r'/\*.*?\*/', '', obj, flags=re.DOTALL)
 
-    # Remove trailing commas
+    # remove vírgulas finais
     obj = re.sub(r',\s*}', '}', obj)
     obj = re.sub(r',\s*]', ']', obj)
 
-    # Converte keys sem aspas → "key":
+    # adiciona aspas nas keys
     obj = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj)
 
-    # 🔥 PROTEGE strings com aspas simples
-    def proteger_strings(match):
-        texto = match.group(0)
-        texto = texto.replace('"', '\\"')  # escapa aspas duplas internas
-        return texto
-
-    # protege strings entre aspas simples
-    obj = re.sub(r"'([^']*)'", lambda m: '"' + proteger_strings(m.group(1)) + '"', obj)
-
-    try:
-        return json.loads(obj)
-    except Exception as e:
-        print("[ERRO PARSE]", e)
-        return None
+    return obj
 
 
 def carregar_js(path):
     if not os.path.exists(path):
+        print("❌ NÃO EXISTE:", path)
         return None
+
+    with open(path, "r", encoding="utf-8") as f:
+        content = f.read()
+
+    obj = extrair_objeto_js(content)
+    if not obj:
+        print("❌ NÃO ACHOU OBJETO:", path)
+        return None
+
+    obj = limpar_js_para_json(obj)
+
     try:
-        with open(path, "r", encoding="utf-8") as f:
-            return parse_js_object(f.read())
-    except:
+        return json.loads(obj)
+    except Exception as e:
+        print("💥 ERRO JSON:", path)
+        print(e)
         return None
 
 
@@ -67,32 +83,9 @@ def detectar_locais(path_regiao):
 
     return sorted(locais)
 
-def extrair_objeto(js):
-    start = js.find("Object.freeze(")
-    if start == -1:
-        return None
 
-    start = js.find("{", start)
-    if start == -1:
-        return None
-
-    count = 0
-    for i in range(start, len(js)):
-        if js[i] == "{":
-            count += 1
-        elif js[i] == "}":
-            count -= 1
-            if count == 0:
-                return js[start:i+1]
-
-    return None
-    
 def build():
     controller = {"regioes": []}
-
-    if not os.path.exists(DADOS_DIR):
-        print("[ERRO] pasta não existe")
-        return
 
     for regiao in sorted(os.listdir(DADOS_DIR)):
         path_regiao = os.path.join(DADOS_DIR, regiao)
@@ -100,9 +93,12 @@ def build():
         if not os.path.isdir(path_regiao):
             continue
 
+        print("\n📁 Região:", regiao)
+
         config = carregar_js(os.path.join(path_regiao, "config.js")) or {}
 
-        locais_reais = detectar_locais(path_regiao)
+        locais_ids = detectar_locais(path_regiao)
+        print("👉 Locais encontrados:", locais_ids)
 
         regiao_obj = {
             "id": config.get("id", regiao),
@@ -111,11 +107,14 @@ def build():
             "locais": []
         }
 
-        for local_id in locais_reais:
+        for local_id in locais_ids:
             path_js = os.path.join(path_regiao, local_id, f"{local_id}.js")
+
+            print("🔍 Lendo:", path_js)
 
             local = carregar_js(path_js)
             if not local:
+                print("❌ IGNORADO:", local_id)
                 continue
 
             regiao_obj["locais"].append({
@@ -131,32 +130,17 @@ def build():
         controller["regioes"].append(regiao_obj)
 
     salvar_controller(controller)
-    print("[OK] build concluído")
+    print("\n🚀 BUILD FINALIZADO")
 
 
 def salvar_controller(obj):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
 
-    body = json.dumps(obj, indent=2, ensure_ascii=False)
-
-    lista = [
-        {
-            "id": r.get("id"),
-            "cover": r.get("cover"),
-            "texts": r.get("texts", {})
-        }
-        for r in obj.get("regioes", [])
-    ]
-
-    lista_body = json.dumps(lista, indent=2, ensure_ascii=False)
-
-    body = re.sub(r'"(\w+)":', r'\1:', body)
-    lista_body = re.sub(r'"(\w+)":', r'\1:', lista_body)
-
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
-        f.write(f"window.APP_CONTROLLER = Object.freeze({body});\n")
-        f.write(f"window.LISTA_CIRCUITOS = Object.freeze({lista_body});")
-
+        f.write("window.APP_CONTROLLER = ")
+        json.dump(obj, f, indent=2, ensure_ascii=False)
+        f.write(";")
+        
 
 if __name__ == "__main__":
     build()
