@@ -1,4 +1,26 @@
-window.LOCAL_IGREJA_SAO_MARCOS = Object.freeze({
+{
+  "id": "igreja_sao_marcos",
+  "hero": "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
+  "gallery": [
+    "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg"
+  ],
+  "texts": {
+    "pt": {
+      "title": "Igreja de São Marcos",
+      "subtitle": "Lugar de fé"
+    }
+  },
+  "location": {
+    "maps": "https://maps.app.goo.gl/...",
+    "qr": "https://api.qrserver.com/..."
+  },
+  "RAvisionScreen": true,
+  "RAvisionlink": "https://novavenecia360.com.br/"
+}
+
+
+
+/*window.LOCAL_IGREJA_SAO_MARCOS = Object.freeze({
   id: "igreja_sao_marcos",
   hero: "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
   gallery: [
@@ -31,3 +53,4 @@ window.LOCAL_IGREJA_SAO_MARCOS = Object.freeze({
   RAvisionScreen: true,
   RAvisionlink: "https://novavenecia360.com.br/"
 });
+*/
