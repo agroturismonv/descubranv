@@ -375,8 +375,28 @@ function adminApp() {
       this.novaRegiao = '';
     },
 
-    traduzir() {
-      this.notify('Tradução automática não configurada.', false);
+   async traduzir(alvo) {
+      const src = alvo === 'r' ? this.r : this.l;
+      if (!src.pt.title) { this.notify('Preencha o Título em PT primeiro.', false); return; }
+      this.traduzindo = true;
+      const tr = async (txt, lang) => {
+        if (!txt) return '';
+        try {
+          const d = await (await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=pt|${lang}`)).json();
+          return d?.responseData?.translatedText || '';
+        } catch { return ''; }
+      };
+      try {
+        const [eT,sT,eS,sS,eD,sD] = await Promise.all([
+          tr(src.pt.title,'en'),   tr(src.pt.title,'es'),
+          tr(src.pt.subtitle,'en'),tr(src.pt.subtitle,'es'),
+          tr(src.pt.desc,'en'),    tr(src.pt.desc,'es'),
+        ]);
+        src.en = { title:eT, subtitle:eS, desc:eD };
+        src.es = { title:sT, subtitle:sS, desc:sD };
+        this.notify('Tradução concluída! ✔');
+      } catch { this.notify('Erro na tradução.', false); }
+      finally { this.traduzindo = false; }
     },
 
     slug(v) {
