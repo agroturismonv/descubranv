@@ -144,115 +144,96 @@
   <script>
     function listagemApp() {
       return {
-
         regioes: [],
         locais: [],
         busca: '',
-
+ 
         async init() {
           await this.carregar();
         },
-
+ 
         async carregar() {
           try {
             const json = await API.listar();
-
             if (!json.success) return;
-
+ 
             const data = json.data || [];
-
+ 
             this.regioes = data.map(r => ({
-              id: r.regiao,
-              title: r.titulo,
-              subtitle: r.descricao || '',
-              cover: r.capa || '',
+              id:           r.regiao,
+              title:        r.titulo   || r.regiao,
+              subtitle:     r.descricao || '',
+              cover:        r.capa     || '',
               total_locais: r.locais?.length || 0
             }));
-
+ 
             this.locais = data.flatMap(r =>
               (r.locais || []).map(l => ({
-                id: l.id,
-                title: l.nome,
-                subtitle: l.subtitulo || '',
-                hero: l.capa || '',
+                id:           l.id,
+                title:        l.nome     || l.id,
+                subtitle:     l.subtitulo || '',
+                hero:         l.capa     || '',
                 gallery_count: l.fotos?.length || 0,
-                regiao: r.regiao,
-                regiao_nome: r.titulo
+                regiao:       r.regiao,
+                regiao_nome:  r.titulo   || r.regiao
               }))
             );
-
+ 
           } catch (e) {
             alert('Erro ao carregar dados');
           }
         },
-
+ 
+        // CORRIGIDO: null-safety no .toLowerCase() para evitar TypeError
         regioesFiltradas() {
           const t = this.busca.toLowerCase();
+          if (!t) return this.regioes;
           return this.regioes.filter(r =>
-            r.title.toLowerCase().includes(t) ||
-            r.id.toLowerCase().includes(t)
+            (r.title  || '').toLowerCase().includes(t) ||
+            (r.id     || '').toLowerCase().includes(t)
           );
         },
-
+ 
         filtrados() {
           const t = this.busca.toLowerCase();
+          if (!t) return this.locais;
           return this.locais.filter(l =>
-            l.title.toLowerCase().includes(t) ||
-            l.regiao_nome.toLowerCase().includes(t) ||
-            l.id.toLowerCase().includes(t)
+            (l.title      || '').toLowerCase().includes(t) ||
+            (l.regiao_nome|| '').toLowerCase().includes(t) ||
+            (l.id         || '').toLowerCase().includes(t)
           );
         },
-
+ 
         async excluir(item) {
-          if (!confirm('Excluir?')) return;
-
-          const data = await API.delete({
-            tipo: 'local',
-            regiao: item.regiao,
-            local: item.id
-          });
-
-          if (data.success) {
-            alert('Excluído!');
-            this.carregar();
-          }
+          if (!confirm('Excluir este local?')) return;
+          const data = await API.delete({ tipo: 'local', regiao: item.regiao, local: item.id });
+          if (data.success) { alert('Excluído!'); this.carregar(); }
         },
-
-    editar(item) {
-      const regiao = encodeURIComponent(item.regiao);
-      const local = encodeURIComponent(item.id);
-      window.location.href = `./cadastro_online.html?regiao=${regiao}&local=${local}`;
-    },
-
-    editarRegiao(item) {
-      const regiao = encodeURIComponent(item.id);
-      window.location.href = `./cadastro_online.html?regiao=${regiao}`;
-    },
-
+ 
+        editar(item) {
+          window.location.href =
+            `./cadastro_online.html?regiao=${encodeURIComponent(item.regiao)}&local=${encodeURIComponent(item.id)}`;
+        },
+ 
+        editarRegiao(item) {
+          window.location.href =
+            `./cadastro_online.html?regiao=${encodeURIComponent(item.id)}`;
+        },
+ 
         async excluirRegiao(item) {
-          if (!confirm('Excluir região?')) return;
-
-          const data = await API.delete({
-            tipo: 'regiao',
-            regiao: item.id
-          });
-
-          if (data.success) {
-            alert('Excluído!');
-            this.carregar();
-          }
+          if (!confirm('Excluir esta região e todos os seus locais?')) return;
+          const data = await API.delete({ tipo: 'regiao', regiao: item.id });
+          if (data.success) { alert('Excluído!'); this.carregar(); }
         },
-
+ 
         async baixarZip(item) {
           try {
-            const res = await API.downloadZip(item.regiao, item.id);
+            const res  = await API.downloadZip(item.regiao, item.id);
             const blob = await res.blob();
-
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
+            const a    = document.createElement('a');
+            a.href     = URL.createObjectURL(blob);
             a.download = `${item.id}.zip`;
             a.click();
-
           } catch {
             alert('Erro ao baixar ZIP');
           }
