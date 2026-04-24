@@ -1,20 +1,14 @@
 <!DOCTYPE html>
-<html lang="pt-BR" x-data="loginApp()" x-init="init()">
-
+<html lang="pt-BR" x-data="loginApp()">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Administrativo | Turismo NV</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="https://unpkg.com/alpinejs@3.14.1/dist/cdn.min.js"></script>
     <script src="auth.js"></script>
-    <style>
-        [x-cloak] {
-            display: none !important;
-        }
-    </style>
+    <style>[x-cloak] { display: none !important; }</style>
 </head>
-
 
 <body class="bg-[#0f5132] h-screen flex items-center justify-center p-6 font-sans">
 
@@ -26,8 +20,7 @@
         </div>
 
         <div class="mb-4">
-            <label
-                class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4 tracking-widest">Usuário:</label>
+            <label class="block text-[10px] font-black uppercase text-gray-400 mb-2 ml-4 tracking-widest">Usuário:</label>
             <input type="text" x-model="username" @input="erro = false" placeholder="login"
                 class="w-full p-4 bg-gray-50 rounded-2xl border-2 outline-none transition-all text-center"
                 :class="erro ? 'border-red-500 bg-red-50' : 'border-transparent focus:border-[#ffc107]'">
@@ -58,33 +51,9 @@
                 senha: '',
                 erro: false,
                 carregando: false,
-                usuarios: [],
 
-                async init() {
-                    try {
-                        const resp = await fetch('user.xml');
-                        const text = await resp.text();
-                        const parser = new DOMParser();
-                        const xml = parser.parseFromString(text, 'text/xml');
-                        this.usuarios = Array.from(xml.querySelectorAll('user')).map(u => ({
-                            username: u.querySelector('username').textContent.trim(),
-                            password: u.querySelector('password').textContent.trim(),
-                            level: u.querySelector('level').textContent.trim()
-                        }));
-                    } catch (e) {
-                        console.warn('Nao foi possivel carregar user.xml:', e);
-                    }
-                },
-
-                async sha256(texto) {
-                    const buffer = await crypto.subtle.digest(
-                        'SHA-256',
-                        new TextEncoder().encode(texto)
-                    );
-                    return Array.from(new Uint8Array(buffer))
-                        .map(b => b.toString(16).padStart(2, '0'))
-                        .join('');
-                },
+                // CORRIGIDO: init() removido — o antigo init() buscava user.xml publicamente,
+                // expondo credenciais no browser. A autenticação é feita exclusivamente via API.
 
                 async autenticar() {
                     if (!this.username || !this.senha) {
@@ -108,6 +77,7 @@
                         const data = await res.json();
 
                         if (res.ok && data.success) {
+                            // CORRIGIDO: server.py agora retorna data.user corretamente
                             sessionStorage.setItem('admin_user', data.user || this.username);
                             window.location.href = '/admin/dashboard.html';
                         } else {
@@ -127,5 +97,4 @@
     </script>
 
 </body>
-
 </html>
