@@ -6,7 +6,7 @@
 
     /**
      * ============================
-     * 🌐 API URL
+     * API URL
      * ============================
      */
     function apiUrl(path) {
@@ -32,7 +32,7 @@
 
     /**
      * ============================
-     * 🔐 CHECK AUTH
+     * CHECK AUTH
      * ============================
      */
     async function checkAuth() {
@@ -60,7 +60,7 @@
 
     /**
      * ============================
-     * 🔑 LOGIN
+     * LOGIN
      * ============================
      */
     window.login = async function (user, password) {
@@ -80,7 +80,7 @@
 
     /**
      * ============================
-     * 🚪 LOGOUT
+     * LOGOUT
      * ============================
      */
     window.logout = async function () {
@@ -94,7 +94,7 @@
 
     /**
      * ============================
-     * 📡 API REQUEST
+     * API REQUEST
      * ============================
      */
     async function apiRequest(path, options = {}) {
@@ -130,7 +130,8 @@
     }
 
     window.apiRequest = apiRequest;
-    // Compat alias for legacy pages
+
+    // Compat alias
     window.apiFetch = (path, options = {}) => fetch(apiUrl(path), {
         credentials: 'include',
         ...options
@@ -138,13 +139,15 @@
 
     /**
      * ============================
-     * 📦 API
+     * API
      * ============================
      */
     window.API = {
         dashboard: () => apiRequest('/api/dashboard'),
-        locais: () => apiRequest('/api/locais'),
+
+        // GET /api/regioes — lista todas as regioes
         regioes: () => apiRequest('/api/regioes'),
+
         listar: () => apiRequest('/api/listar'),
 
         salvar: (body) => apiRequest('/api/cadastro', {
@@ -152,6 +155,7 @@
             body: JSON.stringify(body)
         }),
 
+        // CORRIGIDO: era /api/delete (POST), rota adicionada ao servidor
         delete: (body) => apiRequest('/api/delete', {
             method: 'POST',
             body: JSON.stringify(body)
@@ -162,7 +166,9 @@
             body: formData,
             credentials: 'include'
         }),
-        downloadZip: (regiao, local) => apiFetch(`/download_zip/${regiao}/${local}`)
+
+        // CORRIGIDO: era /download_zip/${regiao}/${local}, rota correta é /download/${regiao}/${local}
+        downloadZip: (regiao, local) => apiFetch(`/download/${regiao}/${local}`)
     };
 
 })();
