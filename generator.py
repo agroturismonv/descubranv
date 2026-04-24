@@ -8,8 +8,8 @@ OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
 def parse_js_object(content):
-    match = re.search(r'Object\.freeze\((\{.*?\})\);?', content, re.DOTALL)
-    if not match:
+    obj = extrair_objeto(content)
+    if not obj:
         return None
 
     obj = match.group(1)
@@ -67,7 +67,26 @@ def detectar_locais(path_regiao):
 
     return sorted(locais)
 
+def extrair_objeto(js):
+    start = js.find("Object.freeze(")
+    if start == -1:
+        return None
 
+    start = js.find("{", start)
+    if start == -1:
+        return None
+
+    count = 0
+    for i in range(start, len(js)):
+        if js[i] == "{":
+            count += 1
+        elif js[i] == "}":
+            count -= 1
+            if count == 0:
+                return js[start:i+1]
+
+    return None
+    
 def build():
     controller = {"regioes": []}
 
