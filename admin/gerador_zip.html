@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="pt-BR" x-data="zipBuilderApp()">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerador de ZIP | Turismo NV</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="auth.js"></script>
+  <style>
+    [x-cloak] { display: none !important; }
+    .inp {
+      width: 100%;
+      padding: .9rem 1rem;
+      background: #f9fafb;
+      border-radius: 1rem;
+      border: none;
+      outline: none;
+      font-weight: 700;
+      color: #0f5132;
+      font-size: 14px;
+    }
+    .inp:focus { box-shadow: 0 0 0 2px #ffc107; }
+    .lbl {
+      display: block;
+      font-size: 10px;
+      font-weight: 900;
+      text-transform: uppercase;
+      color: #9ca3af;
+      margin-bottom: .5rem;
+      margin-left: .4rem;
+      letter-spacing: .08em;
+    }
+  </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-6 md:p-10 font-sans">
+  <div x-show="toast.show" x-cloak
+       :class="toast.ok ? 'bg-[#0f5132] text-white' : 'bg-red-600 text-white'"
+       class="fixed bottom-8 right-8 px-5 py-3 rounded-xl text-sm font-bold shadow-lg z-50"
+       x-text="toast.msg"></div>
+
+  <div class="max-w-5xl mx-auto">
+    <div class="mb-4">
+      <a href="./listar_cadastros.html" class="text-xs font-black uppercase text-gray-500 hover:text-[#0f5132]">← Voltar</a>
+    </div>
+
+    <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
+      <header class="bg-[#0f5132] px-8 py-6 text-white">
+        <h1 class="text-2xl font-black italic uppercase">Gerador de ZIP (Offline)</h1>
+        <p class="text-xs opacity-80 mt-2">Gera pacote ZIP local para importar depois no CMS.</p>
+      </header>
+
+      <div class="p-6 md:p-8 space-y-8">
+        <div class="flex bg-gray-100 p-1 rounded-xl w-fit">
+          <button @click="modo='regiao'; resetar()"
+                  :class="modo === 'regiao' ? 'bg-[#0f5132] text-white' : 'text-gray-500'"
+                  class="px-5 py-2 rounded-lg text-xs font-black uppercase transition-all">
+            Região
+          </button>
+          <button @click="modo='local'; resetar()"
+                  :class="modo === 'local' ? 'bg-[#0f5132] text-white' : 'text-gray-500'"
+                  class="px-5 py-2 rounded-lg text-xs font-black uppercase transition-all">
+            Local
+          </button>
+        </div>
+
+        <template x-if="modo === 'regiao'">
+          <div class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="lbl">ID da Região *</label>
+                <input x-model="r.id" @input="r.id = slug(r.id)" class="inp" placeholder="ex: centro_nv">
+              </div>
+              <div>
+                <label class="lbl">Imagem de Capa</label>
+                <input type="file" accept="image/*" @change="uploadBg($event)" class="inp p-3">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4">
+              <div>
+                <label class="lbl">Título PT</label>
+                <input x-model="r.pt.title" class="inp">
+              </div>
+              <div>
+                <label class="lbl">Título EN</label>
+                <input x-model="r.en.title" class="inp">
+              </div>
+              <div>
+                <label class="lbl">Título ES</label>
+                <input x-model="r.es.title" class="inp">
+              </div>
+            </div>
+          </div>
+        </template>
+
+        <template x-if="modo === 'local'">
+          <div class="space-y-6">
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="lbl">ID da Região *</label>
+                <input x-model="l.id_regiao" @input="l.id_regiao = slug(l.id_regiao)" class="inp" placeholder="ex: centro_nv">
+              </div>
+              <div>
+                <label class="lbl">ID do Local *</label>
+                <input x-model="l.id" @input="l.id = slug(l.id)" class="inp" placeholder="ex: igreja_sao_marcos">
+              </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-4">
+              <div>
+                <label class="lbl">Link Maps</label>
+                <input x-model="l.map_link" class="inp" placeholder="https://maps.app.goo.gl/...">
+              </div>
+              <div>
+                <label class="lbl">Tour 360 (URL)</label>
+                <input x-model="l.ra_link" class="inp" placeholder="https://...">
+              </div>
+            </div>
+
+            <div>
+              <label class="lbl">Fotos da Galeria</label>
+              <input type="file" multiple accept="image/*" @change="uploadFotos($event)" class="inp p-3">
+              <p class="text-xs text-gray-500 mt-2" x-text="`${l.fotos.length} foto(s) selecionada(s)`"></p>
+            </div>
+          </div>
+        </template>
+
+        <button @click="baixar()" :disabled="loading"
+                class="w-full bg-[#0f5132] text-white py-4 rounded-2xl font-black uppercase disabled:opacity-50">
+          <span x-text="loading ? 'Gerando...' : 'Baixar ZIP'"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function zipBuilderApp() {
+      const resetRegiao = () => ({
+        id: '',
+        bgFoto: null,
+        pt: { title: '', subtitle: '', desc: '' },
+        en: { title: '', subtitle: '', desc: '' },
+        es: { title: '', subtitle: '', desc: '' }
+      });
+
+      const resetLocal = () => ({
+        id: '',
+        id_regiao: '',
+        map_link: '',
+        fotos: [],
+        cover: 0,
+        has360: false,
+        ra_link: '',
+        pt: { title: '', subtitle: '', desc: '' },
+        en: { title: '', subtitle: '', desc: '' },
+        es: { title: '', subtitle: '', desc: '' }
+      });
+
+      return {
+        modo: 'regiao',
+        loading: false,
+        toast: { show: false, msg: '', ok: true },
+        r: resetRegiao(),
+        l: resetLocal(),
+
+        resetar() {
+          this.r = resetRegiao();
+          this.l = resetLocal();
+        },
+
+        slug(v) {
+          return (v || '')
+            .toLowerCase()
+            .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+            .replace(/\s+/g, '_')
+            .replace(/[^a-z0-9_]/g, '');
+        },
+
+        notify(msg, ok = true) {
+          this.toast = { show: true, msg, ok };
+          setTimeout(() => (this.toast.show = false), 3000);
+        },
+
+        uploadBg(e) {
+          const file = (e.target.files || [])[0];
+          if (!file) return;
+          this.r.bgFoto = { file, name: file.name };
+        },
+
+        uploadFotos(e) {
+          const files = Array.from(e.target.files || []);
+          this.l.fotos.push(...files.map((f) => ({ file: f, name: f.name })));
+        },
+
+        async baixar() {
+          this.loading = true;
+          try {
+            const zip = new JSZip();
+            let zipName = 'cadastro.zip';
+
+            if (this.modo === 'regiao') {
+              if (!this.r.id) throw new Error('ID da região é obrigatório');
+              zipName = `regiao_${this.r.id}.zip`;
+
+              const config = {
+                id: this.r.id,
+                cover: this.r.bgFoto?.name || null,
+                texts: { pt: this.r.pt, en: this.r.en, es: this.r.es },
+                locais: []
+              };
+              zip.file('config.json', JSON.stringify(config, null, 2));
+              if (this.r.bgFoto?.file) {
+                zip.file(this.r.bgFoto.name, this.r.bgFoto.file);
+              }
+            } else {
+              if (!this.l.id_regiao || !this.l.id) throw new Error('Região e local são obrigatórios');
+              zipName = `local_${this.l.id}.zip`;
+
+              const cover = this.l.fotos[this.l.cover] || this.l.fotos[0];
+              const config = {
+                id: this.l.id,
+                regiao: this.l.id_regiao,
+                hero: cover?.name || null,
+                texts: { pt: this.l.pt, en: this.l.en, es: this.l.es },
+                location: { maps: this.l.map_link || '' },
+                gallery: this.l.fotos.map((f) => f.name),
+                RAvisionScreen: !!this.l.ra_link,
+                RAvisionlink: this.l.ra_link || ''
+              };
+              zip.file('config.json', JSON.stringify(config, null, 2));
+              this.l.fotos.forEach((f) => zip.file(f.name, f.file));
+            }
+
+            const blob = await zip.generateAsync({ type: 'blob' });
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
+            a.download = zipName;
+            a.click();
+            this.notify('ZIP gerado com sucesso!');
+          } catch (error) {
+            this.notify(error.message || 'Erro ao gerar ZIP', false);
+          } finally {
+            this.loading = false;
+          }
+        }
+      };
+    }
+  </script>
+</body>
+</html>
