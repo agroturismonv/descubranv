@@ -1,0 +1,30 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+tempCodeRunnerFile.py
+.env
+*.env
+
+# Dados sensíveis — nunca commitar user.xml com senhas reais
+# admin/user.xml
+
+# Arquivos temporários de upload
+pendentes/*.zip
+pendentes/*.json
+
+# Dependências locais
+venv/
+.venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
