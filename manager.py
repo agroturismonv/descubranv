@@ -23,11 +23,21 @@ class SiteManager:
         os.makedirs(path, exist_ok=True)
         return path
 
-    def salvar_js(self, path, obj):
-        body = json.dumps(obj, indent=2, ensure_ascii=False)
-        body = re.sub(r'"(\w+)":', r'\1:', body)
-        with open(path, "w", encoding="utf-8") as f:
-            f.write(f"export default Object.freeze({body});")
+   def salvar_js(self, path, obj):
+    body = json.dumps(obj, indent=2, ensure_ascii=False)
+    body = re.sub(r'"(\w+)":', r'\1:', body)
+
+    nome_arquivo = os.path.basename(path).replace(".js", "").upper()
+
+    # CONFIG ou LOCAL
+    if nome_arquivo == "CONFIG":
+        nome_pasta = os.path.basename(os.path.dirname(path)).upper()
+        var_name = f"CONFIG_{nome_pasta}"
+    else:
+        var_name = f"LOCAL_{nome_arquivo}"
+
+    with open(path, "w", encoding="utf-8") as f:
+        f.write(f"window.{var_name} = Object.freeze({body});")
 
     def carregar_js_objeto(self, path):
         if not os.path.exists(path):
