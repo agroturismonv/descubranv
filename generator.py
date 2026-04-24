@@ -8,17 +8,36 @@ OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
 def parse_js_object(content):
-    match = re.search(r'Object\.freeze\((\{.*\})\);?', content, re.DOTALL)
+    match = re.search(r'Object\.freeze\((\{.*?\})\);?', content, re.DOTALL)
     if not match:
         return None
 
     obj = match.group(1)
+
+    # Remove comentários
+    obj = re.sub(r'//.*', '', obj)
+    obj = re.sub(r'/\*.*?\*/', '', obj, flags=re.DOTALL)
+
+    # Remove trailing commas
+    obj = re.sub(r',\s*}', '}', obj)
+    obj = re.sub(r',\s*]', ']', obj)
+
+    # Converte keys sem aspas → "key":
     obj = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj)
-    obj = obj.replace("'", '"')
+
+    # 🔥 PROTEGE strings com aspas simples
+    def proteger_strings(match):
+        texto = match.group(0)
+        texto = texto.replace('"', '\\"')  # escapa aspas duplas internas
+        return texto
+
+    # protege strings entre aspas simples
+    obj = re.sub(r"'([^']*)'", lambda m: '"' + proteger_strings(m.group(1)) + '"', obj)
 
     try:
         return json.loads(obj)
-    except:
+    except Exception as e:
+        print("[ERRO PARSE]", e)
         return None
 
 
