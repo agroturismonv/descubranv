@@ -39,21 +39,54 @@ class SiteManager:
         with open(path, "w", encoding="utf-8") as f:
             f.write(f"window.{var_name} = Object.freeze({body});")
 
+    def extrair_objeto_js(content):
+        start = content.find("Object.freeze(")
+        if start == -1:
+            return None
+
+        start = content.find("{", start)
+        if start == -1:
+            return None
+
+        count = 0
+        for i in range(start, len(content)):
+            if content[i] == "{":
+               count += 1
+            elif content[i] == "}":
+                count -= 1
+                if count == 0:
+                    return content[start:i+1]
+
+        return None
+
+
     def carregar_js_objeto(self, path):
         if not os.path.exists(path):
             return None
+
         try:
             with open(path, "r", encoding="utf-8") as f:
                 content = f.read()
-            match = re.search(r'Object\.freeze\((\{.*\})\);?', content, re.DOTALL)
-            if not match:
+
+            obj = extrair_objeto_js(content)
+            if not obj:
+                print("❌ NÃO ACHOU OBJETO:", path)
                 return None
-            obj = match.group(1)
+
+        # limpa
+            obj = re.sub(r'//.*', '', obj)
+            obj = re.sub(r'/\*.*?\*/', '', obj, flags=re.DOTALL)
+            obj = re.sub(r',\s*}', '}', obj)
+            obj = re.sub(r',\s*]', ']', obj)
+
+        # adiciona aspas nas keys
             obj = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj)
-            obj = obj.replace("'", '"')
+
             return json.loads(obj)
+
         except Exception as e:
-            print("[ERRO PARSE]", path, e)
+            print("💥 ERRO PARSE:", path)
+            print(e)
             return None
 
     # -------------------------
