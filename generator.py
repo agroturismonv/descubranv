@@ -19,7 +19,7 @@ def normalizar_path(path):
     if path.startswith("http"):
         return path
 
-    return "/" + path.lstrip("/")
+    return path.lstrip("/")
 
 
 def normalizar_lista(lista):
