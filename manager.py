@@ -2,6 +2,7 @@ import os
 import json
 import re
 import shutil
+from js_reader import ler_js
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -10,9 +11,7 @@ class SiteManager:
     def __init__(self):
         self.base = os.path.join(BASE_DIR, "dados", "circuitos")
 
-    # -------------------------
-    # UTIL
-    # -------------------------
+    # ── UTIL ──────────────────────────────────────────────
     def sanitizar(self, texto):
         return re.sub(r'[^a-z0-9_]', '', (texto or "").lower().replace(" ", "_"))
 
@@ -36,9 +35,22 @@ class SiteManager:
             print("💥 ERRO JSON:", path, e)
             return None
 
-    # -------------------------
-    # LISTAR
-    # -------------------------
+    def carregar_config(self, path_regiao):
+        """config.json (manager) tem prioridade; cai em config.js (legado)."""
+        return (
+            self.carregar_json(os.path.join(path_regiao, "config.json")) or
+            ler_js(os.path.join(path_regiao, "config.js")) or
+            None
+        )
+
+    def carregar_local(self, path_local, local_id):
+        """local.json (manager) tem prioridade; cai em {local_id}.js (legado)."""
+        return (
+            self.carregar_json(os.path.join(path_local, "local.json")) or
+            ler_js(os.path.join(path_local, f"{local_id}.js"))
+        )
+
+    # ── LISTAR ────────────────────────────────────────────
     def listar(self):
         data = []
 
@@ -50,7 +62,7 @@ class SiteManager:
             if not os.path.isdir(path_regiao):
                 continue
 
-            config = self.carregar_json(os.path.join(path_regiao, "config.json"))
+            config = self.carregar_config(path_regiao)
             if not config:
                 print(f"⚠️ Config inválido: {regiao}")
                 continue
@@ -58,72 +70,64 @@ class SiteManager:
             textos = config.get("texts", {}).get("pt", {})
 
             regiao_obj = {
-                "regiao": config.get("id", regiao),
-                "titulo": textos.get("title", ""),
+                "regiao":    config.get("id", regiao),
+                "titulo":    textos.get("title", ""),
                 "descricao": textos.get("subtitle", ""),
-                "capa": config.get("cover", ""),
-                "texts": config.get("texts", {}),
-                "locais": []
+                "capa":      config.get("cover", ""),
+                "texts":     config.get("texts", {}),
+                "locais":    []
             }
 
             for item in sorted(os.listdir(path_regiao)):
                 path_local = os.path.join(path_regiao, item)
-
                 if not os.path.isdir(path_local):
                     continue
 
-                local = self.carregar_json(os.path.join(path_local, "local.json"))
+                local = self.carregar_local(path_local, item)
                 if not local:
                     continue
 
                 textos_local = local.get("texts", {}).get("pt", {})
 
                 regiao_obj["locais"].append({
-                    "id": local.get("id", item),
-                    "nome": textos_local.get("title", ""),
-                    "subtitulo": textos_local.get("subtitle", ""),
-                    "capa": local.get("hero", ""),
-                    "fotos": local.get("gallery", []),
-                    "texts": local.get("texts", {}),
-                    "location": local.get("location", {}),
+                    "id":            local.get("id", item),
+                    "nome":          textos_local.get("title", ""),
+                    "subtitulo":     textos_local.get("subtitle", ""),
+                    "capa":          local.get("hero", ""),
+                    "fotos":         local.get("gallery", []),
+                    "texts":         local.get("texts", {}),
+                    "location":      local.get("location", {}),
                     "RAvisionScreen": local.get("RAvisionScreen", False),
-                    "RAvisionlink": local.get("RAvisionlink", "")
+                    "RAvisionlink":  local.get("RAvisionlink", "")
                 })
 
             data.append(regiao_obj)
 
         return data
 
-    # -------------------------
-    # CREATE / UPDATE
-    # -------------------------
+    # ── CREATE / UPDATE ───────────────────────────────────
     def criar_ou_atualizar(self, payload):
         tipo = payload.get("tipo")
-
         if tipo == "regiao":
             self._upsert_regiao(payload)
-
         elif tipo == "local":
             self._upsert_local(payload)
 
-    # alias
     salvar = criar_ou_atualizar
 
     def _upsert_regiao(self, payload):
         regiao = self.sanitizar(payload.get("regiao"))
-        path = self.garantir_regiao(regiao)
+        path   = self.garantir_regiao(regiao)
+        dados  = payload.get("dados", {})
 
-        dados = payload.get("dados", {})
-
-        # Carrega config existente para preservar campos não enviados
         config_path = os.path.join(path, "config.json")
-        existente = self.carregar_json(config_path) or {}
+        existente   = self.carregar_config(path) or {}
 
         # Cover: só substitui se um novo arquivo foi enviado
         cover = payload.get("cover_file", "") or existente.get("cover", "")
 
         obj = {
-            "id": regiao,
+            "id":    regiao,
             "cover": cover,
             "texts": dados.get("texts", {}) or existente.get("texts", {})
         }
@@ -131,46 +135,39 @@ class SiteManager:
         self.salvar_json(config_path, obj)
 
     def _upsert_local(self, payload):
-        regiao = self.sanitizar(payload.get("regiao"))
-        local = self.sanitizar(payload.get("local"))
-
+        regiao     = self.sanitizar(payload.get("regiao"))
+        local      = self.sanitizar(payload.get("local"))
         path_regiao = self.garantir_regiao(regiao)
-        path_local = os.path.join(path_regiao, local)
-
+        path_local  = os.path.join(path_regiao, local)
         os.makedirs(path_local, exist_ok=True)
 
         dados = payload.get("dados", {})
 
         obj = {
-            "id": local,
-            "hero": payload.get("cover_file", ""),
-            "gallery": dados.get("gallery", []),
-            "texts": dados.get("texts", {}),
-            "location": dados.get("location", {}),
+            "id":             local,
+            "hero":           payload.get("cover_file", ""),
+            "gallery":        dados.get("gallery", []),
+            "texts":          dados.get("texts", {}),
+            "location":       dados.get("location", {}),
             "RAvisionScreen": dados.get("RAvisionScreen", False),
-            "RAvisionlink": dados.get("RAvisionlink", "")
+            "RAvisionlink":   dados.get("RAvisionlink", "")
         }
 
         self.salvar_json(os.path.join(path_local, "local.json"), obj)
 
-    # -------------------------
-    # DELETE
-    # -------------------------
+    # ── DELETE ────────────────────────────────────────────
     def deletar(self, payload):
         tipo = payload.get("tipo")
 
         if tipo == "regiao":
             regiao = self.sanitizar(payload.get("regiao"))
-            path = os.path.join(self.base, regiao)
-
+            path   = os.path.join(self.base, regiao)
             if os.path.exists(path):
                 shutil.rmtree(path)
 
         elif tipo == "local":
             regiao = self.sanitizar(payload.get("regiao"))
-            local = self.sanitizar(payload.get("local"))
-
-            path = os.path.join(self.base, regiao, local)
-
+            local  = self.sanitizar(payload.get("local"))
+            path   = os.path.join(self.base, regiao, local)
             if os.path.exists(path):
                 shutil.rmtree(path)

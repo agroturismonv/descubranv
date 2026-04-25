@@ -1,72 +1,13 @@
 import os
 import json
-import re
+from js_reader import ler_js
 
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
 DADOS_DIR   = os.path.join(BASE_DIR, "dados", "circuitos")
 OUTPUT_FILE = os.path.join(BASE_DIR, "dados", "controller.js")
 
 
-# ── JS HELPERS ────────────────────────────────────────────
-
-def extrair_objeto_js(content):
-    start = content.find("Object.freeze(")
-    if start == -1:
-        return None
-    start = content.find("{", start)
-    if start == -1:
-        return None
-    count = 0
-    for i in range(start, len(content)):
-        if content[i] == "{":
-            count += 1
-        elif content[i] == "}":
-            count -= 1
-            if count == 0:
-                return content[start:i+1]
-    return None
-
-
-def limpar_js_para_json(obj):
-    # Remove comentários de bloco
-    obj = re.sub(r'/\*.*?\*/', '', obj, flags=re.DOTALL)
-    # Remove comentários de linha, mas NÃO protocolo :// (https://, http://)
-    obj = re.sub(r'(?<!:)//(?!/).*', '', obj)
-    # Remove vírgulas finais
-    obj = re.sub(r',\s*}', '}', obj)
-    obj = re.sub(r',\s*]', ']', obj)
-    # Adiciona aspas nas chaves JS
-    obj = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', obj)
-    # Converte strings com aspas simples para aspas duplas
-    obj = re.sub(r"'([^']*)'", r'"\1"', obj)
-    return obj
-
-
-def carregar_js(path):
-    if not os.path.exists(path):
-        print("❌ NÃO EXISTE:", path)
-        return None
-
-    with open(path, "r", encoding="utf-8") as f:
-        content = f.read()
-
-    # Normaliza line endings (Windows CRLF → LF)
-    content = content.replace("\r\n", "\n").replace("\r", "")
-
-    obj = extrair_objeto_js(content)
-    if not obj:
-        print("❌ NÃO ACHOU OBJETO:", path)
-        return None
-
-    obj = limpar_js_para_json(obj)
-
-    try:
-        return json.loads(obj)
-    except Exception as e:
-        print("💥 ERRO JSON:", path)
-        print(e)
-        return None
-
+# ── CARREGADORES COM FALLBACK JSON → JS ───────────────────
 
 def carregar_json(path):
     if not os.path.exists(path):
@@ -75,33 +16,30 @@ def carregar_json(path):
         with open(path, "r", encoding="utf-8") as f:
             return json.load(f)
     except Exception as e:
-        print("💥 ERRO JSON:", path, e)
+        print(f"💥 ERRO JSON: {path}\n   {e}")
         return None
 
 
-# ── CARREGADORES COM FALLBACK ─────────────────────────────
-# Prioridade: .json (criado pelo manager) → .js (legado)
-
 def carregar_config(path_regiao):
     """config.json (manager) tem prioridade; cai em config.js (legado)."""
-    data = carregar_json(os.path.join(path_regiao, "config.json"))
-    if data:
-        return data
-    return carregar_js(os.path.join(path_regiao, "config.js")) or {}
+    return (
+        carregar_json(os.path.join(path_regiao, "config.json")) or
+        ler_js(os.path.join(path_regiao, "config.js")) or
+        {}
+    )
 
 
 def carregar_local(path_local, local_id):
     """local.json (manager) tem prioridade; cai em {local_id}.js (legado)."""
-    data = carregar_json(os.path.join(path_local, "local.json"))
-    if data:
-        return data
-    return carregar_js(os.path.join(path_local, f"{local_id}.js"))
+    return (
+        carregar_json(os.path.join(path_local, "local.json")) or
+        ler_js(os.path.join(path_local, f"{local_id}.js"))
+    )
 
 
 # ── DETECÇÃO DE LOCAIS ────────────────────────────────────
 
 def detectar_locais(path_regiao):
-    """Detecta subpastas que têm local.json (manager) OU {item}.js (legado)."""
     locais = []
     for item in os.listdir(path_regiao):
         local_dir = os.path.join(path_regiao, item)
@@ -117,20 +55,18 @@ def detectar_locais(path_regiao):
 # ── BUILD ─────────────────────────────────────────────────
 
 def build():
-    controller = {"regioes": []}
+    regioes = []
 
     for regiao in sorted(os.listdir(DADOS_DIR)):
         path_regiao = os.path.join(DADOS_DIR, regiao)
-
         if not os.path.isdir(path_regiao):
             continue
 
         print("\n📁 Região:", regiao)
 
-        config = carregar_config(path_regiao)
-
+        config     = carregar_config(path_regiao)
         locais_ids = detectar_locais(path_regiao)
-        print("👉 Locais encontrados:", locais_ids)
+        print("👉 Locais:", locais_ids)
 
         regiao_obj = {
             "id":     config.get("id", regiao),
@@ -141,35 +77,67 @@ def build():
 
         for local_id in locais_ids:
             path_local = os.path.join(path_regiao, local_id)
-            print("🔍 Lendo:", path_local)
-
             local = carregar_local(path_local, local_id)
             if not local:
                 print("❌ IGNORADO:", local_id)
                 continue
-
+            print("   ✅", local_id)
             regiao_obj["locais"].append({
-                "id":            local.get("id", local_id),
-                "hero":          local.get("hero", ""),
-                "texts":         local.get("texts", {}),
-                "location":      local.get("location", {}),
-                "gallery":       local.get("gallery", []),
+                "id":             local.get("id", local_id),
+                "hero":           local.get("hero", ""),
+                "texts":          local.get("texts", {}),
+                "location":       local.get("location", {}),
+                "gallery":        local.get("gallery", []),
                 "RAvisionScreen": local.get("RAvisionScreen", False),
-                "RAvisionlink":  local.get("RAvisionlink", "")
+                "RAvisionlink":   local.get("RAvisionlink", "")
             })
 
-        controller["regioes"].append(regiao_obj)
+        regioes.append(regiao_obj)
 
-    salvar_controller(controller)
+    salvar_controller(regioes)
     print("\n🚀 BUILD FINALIZADO")
 
 
-def salvar_controller(obj):
+def salvar_controller(regioes):
     os.makedirs(os.path.dirname(OUTPUT_FILE), exist_ok=True)
+
     with open(OUTPUT_FILE, "w", encoding="utf-8") as f:
+        # ── 1. Dado bruto completo ────────────────────────
         f.write("window.APP_CONTROLLER = ")
-        json.dump(obj, f, indent=2, ensure_ascii=False)
-        f.write(";")
+        json.dump({"regioes": regioes}, f, indent=2, ensure_ascii=False)
+        f.write(";\n\n")
+
+        # ── 2. LISTA_CIRCUITOS → index.html slider ────────
+        lista = [{"id": r["id"], "cover": r["cover"], "texts": r["texts"]} for r in regioes]
+        f.write("window.LISTA_CIRCUITOS = ")
+        json.dump(lista, f, indent=2, ensure_ascii=False)
+        f.write(";\n\n")
+
+        # ── 3. LOCAIS → local.html e circuitos.html ───────
+        locais_dict = {}
+        for r in regioes:
+            for l in r["locais"]:
+                locais_dict[l["id"]] = l
+        f.write("window.LOCAIS = ")
+        json.dump(locais_dict, f, indent=2, ensure_ascii=False)
+        f.write(";\n\n")
+
+        # ── 4. CONFIG_XXX → circuitos.html ───────────────
+        # locais como array de IDs (strings), conforme circuitos.html espera
+        for r in regioes:
+            key = "CONFIG_" + r["id"].upper()
+            cfg = {
+                "id":     r["id"],
+                "cover":  r["cover"],
+                "texts":  r["texts"],
+                "locais": [l["id"] for l in r["locais"]]
+            }
+            f.write(f"window.{key} = Object.freeze(")
+            json.dump(cfg, f, indent=2, ensure_ascii=False)
+            f.write(");\n\n")
+
+        # ── 5. Dispara evento para Alpine.js aguardando ───
+        f.write("window.dispatchEvent(new Event('locais-ready'));\n")
 
 
 if __name__ == "__main__":
