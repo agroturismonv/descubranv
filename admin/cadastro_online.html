@@ -505,9 +505,10 @@ function adminApp() {
         this.l.map_link = (local.location || {}).maps || '';
         this.l.has360 = !!local.RAvisionScreen;
         this.l.ra_link = local.RAvisionlink || '';
-        this.l.pt = { title: pt.title || local.nome || '', subtitle: pt.subtitle || local.subtitulo || '', desc: pt.desc || '' };
-        this.l.en = { title: en.title || '', subtitle: en.subtitle || '', desc: en.desc || '' };
-        this.l.es = { title: es.title || '', subtitle: es.subtitle || '', desc: es.desc || '' };
+        // BUG 3 - carrega 'description' (servidor) -> 'desc' (form)
+        this.l.pt = { title: pt.title || local.nome || '', subtitle: pt.subtitle || local.subtitulo || '', desc: pt.description || pt.desc || '' };
+        this.l.en = { title: en.title || '', subtitle: en.subtitle || '', desc: en.description || en.desc || '' };
+        this.l.es = { title: es.title || '', subtitle: es.subtitle || '', desc: es.description || es.desc || '' };
 
         this.l.fotos = gallery.map((path) => ({
           file: null,

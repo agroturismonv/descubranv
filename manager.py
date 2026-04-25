@@ -135,20 +135,46 @@ class SiteManager:
         self.salvar_json(config_path, obj)
 
     def _upsert_local(self, payload):
-        regiao     = self.sanitizar(payload.get("regiao"))
-        local      = self.sanitizar(payload.get("local"))
+        regiao      = self.sanitizar(payload.get("regiao"))
+        local       = self.sanitizar(payload.get("local"))
         path_regiao = self.garantir_regiao(regiao)
         path_local  = os.path.join(path_regiao, local)
         os.makedirs(path_local, exist_ok=True)
 
         dados = payload.get("dados", {})
 
+        # BUG 1 — renomeia 'desc' para 'description' em cada idioma
+        texts = dados.get("texts", {})
+        for lang, t in texts.items():
+            if isinstance(t, dict) and "desc" in t and "description" not in t:
+                t["description"] = t.pop("desc")
+
+        # BUG 2 — auto-gera location.qr e location.embed
+        location = dict(dados.get("location", {}))
+        maps_url = location.get("maps", "")
+
+        if maps_url and "qr" not in location:
+            location["qr"] = (
+                "https://api.qrserver.com/v1/create-qr-code/"
+                f"?size=200x200&data={maps_url}"
+            )
+
+        if maps_url and "embed" not in location:
+            if "/maps/search/" in maps_url:
+                q = maps_url.split("/maps/search/")[-1].split("?")[0]
+                embed = f"https://maps.google.com/maps?q={q}&output=embed"
+            elif "q=" in maps_url:
+                embed = maps_url + "&output=embed"
+            else:
+                embed = maps_url
+            location["embed"] = embed
+
         obj = {
             "id":             local,
             "hero":           payload.get("cover_file", ""),
             "gallery":        dados.get("gallery", []),
-            "texts":          dados.get("texts", {}),
-            "location":       dados.get("location", {}),
+            "texts":          texts,
+            "location":       location,
             "RAvisionScreen": dados.get("RAvisionScreen", False),
             "RAvisionlink":   dados.get("RAvisionlink", "")
         }
