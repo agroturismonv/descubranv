@@ -229,6 +229,9 @@ def deletar_regiao(regiao):
     auto_rebuild()
     return jsonify(success=True)
 
+@app.route('/dados/<path:filename>')
+def serve_dados(filename):
+    return send_from_directory(os.path.join(BASE_DIR, "dados"), filename)
 # ── LOCAIS ────────────────────────────────────────────────
 @app.route("/api/regioes/<regiao>/locais/<local>", methods=["GET"])
 def get_local(regiao, local):
