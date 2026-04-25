@@ -115,13 +115,20 @@ class SiteManager:
 
         dados = payload.get("dados", {})
 
+        # Carrega config existente para preservar campos não enviados
+        config_path = os.path.join(path, "config.json")
+        existente = self.carregar_json(config_path) or {}
+
+        # Cover: só substitui se um novo arquivo foi enviado
+        cover = payload.get("cover_file", "") or existente.get("cover", "")
+
         obj = {
             "id": regiao,
-            "cover": payload.get("cover_file", ""),
-            "texts": dados.get("texts", {})
+            "cover": cover,
+            "texts": dados.get("texts", {}) or existente.get("texts", {})
         }
 
-        self.salvar_json(os.path.join(path, "config.json"), obj)
+        self.salvar_json(config_path, obj)
 
     def _upsert_local(self, payload):
         regiao = self.sanitizar(payload.get("regiao"))
