@@ -54,7 +54,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "centro_nv",
-      "cover": "dados/circuitos/centro_nv/imagens/capa.jpg",
+      "cover": "dados/circuitos/centro_nv/images/capa.jpg",
       "texts": {
         "pt": {
           "title": "Centro de Nova Venécia",
@@ -293,7 +293,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "centro_nv",
-    "cover": "dados/circuitos/centro_nv/imagens/capa.jpg",
+    "cover": "dados/circuitos/centro_nv/images/capa.jpg",
     "texts": {
       "pt": {
         "title": "Centro de Nova Venécia",
@@ -563,7 +563,7 @@ window.CONFIG_CACHOEIRA_BOAVISTA = Object.freeze({
 
 window.CONFIG_CENTRO_NV = Object.freeze({
   "id": "centro_nv",
-  "cover": "dados/circuitos/centro_nv/imagens/capa.jpg",
+  "cover": "dados/circuitos/centro_nv/images/capa.jpg",
   "texts": {
     "pt": {
       "title": "Centro de Nova Venécia",
