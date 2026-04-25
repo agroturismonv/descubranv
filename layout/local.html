@@ -255,10 +255,12 @@
           const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
           if (data) {
             // OS DADOS JÁ VÊM COM O CAMINHO CERTO DO CONTROLLER
-            this.hero = data.hero;
+            //this.hero = data.hero;
             this.qr = data.location?.qr || '';
-            this.gallery = data.gallery || [];
-
+            //this.gallery = data.gallery || [];
+// No local.html, dentro do start()
+            this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
+            this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
             this.mapEmbed = data.location?.embed || '';
             this.texts = data.texts;
             this.RAvisionScreen = !!data.RAvisionScreen;
