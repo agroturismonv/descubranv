@@ -554,7 +554,7 @@ function adminApp() {
             tipo: 'local',
             regiao: this.slug(this.l.id_regiao),
             local: this.slug(this.l.id),
-            cover_file: this.l.fotos[this.l.cover]?.name || null,
+            cover_file: this.l.fotos[this.l.cover]?.existingPath || this.l.fotos[this.l.cover]?.name || null,
             dados: {
               texts: { pt: this.l.pt, en: this.l.en, es: this.l.es },
               location: { maps: this.buildMapa() },
