@@ -254,29 +254,20 @@
     const carregar = () => {
         const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
         if (data) {
-            // 1. Corrigindo o Hero (Imagem Principal)
+            // 1. Imagem Principal
             this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
 
-            // 2. Corrigindo o QR Code (Essencial para o GPS)
-            if (data.location?.qr) {
-                this.qr = data.location.qr.startsWith('/') ? data.location.qr : '/' + data.location.qr;
-            } else {
-                this.qr = '';
-            }
-
-            // 3. Corrigindo a Galeria
+            // 2. Galeria
             this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
 
-            // 4. Corrigindo o Iframe do Mapa (Embed)
-            // Se o embed for um caminho local (não começar com http), adicionamos a barra
-            if (data.location?.embed) {
-                let embed = data.location.embed;
-                this.mapEmbed = (embed.startsWith('http') || embed.startsWith('/')) ? embed : '/' + embed;
-            } else {
-                this.mapEmbed = '';
-            }
+            //3. QR e Mapa
+            this.qr = data.location?.qr || '';
+            this.mapEmbed = data.location?.embed || data.location?.maps || '';
 
+            //4. textos
             this.texts = data.texts;
+
+            //5. Site360
             this.RAvisionScreen = !!data.RAvisionScreen;
             this.RAvisionlink = data.RAvisionlink || '';
             this.ready = true;
