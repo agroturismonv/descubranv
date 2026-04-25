@@ -111,23 +111,30 @@
                     localStorage.setItem('user_lang', l); 
                 },
                 
-                start() {
-                    const load = () => {
-                        const params = new URLSearchParams(window.location.search);
-                        const id = params.get('id');
-                        // Busca a configuração do circuito no controller.js
-                        const data = window["CONFIG_" + (id?.toUpperCase())];
-                        
-                        if (data) {
-                            this.config = data;
-                            // Mapeia os IDs dos locais para os objetos de dados reais
-                            this.pontos = data.locais.map(l => {
-                                return window.LOCAIS[l] || window.LOCAIS[l.toLowerCase()];
-                            }).filter(p => p); // Remove locais não encontrados
-                            
-                            this.ready = true;
-                        }
-                    };
+               start() {
+    const load = () => {
+        const params = new URLSearchParams(window.location.search);
+        const id = params.get('id');
+        const data = window["CONFIG_" + (id?.toUpperCase())];
+        
+        if (data) {
+            this.config = data;
+            this.pontos = data.locais.map(l => {
+                let p = window.LOCAIS[l] || window.LOCAIS[l.toLowerCase()];
+                if (p) {
+                    // SE O HTML ESTÁ EM /LAYOUT/, ADICIONAMOS ../ NA FRENTE DO CAMINHO DA IMAGEM
+                    p.hero = p.hero.startsWith('../') ? p.hero : '../' + p.hero;
+                }
+                return p;
+            }).filter(p => p);
+            
+            this.ready = true;
+        }
+    };
+    
+    if (window.LOCAIS) load(); 
+    else window.addEventListener('locais-ready', load);
+};
                     
                     if (window.LOCAIS) load(); 
                     else window.addEventListener('locais-ready', load);
