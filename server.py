@@ -133,6 +133,10 @@ def enrich_payload_with_files(payload):
 def admin_login():
     return send_from_directory(ADMIN_DIR, "login.html")
 
+@app.route("/admin/<path:filename>")
+def admin_static(filename):
+    return send_from_directory(ADMIN_DIR, filename)
+
 @app.route("/api/login", methods=["POST"])
 def login():
     data     = request.get_json() or {}
