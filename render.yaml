@@ -9,7 +9,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
 
-      - key: GITHUB_TOKEN
+      - key: GIT_TOKEN
         sync: false   # definir no dashboard
 
       - key: GIT_REPO
