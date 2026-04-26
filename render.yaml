@@ -2,11 +2,28 @@ services:
   - type: web
     name: descubranv
     runtime: python
-    buildCommand: pip install -r requirements.txt
-    startCommand: gunicorn server:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    buildCommand: pip install -r requirements.txt && chmod +x startup.sh
+    startCommand: bash startup.sh
+
     envVars:
       - key: SECRET_KEY
         generateValue: true
+
+      - key: GITHUB_TOKEN
+        sync: false   # definir no dashboard
+
+      - key: GIT_REPO
+        value: agroturismonv/descubranv
+
+      - key: GIT_BRANCH
+        value: main
+
+      - key: GIT_USER_NAME
+        value: Descubra NV Bot
+
+      - key: GIT_USER_EMAIL
+        value: bot@descubranv.com
+
     disk:
       name: dados
       mountPath: /opt/render/project/src/dados
