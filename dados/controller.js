@@ -143,7 +143,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_elefante",
-      "cover": "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
+      "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
       "texts": {
         "pt": {
           "title": "Pedra do Elefante",
