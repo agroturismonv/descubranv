@@ -19,10 +19,10 @@ services:
         value: main
 
       - key: GIT_USER_NAME
-        value: Descubra NV Bot
+        value: agroturismonv
 
       - key: GIT_USER_EMAIL
-        value: bot@descubranv.com
+        value: agroturismonv@gmail.com
 
     disk:
       name: dados
