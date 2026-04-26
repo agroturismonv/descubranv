@@ -160,6 +160,39 @@ window.APP_CONTROLLER = {
       },
       "locais": [
         {
+          "id": "elefante",
+          "hero": "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
+          "texts": {
+            "pt": {
+              "title": "Pedra do Elefante",
+              "subtitle": "Um dos símbolos naturais de Nova Venécia",
+              "description": "A Pedra do Elefante é uma formação rochosa de grande porte que se destaca na paisagem de Nova Venécia. Seu nome se deve ao formato peculiar que lembra um elefante."
+            },
+            "en": {
+              "title": "Elephant Rock",
+              "subtitle": "One of Nova Venécia’s natural symbols",
+              "description": "Elephant Rock is a large rock formation that stands out in the landscape of Nova Venécia."
+            },
+            "es": {
+              "title": "Piedra del Elefante",
+              "subtitle": "Uno de los símbolos naturales de Nova Venécia",
+              "description": "La Piedra del Elefante es una gran formación rocosa que se destaca en el paisaje."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps?q=-18.7641464,-40.4602003",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7641464,-40.4602003",
+            "embed": "https://www.google.com/maps?q=-18.7641464,-40.4602003&output=embed"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
+            "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-2.jpg",
+            "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-3.jpg"
+          ],
+          "RAvisionScreen": true,
+          "RAvisionlink": "https://novavenecia360.com.br/"
+        },
+        {
           "id": "gameleira",
           "hero": "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
           "texts": {
@@ -457,38 +490,6 @@ window.LOCAIS = {
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
   },
-  "gameleira": {
-    "id": "gameleira",
-    "hero": "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
-    "texts": {
-      "pt": {
-        "title": "Santuário da Mãe Peregrina",
-        "subtitle": "Fé, espiritualidade e paz",
-        "description": "O Santuário da Mãe Peregrina é um importante ponto de devoção religiosa em Nova Venécia, oferecendo um ambiente de paz, reflexão e espiritualidade."
-      },
-      "en": {
-        "title": "Mother Pilgrim Shrine",
-        "subtitle": "Faith and spirituality",
-        "description": "The Mother Pilgrim Shrine is an important religious site offering peace, reflection and spiritual connection."
-      },
-      "es": {
-        "title": "Santuario de la Madre Peregrina",
-        "subtitle": "Fe y espiritualidad",
-        "description": "El Santuario de la Madre Peregrina es un importante punto religioso que ofrece paz y reflexión."
-      }
-    },
-    "location": {
-      "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia"
-    },
-    "gallery": [
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario.webp",
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario-2.jpg"
-    ],
-    "RAvisionScreen": true,
-    "RAvisionlink": "https://novavenecia360.com.br/"
-  },
   "elefante": {
     "id": "elefante",
     "hero": "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
@@ -517,6 +518,38 @@ window.LOCAIS = {
       "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
       "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-2.jpg",
       "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-3.jpg"
+    ],
+    "RAvisionScreen": true,
+    "RAvisionlink": "https://novavenecia360.com.br/"
+  },
+  "gameleira": {
+    "id": "gameleira",
+    "hero": "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
+    "texts": {
+      "pt": {
+        "title": "Santuário da Mãe Peregrina",
+        "subtitle": "Fé, espiritualidade e paz",
+        "description": "O Santuário da Mãe Peregrina é um importante ponto de devoção religiosa em Nova Venécia, oferecendo um ambiente de paz, reflexão e espiritualidade."
+      },
+      "en": {
+        "title": "Mother Pilgrim Shrine",
+        "subtitle": "Faith and spirituality",
+        "description": "The Mother Pilgrim Shrine is an important religious site offering peace, reflection and spiritual connection."
+      },
+      "es": {
+        "title": "Santuario de la Madre Peregrina",
+        "subtitle": "Fe y espiritualidad",
+        "description": "El Santuario de la Madre Peregrina es un importante punto religioso que ofrece paz y reflexión."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia"
+    },
+    "gallery": [
+      "dados/circuitos/pedra_elefante/gameleira/images/santuario.webp",
+      "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/santuario-2.jpg"
     ],
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
@@ -618,6 +651,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
     }
   },
   "locais": [
+    "elefante",
     "gameleira",
     "elefante"
   ]
