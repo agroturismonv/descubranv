@@ -2,7 +2,7 @@
 (function () {
     "use strict";
 
-    const LOGIN_URL = '/admin/login.html';
+    const LOGIN_URL = '/admin';
 
     /**
      * ============================
@@ -35,26 +35,28 @@
      * CHECK AUTH
      * ============================
      */
-    async function checkAuth() {
-        const isLoginPage = window.location.pathname.includes('/admin/login.html');
+   async function checkAuth() {
+    const isLoginPage =
+        window.location.pathname === '/admin' ||
+        window.location.pathname.endsWith('/login.html');
 
-        try {
-            const res = await fetch(apiUrl('/api/check'), {
-                credentials: 'include'
-            });
+    try {
+        const res = await fetch(apiUrl('/api/check'), {
+            credentials: 'include'
+        });
 
-            if (!res.ok) return;
+        if (!res.ok) return;
 
-            const data = await res.json();
+        const data = await res.json();
 
-            if (!data.logado && !isLoginPage) {
-                window.location.href = LOGIN_URL;
-            }
-
-        } catch (e) {
-            console.error("Erro auth:", e);
+        if (!data.logado && !isLoginPage) {
+            window.location.href = LOGIN_URL;
         }
+
+    } catch (e) {
+        console.error("Erro auth:", e);
     }
+}
 
     checkAuth();
 
