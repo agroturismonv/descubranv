@@ -404,6 +404,38 @@ def download(regiao, local):
 def root():
     return send_from_directory(BASE_DIR, "index.html")
 
+# ── GIT BUILD ────────────────────────────────────────────────
+# criar_regiao
+auto_rebuild(f"feat: adicionar região '{payload.get('regiao', '')}'")
+
+# atualizar_regiao
+auto_rebuild(f"fix: atualizar região '{regiao}'")
+
+# deletar_regiao
+auto_rebuild(f"remove: deletar região '{regiao}'")
+
+# atualizar_local
+auto_rebuild(f"fix: atualizar local '{local}' em '{regiao}'")
+
+# criar_local
+auto_rebuild(f"feat: adicionar local '{payload.get('local', '')}' em '{payload.get('regiao', '')}'")
+
+# deletar_local
+auto_rebuild("remove: deletar local")
+
+# cadastro (rota unificada)
+tipo = payload.get("tipo", "")
+nome = payload.get("local") or payload.get("regiao") or "item"
+auto_rebuild(f"feat: cadastro de {tipo} '{nome}'")
+
+# delete_unificado
+tipo = payload.get("tipo", "item")
+nome = payload.get("local") or payload.get("regiao") or ""
+auto_rebuild(f"remove: deletar {tipo} '{nome}'")
+
+# upload_zip
+auto_rebuild("feat: importar dados via ZIP")
+
 # ── START ─────────────────────────────────────────────────
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
