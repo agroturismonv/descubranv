@@ -1,0 +1,21 @@
+{
+  "id": "teste_sync",
+  "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
+  "texts": {
+    "pt": {
+      "title": "teste",
+      "subtitle": "teste",
+      "desc": ""
+    },
+    "en": {
+      "title": "test",
+      "subtitle": "test",
+      "desc": ""
+    },
+    "es": {
+      "title": "test",
+      "subtitle": "test",
+      "desc": ""
+    }
+  }
+}

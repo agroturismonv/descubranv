@@ -54,11 +54,19 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "centro_nv",
-      "cover": "dados/circuitos/centro_nv/images/capa.jpg",
+      "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
       "texts": {
         "pt": {
-          "title": "Centro de Nova Venécia",
-          "subtitle": "Região central"
+          "title": "Centro",
+          "subtitle": "Onde a história começou"
+        },
+        "en": {
+          "title": "Downtown",
+          "subtitle": "Where it all began"
+        },
+        "es": {
+          "title": "Centro",
+          "subtitle": "Donde todo comenzó"
         }
       },
       "locais": [
@@ -268,6 +276,28 @@ window.APP_CONTROLLER = {
           "RAvisionlink": "https://novavenecia360.com.br/"
         }
       ]
+    },
+    {
+      "id": "teste_sync",
+      "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
+      "texts": {
+        "pt": {
+          "title": "teste",
+          "subtitle": "teste",
+          "desc": ""
+        },
+        "en": {
+          "title": "test",
+          "subtitle": "test",
+          "desc": ""
+        },
+        "es": {
+          "title": "test",
+          "subtitle": "test",
+          "desc": ""
+        }
+      },
+      "locais": []
     }
   ]
 };
@@ -293,11 +323,19 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "centro_nv",
-    "cover": "dados/circuitos/centro_nv/images/capa.jpg",
+    "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
     "texts": {
       "pt": {
-        "title": "Centro de Nova Venécia",
-        "subtitle": "Região central"
+        "title": "Centro",
+        "subtitle": "Onde a história começou"
+      },
+      "en": {
+        "title": "Downtown",
+        "subtitle": "Where it all began"
+      },
+      "es": {
+        "title": "Centro",
+        "subtitle": "Donde todo comenzó"
       }
     }
   },
@@ -334,6 +372,27 @@ window.LISTA_CIRCUITOS = [
       "es": {
         "title": "Piedra Fortaleza",
         "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
+      }
+    }
+  },
+  {
+    "id": "teste_sync",
+    "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
+    "texts": {
+      "pt": {
+        "title": "teste",
+        "subtitle": "teste",
+        "desc": ""
+      },
+      "en": {
+        "title": "test",
+        "subtitle": "test",
+        "desc": ""
+      },
+      "es": {
+        "title": "test",
+        "subtitle": "test",
+        "desc": ""
       }
     }
   }
@@ -563,11 +622,19 @@ window.CONFIG_CACHOEIRA_BOAVISTA = Object.freeze({
 
 window.CONFIG_CENTRO_NV = Object.freeze({
   "id": "centro_nv",
-  "cover": "dados/circuitos/centro_nv/images/capa.jpg",
+  "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
   "texts": {
     "pt": {
-      "title": "Centro de Nova Venécia",
-      "subtitle": "Região central"
+      "title": "Centro",
+      "subtitle": "Onde a história começou"
+    },
+    "en": {
+      "title": "Downtown",
+      "subtitle": "Where it all began"
+    },
+    "es": {
+      "title": "Centro",
+      "subtitle": "Donde todo comenzó"
     }
   },
   "locais": [
@@ -619,6 +686,29 @@ window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "locais": [
     "fortaleza"
   ]
+});
+
+window.CONFIG_TESTE_SYNC = Object.freeze({
+  "id": "teste_sync",
+  "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
+  "texts": {
+    "pt": {
+      "title": "teste",
+      "subtitle": "teste",
+      "desc": ""
+    },
+    "en": {
+      "title": "test",
+      "subtitle": "test",
+      "desc": ""
+    },
+    "es": {
+      "title": "test",
+      "subtitle": "test",
+      "desc": ""
+    }
+  },
+  "locais": []
 });
 
 window.dispatchEvent(new Event('locais-ready'));
