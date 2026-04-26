@@ -1,8 +1,8 @@
 window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   id: "pedra_elefante",
 
-  cover: "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
-  banner: "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
+  cover: "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
+  banner: "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
 
   texts: {
     pt: {
