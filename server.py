@@ -2,7 +2,7 @@ from flask import Flask, jsonify, request, send_from_directory, session
 import hashlib, json, os, re, tempfile, shutil, zipfile
 import xml.etree.ElementTree as ET
 from werkzeug.utils import secure_filename
-
+from git_sync import sync_async as _git_sync
 from manager import SiteManager
 from generator import build
 
@@ -56,11 +56,13 @@ def parse_payload():
     raw = request.form.get("json")
     return json.loads(raw) if raw else {}
 
-def auto_rebuild():
+def auto_rebuild(git_msg: str = "chore: update dados"):
     try:
         build()
     except Exception as e:
         print("[ERRO BUILD]", e)
+    if os.getenv("GIT_TOKEN"):
+        _git_sync(git_msg)
 
 # ── FILE UPLOAD HELPER ────────────────────────────────────
 def save_uploaded_files(files, dest_dir):
