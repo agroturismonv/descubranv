@@ -128,6 +128,10 @@ def enrich_payload_with_files(payload):
     return payload
 
 # ── LOGIN ─────────────────────────────────────────────────
+@app.route("/admin")
+def admin_login():
+    return send_from_directory(ADMIN_DIR, "login.html")
+
 @app.route("/api/login", methods=["POST"])
 def login():
     data     = request.get_json() or {}
@@ -176,6 +180,11 @@ def rebuild():
         return jsonify(success=True, message="Rebuild concluído com sucesso.")
     except Exception as e:
         return jsonify(success=False, erro=str(e)), 500
+
+# ── ROTA DO AR - Léo ──────────────────────────────────────────────
+@app.route("/totem")
+def ra():
+    return redirect("https://mobogames.com.br/descubranv")
 
 # ── LISTAGEM ──────────────────────────────────────────────
 @app.route("/api/listar")
