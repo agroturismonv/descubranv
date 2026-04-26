@@ -276,28 +276,6 @@ window.APP_CONTROLLER = {
           "RAvisionlink": "https://novavenecia360.com.br/"
         }
       ]
-    },
-    {
-      "id": "teste_sync",
-      "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
-      "texts": {
-        "pt": {
-          "title": "teste",
-          "subtitle": "teste",
-          "desc": ""
-        },
-        "en": {
-          "title": "test",
-          "subtitle": "test",
-          "desc": ""
-        },
-        "es": {
-          "title": "test",
-          "subtitle": "test",
-          "desc": ""
-        }
-      },
-      "locais": []
     }
   ]
 };
@@ -372,27 +350,6 @@ window.LISTA_CIRCUITOS = [
       "es": {
         "title": "Piedra Fortaleza",
         "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
-      }
-    }
-  },
-  {
-    "id": "teste_sync",
-    "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
-    "texts": {
-      "pt": {
-        "title": "teste",
-        "subtitle": "teste",
-        "desc": ""
-      },
-      "en": {
-        "title": "test",
-        "subtitle": "test",
-        "desc": ""
-      },
-      "es": {
-        "title": "test",
-        "subtitle": "test",
-        "desc": ""
       }
     }
   }
@@ -686,29 +643,6 @@ window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "locais": [
     "fortaleza"
   ]
-});
-
-window.CONFIG_TESTE_SYNC = Object.freeze({
-  "id": "teste_sync",
-  "cover": "dados/circuitos/teste_sync/images/Gemini_Generated_Image_kgh04ukgh04ukgh0.png",
-  "texts": {
-    "pt": {
-      "title": "teste",
-      "subtitle": "teste",
-      "desc": ""
-    },
-    "en": {
-      "title": "test",
-      "subtitle": "test",
-      "desc": ""
-    },
-    "es": {
-      "title": "test",
-      "subtitle": "test",
-      "desc": ""
-    }
-  },
-  "locais": []
 });
 
 window.dispatchEvent(new Event('locais-ready'));
