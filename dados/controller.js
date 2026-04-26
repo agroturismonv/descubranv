@@ -143,7 +143,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_elefante",
-      "cover": "pedra-elefante.jpg",
+      "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
       "texts": {
         "pt": {
           "title": "Pedra do Elefante",
@@ -323,7 +323,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_elefante",
-    "cover": "pedra-elefante.jpg",
+    "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
     "texts": {
       "pt": {
         "title": "Pedra do Elefante",
@@ -610,7 +610,7 @@ window.CONFIG_CENTRO_NV = Object.freeze({
 
 window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "id": "pedra_elefante",
-  "cover": "pedra-elefante.jpg",
+  "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
   "texts": {
     "pt": {
       "title": "Pedra do Elefante",
