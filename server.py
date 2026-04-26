@@ -201,7 +201,7 @@ def criar_regiao():
     payload = enrich_payload_with_files(parse_payload())
     payload["tipo"] = "regiao"
     site.criar_ou_atualizar(payload)
-    auto_rebuild()
+    auto_rebuild(f"feat: adicionar região '{payload.get('regiao', '')}'")
     return jsonify(success=True)
 
 @app.route("/api/regioes/<regiao>", methods=["GET"])
@@ -220,7 +220,7 @@ def atualizar_regiao(regiao):
     payload = enrich_payload_with_files(parse_payload())
     payload.update({"tipo": "regiao", "regiao": regiao})
     site.criar_ou_atualizar(payload)
-    auto_rebuild()
+    auto_rebuild(f"fix: atualizar região '{regiao}'")
     return jsonify(success=True)
 
 @app.route("/api/regioes/<regiao>", methods=["DELETE"])
@@ -228,7 +228,7 @@ def deletar_regiao(regiao):
     denied = auth_required()
     if denied: return denied
     site.deletar({"tipo": "regiao", "regiao": regiao})
-    auto_rebuild()
+    auto_rebuild(f"remove: deletar região '{regiao}'")
     return jsonify(success=True)
 
 @app.route('/dados/<path:filename>')
@@ -253,7 +253,7 @@ def atualizar_local(regiao, local):
     payload = enrich_payload_with_files(parse_payload())
     payload.update({"tipo": "local", "regiao": regiao, "local": local})
     site.criar_ou_atualizar(payload)
-    auto_rebuild()
+    auto_rebuild(f"fix: atualizar local '{local}' em '{regiao}'")
     return jsonify(success=True)
 
 @app.route("/api/locais", methods=["POST"])
@@ -263,7 +263,7 @@ def criar_local():
     payload = enrich_payload_with_files(parse_payload())
     payload["tipo"] = "local"
     site.criar_ou_atualizar(payload)
-    auto_rebuild()
+    auto_rebuild(f"feat: adicionar local '{payload.get('local', '')}' em '{payload.get('regiao', '')}'")
     return jsonify(success=True)
 
 @app.route("/api/locais", methods=["DELETE"])
@@ -271,7 +271,7 @@ def deletar_local():
     denied = auth_required()
     if denied: return denied
     site.deletar(request.get_json() or {})
-    auto_rebuild()
+    auto_rebuild("remove: deletar local")
     return jsonify(success=True)
 
 # ── CADASTRO UNIFICADO ────────────────────────────────────
@@ -285,7 +285,9 @@ def cadastro():
         return jsonify(success=False, erro="campo tipo obrigatório"), 400
     try:
         site.criar_ou_atualizar(payload)
-        auto_rebuild()
+        tipo = payload.get("tipo", "")
+        nome = payload.get("local") or payload.get("regiao") or "item"
+        auto_rebuild(f"feat: cadastro de {tipo} '{nome}'")
         return jsonify(success=True)
     except Exception as e:
         print("[ERRO CADASTRO]", e)
@@ -302,7 +304,9 @@ def delete_unificado():
         return jsonify(success=False, erro="tipo inválido"), 400
     try:
         site.deletar(payload)
-        auto_rebuild()
+        tipo = payload.get("tipo", "item")
+        nome = payload.get("local") or payload.get("regiao") or ""
+        auto_rebuild(f"remove: deletar {tipo} '{nome}'")
         return jsonify(success=True)
     except Exception as e:
         return jsonify(success=False, erro=str(e)), 500
@@ -378,7 +382,7 @@ def upload_zip():
                     if os.path.exists(dst):
                         shutil.rmtree(dst)
                     shutil.copytree(src, dst)
-        auto_rebuild()
+        auto_rebuild("feat: importar dados via ZIP")
         return jsonify(success=True)
     except Exception as e:
         return jsonify(success=False, erro=str(e))
@@ -403,38 +407,6 @@ def download(regiao, local):
 @app.route("/")
 def root():
     return send_from_directory(BASE_DIR, "index.html")
-
-# ── GIT BUILD ────────────────────────────────────────────────
-# criar_regiao
-auto_rebuild(f"feat: adicionar região '{payload.get('regiao', '')}'")
-
-# atualizar_regiao
-auto_rebuild(f"fix: atualizar região '{regiao}'")
-
-# deletar_regiao
-auto_rebuild(f"remove: deletar região '{regiao}'")
-
-# atualizar_local
-auto_rebuild(f"fix: atualizar local '{local}' em '{regiao}'")
-
-# criar_local
-auto_rebuild(f"feat: adicionar local '{payload.get('local', '')}' em '{payload.get('regiao', '')}'")
-
-# deletar_local
-auto_rebuild("remove: deletar local")
-
-# cadastro (rota unificada)
-tipo = payload.get("tipo", "")
-nome = payload.get("local") or payload.get("regiao") or "item"
-auto_rebuild(f"feat: cadastro de {tipo} '{nome}'")
-
-# delete_unificado
-tipo = payload.get("tipo", "item")
-nome = payload.get("local") or payload.get("regiao") or ""
-auto_rebuild(f"remove: deletar {tipo} '{nome}'")
-
-# upload_zip
-auto_rebuild("feat: importar dados via ZIP")
 
 # ── START ─────────────────────────────────────────────────
 if __name__ == "__main__":
