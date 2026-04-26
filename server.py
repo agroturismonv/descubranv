@@ -1,10 +1,11 @@
-from flask import Flask, jsonify, request, send_from_directory, session
+from flask import Flask, jsonify, request, send_from_directory, session, redirect
 import hashlib, json, os, re, tempfile, shutil, zipfile
 import xml.etree.ElementTree as ET
 from werkzeug.utils import secure_filename
 from git_sync import sync_async as _git_sync
 from manager import SiteManager
 from generator import build
+
 
 # ── CONFIG ────────────────────────────────────────────────
 app = Flask(__name__, static_folder=".", static_url_path="")
