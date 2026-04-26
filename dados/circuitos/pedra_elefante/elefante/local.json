@@ -1,10 +1,10 @@
 {
   "id": "elefante",
-  "hero": "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
+  "hero": "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
   "gallery": [
-    "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante.jpg",
-    "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-2.jpg",
-    "dados/circuitos/pedra_elefante/pedra_elefante/images/pedra-elefante-3.jpg"
+    "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
+    "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante-2.jpg",
+    "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante-3.jpg"
   ],
   "texts": {
     "pt": {
