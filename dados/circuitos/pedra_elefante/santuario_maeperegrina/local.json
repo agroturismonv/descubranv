@@ -1,0 +1,45 @@
+{
+  "id": "santuario_maeperegrina",
+  "hero": "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
+  "gallery": [
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000259.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000267.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000271.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000273.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000275.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000276.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000283.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000285.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000288.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000289.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000293.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000294.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000299.jpg",
+    "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000305.jpg"
+  ],
+  "texts": {
+    "pt": {
+      "title": "Santuário da Mãe Peregrina",
+      "subtitle": "Fé e devoção no alto da Gameleira",
+      "description": "O Santuário da Mãe Peregrina, em Nova Venécia, é um espaço de profunda espiritualidade e encontro com Deus. Nascido de relatos de aparições, reúne peregrinos em oração, trilha e contemplação, oferecendo uma experiência de fé, paz e renovação espiritual."
+    },
+    "en": {
+      "title": "Shrine of the Pilgrim Mother",
+      "subtitle": "Faith and devotion at the top of the Gameleira",
+      "description": "The Shrine of the Pilgrim Mother, in Nova Venécia, is a space of deep spirituality and encounter with God. Born from accounts of apparitions, it brings together pilgrims in prayer, trail and contemplation, offering an experience of faith, peace and spiritual renewal."
+    },
+    "es": {
+      "title": "Santuario de la Madre Peregrina",
+      "subtitle": "Fe y devoción en la cima de la Gameleira",
+      "description": "El Santuario de la Peregrina, en Nova Venécia, es un espacio de profunda espiritualidad y encuentro con Dios. Nacido de relatos de apariciones, reúne a los peregrinos en oración, sendero y contemplación, ofreciendo una experiencia de fe, paz y renovación espiritual."
+    }
+  },
+  "location": {
+    "maps": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
+    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
+    "embed": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+  },
+  "RAvisionScreen": true,
+  "RAvisionlink": "www.novavenecia360.com.br"
+}
