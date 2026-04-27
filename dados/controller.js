@@ -129,9 +129,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps?q=-18.7114283,-40.4012599",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7114283,-40.4012599",
-            "embed": "https://www.google.com/maps?q=-18.7114283,-40.4012599&output=embed"
+            "maps": "https://www.google.com/maps?q=-18.7109977,-40.4010748",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7109977,-40.4010748",
+            "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
           },
           "gallery": [
             "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
@@ -557,9 +557,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps?q=-18.7114283,-40.4012599",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7114283,-40.4012599",
-      "embed": "https://www.google.com/maps?q=-18.7114283,-40.4012599&output=embed"
+      "maps": "https://www.google.com/maps?q=-18.7109977,-40.4010748",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7109977,-40.4010748",
+      "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
     },
     "gallery": [
       "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
