@@ -242,32 +242,42 @@ window.APP_CONTROLLER = {
         },
         {
           "id": "gameleira",
-          "hero": "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
+          "hero": "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
           "texts": {
             "pt": {
-              "title": "Santuário da Mãe Peregrina",
-              "subtitle": "Fé, espiritualidade e paz",
-              "description": "O Santuário da Mãe Peregrina é um importante ponto de devoção religiosa em Nova Venécia, oferecendo um ambiente de paz, reflexão e espiritualidade."
+              "title": "Gameleira",
+              "subtitle": "Natureza, fé e aventura na Gameleira",
+              "description": "A Gameleira de Nova Venécia impressiona com sua árvore centenária e imponente. O local une trilha em meio à mata, escadaria com mais de 400 degraus, vista panorâmica e um santuário de devoção, sendo destino ideal para turismo ecológico e religioso."
             },
             "en": {
-              "title": "Mother Pilgrim Shrine",
-              "subtitle": "Faith and spirituality",
-              "description": "The Mother Pilgrim Shrine is an important religious site offering peace, reflection and spiritual connection."
+              "title": "Gameleira",
+              "subtitle": "Nature, faith and adventure in Gameleira",
+              "description": "The Gameleira de Nova Venécia impresses with its centenary and imposing tree. The place joins a trail in the middle of the forest, a staircase with more than 400 steps, a panoramic view and a sanctuary of devotion, being an ideal destination for ecological and religious tourism."
             },
             "es": {
-              "title": "Santuario de la Madre Peregrina",
-              "subtitle": "Fe y espiritualidad",
-              "description": "El Santuario de la Madre Peregrina es un importante punto religioso que ofrece paz y reflexión."
+              "title": "Gameleira",
+              "subtitle": "Naturaleza, fe y aventura en Gameleira",
+              "description": "La Gameleira de Nova Venécia impresiona con su centenario e imponente árbol. El lugar se une a un sendero en medio del bosque, una escalera con más de 400 escalones, una vista panorámica y un santuario de devoción, siendo un destino ideal para el turismo ecológico y religioso."
             }
           },
           "location": {
             "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia"
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
+            "embed": "https://maps.google.com/maps?q=Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia&output=embed"
           },
           "gallery": [
-            "dados/circuitos/pedra_elefante/gameleira/images/santuario.webp",
-            "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
-            "dados/circuitos/pedra_elefante/gameleira/images/santuario-2.jpg"
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000165.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000168.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000172.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000173.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000174.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000176.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000177.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000178.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000179.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000181.jpg",
+            "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000185.jpg"
           ],
           "RAvisionScreen": true,
           "RAvisionlink": "https://novavenecia360.com.br/"
@@ -589,32 +599,42 @@ window.LOCAIS = {
   },
   "gameleira": {
     "id": "gameleira",
-    "hero": "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
+    "hero": "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
     "texts": {
       "pt": {
-        "title": "Santuário da Mãe Peregrina",
-        "subtitle": "Fé, espiritualidade e paz",
-        "description": "O Santuário da Mãe Peregrina é um importante ponto de devoção religiosa em Nova Venécia, oferecendo um ambiente de paz, reflexão e espiritualidade."
+        "title": "Gameleira",
+        "subtitle": "Natureza, fé e aventura na Gameleira",
+        "description": "A Gameleira de Nova Venécia impressiona com sua árvore centenária e imponente. O local une trilha em meio à mata, escadaria com mais de 400 degraus, vista panorâmica e um santuário de devoção, sendo destino ideal para turismo ecológico e religioso."
       },
       "en": {
-        "title": "Mother Pilgrim Shrine",
-        "subtitle": "Faith and spirituality",
-        "description": "The Mother Pilgrim Shrine is an important religious site offering peace, reflection and spiritual connection."
+        "title": "Gameleira",
+        "subtitle": "Nature, faith and adventure in Gameleira",
+        "description": "The Gameleira de Nova Venécia impresses with its centenary and imposing tree. The place joins a trail in the middle of the forest, a staircase with more than 400 steps, a panoramic view and a sanctuary of devotion, being an ideal destination for ecological and religious tourism."
       },
       "es": {
-        "title": "Santuario de la Madre Peregrina",
-        "subtitle": "Fe y espiritualidad",
-        "description": "El Santuario de la Madre Peregrina es un importante punto religioso que ofrece paz y reflexión."
+        "title": "Gameleira",
+        "subtitle": "Naturaleza, fe y aventura en Gameleira",
+        "description": "La Gameleira de Nova Venécia impresiona con su centenario e imponente árbol. El lugar se une a un sendero en medio del bosque, una escalera con más de 400 escalones, una vista panorámica y un santuario de devoción, siendo un destino ideal para el turismo ecológico y religioso."
       }
     },
     "location": {
       "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia"
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
+      "embed": "https://maps.google.com/maps?q=Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia&output=embed"
     },
     "gallery": [
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario.webp",
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario-1.jpg",
-      "dados/circuitos/pedra_elefante/gameleira/images/santuario-2.jpg"
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000165.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000168.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000172.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000173.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000174.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000176.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000177.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000178.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000179.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000181.jpg",
+      "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000185.jpg"
     ],
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
