@@ -197,21 +197,21 @@ window.APP_CONTROLLER = {
         },
         {
           "id": "espetaria_pedra_elefante",
-          "hero": "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
+          "hero": "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727731.jpg",
           "texts": {
             "pt": {
               "title": "Espetaria Pedra do Elefante",
-              "subtitle": "Espetaria e Bar",
+              "subtitle": "Sabor que reúne, paisagem que encanta.",
               "description": "A Espetaria Pedra do Elefante, em Nova Venécia, é o point ideal pra curtir boa comida e um clima diferenciado. Com espetinhos caprichados, ambiente agradável e vista próxima à Pedra do Elefante, é perfeita pra reunir amigos e família."
             },
             "en": {
               "title": "Elephant Stone Specter",
-              "subtitle": "Espetaria and Bar",
+              "subtitle": "Flavor that gathers, landscape that enchants.",
               "description": "The Espetaria Pedra do Elefante, in Nova Venécia, is the ideal spot to enjoy good food and a different climate. With neat skewers, a pleasant atmosphere and a view near the Elephant Stone, it is perfect for gathering friends and family."
             },
             "es": {
               "title": "Espectro de piedra de elefante",
-              "subtitle": "Espetaria y Bar",
+              "subtitle": "Sabor que reúne, paisaje que encanta.",
               "description": "La Espetaria Pedra do Elefante, en Nova Venécia, es el lugar ideal para disfrutar de una buena comida y un clima diferente. Con pinchos limpios, un ambiente agradable y una vista cerca de la Piedra del Elefante, es perfecto para reunir a amigos y familiares."
             }
           },
@@ -221,7 +221,21 @@ window.APP_CONTROLLER = {
             "embed": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac"
           },
           "gallery": [
-            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg"
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727731.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727730.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727729.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727728.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727727.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727726.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727725.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727724.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727723.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727722.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727721.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727720.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727719.jpg",
+            "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727718.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": ""
@@ -530,21 +544,21 @@ window.LOCAIS = {
   },
   "espetaria_pedra_elefante": {
     "id": "espetaria_pedra_elefante",
-    "hero": "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
+    "hero": "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727731.jpg",
     "texts": {
       "pt": {
         "title": "Espetaria Pedra do Elefante",
-        "subtitle": "Espetaria e Bar",
+        "subtitle": "Sabor que reúne, paisagem que encanta.",
         "description": "A Espetaria Pedra do Elefante, em Nova Venécia, é o point ideal pra curtir boa comida e um clima diferenciado. Com espetinhos caprichados, ambiente agradável e vista próxima à Pedra do Elefante, é perfeita pra reunir amigos e família."
       },
       "en": {
         "title": "Elephant Stone Specter",
-        "subtitle": "Espetaria and Bar",
+        "subtitle": "Flavor that gathers, landscape that enchants.",
         "description": "The Espetaria Pedra do Elefante, in Nova Venécia, is the ideal spot to enjoy good food and a different climate. With neat skewers, a pleasant atmosphere and a view near the Elephant Stone, it is perfect for gathering friends and family."
       },
       "es": {
         "title": "Espectro de piedra de elefante",
-        "subtitle": "Espetaria y Bar",
+        "subtitle": "Sabor que reúne, paisaje que encanta.",
         "description": "La Espetaria Pedra do Elefante, en Nova Venécia, es el lugar ideal para disfrutar de una buena comida y un clima diferente. Con pinchos limpios, un ambiente agradable y una vista cerca de la Piedra del Elefante, es perfecto para reunir a amigos y familiares."
       }
     },
@@ -554,7 +568,21 @@ window.LOCAIS = {
       "embed": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac"
     },
     "gallery": [
-      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg"
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727731.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727730.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727729.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727728.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727727.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727726.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727725.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727724.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727723.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727722.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727721.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727720.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727719.jpg",
+      "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727718.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": ""
