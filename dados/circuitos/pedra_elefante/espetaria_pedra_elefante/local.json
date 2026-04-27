@@ -36,9 +36,9 @@
     }
   },
   "location": {
-    "maps": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
-    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
-    "embed": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac"
+    "maps": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764!2d-40.4448393!3d-18.7601286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5d9001886235b%3A0xdeebdf980106cbdf!2sEspetaria+Pedra+do+Elefante!5e0!3m2!1spt-BR!2sbr!4v1714000000000!5m2!1spt-BR!2sbr",
+    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764!2d-40.4448393!3d-18.7601286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5d9001886235b%3A0xdeebdf980106cbdf!2sEspetaria+Pedra+do+Elefante!5e0!3m2!1spt-BR!2sbr!4v1714000000000!5m2!1spt-BR!2sbr",
+    "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3764!2d-40.4448393!3d-18.7601286!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5d9001886235b%3A0xdeebdf980106cbdf!2sEspetaria+Pedra+do+Elefante!5e0!3m2!1spt-BR!2sbr!4v1714000000000!5m2!1spt-BR!2sbr"
   },
   "RAvisionScreen": false,
   "RAvisionlink": ""
