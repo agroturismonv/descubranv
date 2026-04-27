@@ -156,6 +156,34 @@ def logout():
     session.clear()
     return jsonify(success=True)
 
+@app.route("/api/change-password", methods=["POST"])
+def change_password():
+    denied = auth_required()
+    if denied: return denied
+
+    data = request.get_json() or {}
+
+    atual = data.get("current")
+    nova  = data.get("new")
+
+    if not atual or not nova:
+        return jsonify(success=False, erro="dados inválidos"), 400
+
+    users = load_users()
+    user = session.get("user")
+
+    hashed_atual = hashlib.sha256(atual.encode()).hexdigest()
+
+    if users[user]["password"] != hashed_atual:
+        return jsonify(success=False, erro="senha atual incorreta"), 400
+
+    users[user]["password"] = hashlib.sha256(nova.encode()).hexdigest()
+
+    save_users(users)
+
+    return jsonify(success=True)
+
+
 @app.route("/api/check")
 def check():
     return jsonify(

@@ -74,8 +74,15 @@
         });
 
         if (res.ok) {
-            window.location.href = '/admin/dashboard.html';
-        } else {
+    const data = await res.json();
+
+    // ✅ SALVA NA SESSÃO DO FRONT
+    sessionStorage.setItem('admin_user', data.user);
+    sessionStorage.setItem('admin_level', data.level);
+
+    window.location.href = '/admin/dashboard.html';
+}
+         else {
             alert('Login inválido');
         }
     };
@@ -94,11 +101,17 @@
         window.location.href = LOGIN_URL;
     };
 
+
+
+
+
+    
     /**
      * ============================
      * API REQUEST
      * ============================
      */
+    
     async function apiRequest(path, options = {}) {
         const isFormData = options.body instanceof FormData;
         const mergedHeaders = {

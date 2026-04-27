@@ -1,8 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <users_database>
     <user>
-        <username>admin</username>
-        <password>240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9</password>
+        <username>@dmin</username>
+        <password>8d8156bef64cb06f81de73770fd8bf13818346b6356bea406e746f953c96f58a</password>
         <level>master</level>
     </user>
 </users_database>

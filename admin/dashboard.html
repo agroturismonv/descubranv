@@ -11,7 +11,49 @@
 
     <style>[x-cloak] { display: none !important; }</style>
 </head>
+<div x-show="showPasswordModal" x-cloak
+     class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
 
+    <div class="bg-white rounded-3xl p-6 w-full max-w-sm shadow-xl">
+
+        <h3 class="text-lg font-black text-[#0f5132] mb-4">Alterar Senha</h3>
+
+        <div class="space-y-3">
+
+            <input type="password" placeholder="Senha atual"
+                x-model="passwordForm.current"
+                class="w-full p-3 bg-gray-50 rounded-xl border-2 border-transparent focus:border-[#ffc107] outline-none">
+
+            <input type="password" placeholder="Nova senha"
+                x-model="passwordForm.new"
+                class="w-full p-3 bg-gray-50 rounded-xl border-2 border-transparent focus:border-[#ffc107] outline-none">
+
+            <input type="password" placeholder="Confirmar nova senha"
+                x-model="passwordForm.confirm"
+                class="w-full p-3 bg-gray-50 rounded-xl border-2 border-transparent focus:border-[#ffc107] outline-none">
+
+        </div>
+
+        <div class="flex gap-2 mt-5">
+
+            <button @click="trocarSenha()"
+                class="flex-1 bg-[#0f5132] text-white py-3 rounded-xl font-bold uppercase text-xs">
+                Salvar
+            </button>
+
+            <button @click="showPasswordModal = false"
+                class="flex-1 bg-gray-200 py-3 rounded-xl font-bold uppercase text-xs">
+                Cancelar
+            </button>
+
+        </div>
+
+        <p x-show="passwordFeedback"
+           class="text-center text-sm mt-3 font-bold text-green-600"
+           x-text="passwordFeedback"></p>
+
+    </div>
+</div>
 <body class="bg-slate-100 flex min-h-screen font-sans" x-init="init()">
 
     <!-- SIDEBAR -->
@@ -27,12 +69,15 @@
         <!-- MENU -->
         <nav class="flex-1 p-3 mt-4 space-y-2">
 
+            <!-- 👤 SOMENTE MASTER -->
             <a href="./gestao_user.html"
+               x-show="adminLevel === 'master'"
                class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition mt-6 border-t border-white/10 pt-4">
                 <span class="text-lg">👤</span>
                 <span x-show="sidebarOpen" class="text-xs font-bold uppercase">Usuários</span>
             </a>
 
+            <!-- 📋 TODOS -->
             <a href="./listar_cadastros.html"
                class="flex items-center gap-4 p-3 rounded-xl hover:bg-white/10 transition">
                 <span class="text-lg">📋</span>
@@ -62,6 +107,10 @@
             </button>
 
             <div class="flex items-center gap-3">
+                <button @click="showPasswordModal = true"
+    class="text-[10px] font-bold text-[#0f5132] hover:underline">
+    Alterar senha
+</button>
                 <div class="text-right">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-wide">Sessão</p>
                     <p class="text-xs font-bold text-slate-700" x-text="adminUser"></p>
@@ -72,15 +121,22 @@
 
         <section class="flex-1 p-6 md:p-8">
             <div class="max-w-6xl mx-auto space-y-6">
+
+                <!-- HERO -->
                 <div class="bg-gradient-to-r from-[#0f5132] to-[#16603d] text-white rounded-3xl p-6 md:p-8 shadow-lg">
                     <p class="text-[11px] uppercase tracking-widest opacity-75 font-bold">Painel Administrativo</p>
                     <h2 class="text-3xl md:text-4xl font-black italic mt-1">Gestão de Turismo NV</h2>
                     <p class="text-sm md:text-base opacity-90 mt-2">Controle regiões, locais e processamento do conteúdo em um único fluxo.</p>
+
                     <div class="mt-5 flex flex-wrap gap-3">
+
+                        <!-- 🔁 SOMENTE MASTER -->
                         <button @click="rebuild()"
+                            x-show="adminLevel === 'master'"
                             class="bg-[#ffc107] text-[#0f5132] px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
                             Rebuild Manual
                         </button>
+
                         <a href="./listar_cadastros.html"
                             class="bg-white/15 border border-white/20 text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:bg-white/20">
                             Ver Cadastros
@@ -88,24 +144,34 @@
                     </div>
                 </div>
 
+                <!-- STATS -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                         <p class="text-[10px] font-black uppercase text-slate-400">Total Locais</p>
                         <p class="text-3xl font-black text-[#0f5132]" x-text="stats.total_locais"></p>
                     </div>
+
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                         <p class="text-[10px] font-black uppercase text-slate-400">Total Regiões</p>
                         <p class="text-3xl font-black text-[#0f5132]" x-text="stats.total_regioes"></p>
                     </div>
+
                     <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
                         <p class="text-[10px] font-black uppercase text-slate-400">Status do Sistema</p>
-                        <p class="text-2xl font-black mt-1" :class="stats.status === 'ok' ? 'text-green-600' : 'text-amber-600'" x-text="statusLabel"></p>
-                        <p class="text-xs text-slate-500 mt-1" x-text="'Atualizado: ' + lastUpdated"></p>
+                        <p class="text-2xl font-black mt-1"
+                           :class="stats.status === 'ok' ? 'text-green-600' : 'text-amber-600'"
+                           x-text="statusLabel"></p>
+                        <p class="text-xs text-slate-500 mt-1"
+                           x-text="'Atualizado: ' + lastUpdated"></p>
                     </div>
                 </div>
 
+                <!-- CARDS -->
                 <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-                    <a href="./listar_cadastros.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+
+                    <!-- 📋 TODOS -->
+                    <a href="./listar_cadastros.html"
+                       class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="bg-orange-100 text-orange-600 p-3 rounded-xl text-lg">📋</div>
                             <h3 class="font-black text-[#0f5132]">Cadastros</h3>
@@ -113,13 +179,17 @@
                         <p class="text-sm text-slate-500">Liste, edite, exclua e baixe ZIP de regiões e locais.</p>
                     </a>
 
-                    <a href="./gestao_user.html" class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
+                    <!-- 👤 SOMENTE MASTER -->
+                    <a href="./gestao_user.html"
+                       x-show="adminLevel === 'master'"
+                       class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all">
                         <div class="flex items-center gap-3 mb-4">
                             <div class="bg-purple-100 text-purple-600 p-3 rounded-xl text-lg">👤</div>
                             <h3 class="font-black text-[#0f5132]">Gestão de Usuários</h3>
                         </div>
                         <p class="text-sm text-slate-500">Gerencie credenciais e níveis de acesso administrativo.</p>
                     </a>
+
                 </div>
             </div>
         </section>
@@ -129,14 +199,23 @@
 function dashboardApp() {
     return {
         sidebarOpen: false,
+        showPasswordModal: false,
 
-        stats: {
+        passwordForm: {
+           current: '',
+            new: '',
+            confirm: ''
+        },
+
+        passwordFeedback: '',
+            stats: {
             total_locais: 0,
             total_regioes: 0,
             status: 'ok'
         },
 
         adminUser: sessionStorage.getItem('admin_user') || 'Administrador',
+        adminLevel: sessionStorage.getItem('admin_level') || 'admin',
         lastUpdated: '--:--',
 
         get adminInitial() {
@@ -150,12 +229,35 @@ function dashboardApp() {
         },
 
         async init() {
+            await this.syncUser();
             await this.carregarDashboard();
 
-            // 🔄 atualiza a cada 30s
             setInterval(() => {
                 this.carregarDashboard();
             }, 30000);
+        },
+
+        async syncUser() {
+            try {
+                const res = await fetch(apiUrl('/api/check'), {
+                    credentials: 'include'
+                });
+
+                if (!res.ok) return;
+
+                const data = await res.json();
+
+                if (data.user) {
+                    sessionStorage.setItem('admin_user', data.user);
+                    sessionStorage.setItem('admin_level', data.level);
+
+                    this.adminUser = data.user;
+                    this.adminLevel = data.level;
+                }
+
+            } catch (e) {
+                console.warn('Erro ao sincronizar usuário');
+            }
         },
 
         async carregarDashboard() {
@@ -184,7 +286,6 @@ function dashboardApp() {
 
             } catch (e) {
                 console.warn('Falha ao carregar dashboard:', e);
-
                 this.stats.status = 'erro';
             }
         },
@@ -209,7 +310,6 @@ function dashboardApp() {
 
                 alert(data.message || 'Rebuild executado com sucesso 🚀');
 
-                // 🔄 atualiza após rebuild
                 await this.carregarDashboard();
 
             } catch (e) {

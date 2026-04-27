@@ -677,7 +677,49 @@ function adminApp() {
         this.notify('Nao foi possivel carregar local para edicao', false);
       }
     },
+    async trocarSenha() {
+    if (!this.passwordForm.current || !this.passwordForm.new) {
+        alert('Preencha todos os campos');
+        return;
+    }
 
+    if (this.passwordForm.new !== this.passwordForm.confirm) {
+        alert('As senhas não coincidem');
+        return;
+    }
+
+    try {
+        const res = await fetch(apiUrl('/api/change-password'), {
+            method: 'POST',
+            credentials: 'include',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                current: this.passwordForm.current,
+                new: this.passwordForm.new
+            })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok || data.success === false) {
+            throw new Error(data.erro || 'Erro ao alterar senha');
+        }
+
+        this.passwordFeedback = 'Senha alterada com sucesso ✅';
+
+        this.passwordForm = { current: '', new: '', confirm: '' };
+
+        setTimeout(() => {
+            this.showPasswordModal = false;
+            this.passwordFeedback = '';
+        }, 2000);
+
+    } catch (e) {
+        alert(e.message);
+    }
+},
     async salvar() {
       this.loading = true;
       try {
