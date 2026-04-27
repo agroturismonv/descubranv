@@ -54,16 +54,16 @@
       <h1 class="text-2xl font-black uppercase italic">Painel de Cadastro</h1>
       <p class="text-[10px] opacity-50 uppercase tracking-widest mt-1">Turismo Nova Venécia</p>
     </div>
+      <button @click="switchMode('local')"
+        :class="modo === 'local' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
+        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all ml-1">
+        📍 Local
+      </button>
     <div class="flex bg-black/20 p-1 rounded-xl">
       <button @click="switchMode('regiao')"
         :class="modo === 'regiao' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
         class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all">
         🗺 Região
-      </button>
-      <button @click="switchMode('local')"
-        :class="modo === 'local' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
-        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all ml-1">
-        📍 Local
       </button>
     </div>
   </header>
@@ -184,7 +184,7 @@
                 class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Coordenadas</button>
             </div>
             <input x-show="gps === 'link'" x-model="l.map_link" class="inp text-xs"
-                   placeholder="https://maps.app.goo.gl/...">
+                   placeholder="https://www.google.com/maps?q=NOME_DO_LOCAL+Nova+Venécia+ES&output=embed">
             <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
               <input x-model="l.lat" class="inp text-xs" placeholder="Latitude">
               <input x-model="l.lng" class="inp text-xs" placeholder="Longitude">
