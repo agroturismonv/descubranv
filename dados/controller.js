@@ -45,8 +45,8 @@ window.APP_CONTROLLER = {
           },
           "gallery": [
             "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg"
+            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
+            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://novavenecia360.com.br/"
@@ -493,8 +493,8 @@ window.LOCAIS = {
     },
     "gallery": [
       "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg"
+      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
+      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://novavenecia360.com.br/"
