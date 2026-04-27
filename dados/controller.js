@@ -264,9 +264,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-            "embed": "https://maps.google.com/maps?q=Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia&output=embed"
+            "maps": "https://www.google.com/maps?q=-18.7608743,-40.4419232,20",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7608743,-40.4419232,20",
+            "embed": "https://www.google.com/maps?q=-18.7608743,-40.4419232,20&output=embed"
           },
           "gallery": [
             "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
@@ -669,9 +669,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/search/Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia",
-      "embed": "https://maps.google.com/maps?q=Santuário+Mãe+Peregrina+Gameleira+Nova+Venécia&output=embed"
+      "maps": "https://www.google.com/maps?q=-18.7608743,-40.4419232,20",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7608743,-40.4419232,20",
+      "embed": "https://www.google.com/maps?q=-18.7608743,-40.4419232,20&output=embed"
     },
     "gallery": [
       "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
