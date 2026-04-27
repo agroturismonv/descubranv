@@ -7,6 +7,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.2/Sortable.min.js"></script>
   <script src="auth.js"></script>
   <style>
     [x-cloak] { display: none !important; }
@@ -148,65 +149,88 @@
          MODO LOCAL → alimenta local.html
     ══════════════════════════════════════════ -->
     <template x-if="modo === 'local'">
-      <div class="space-y-8">
+  <div class="space-y-8">
 
-        <div class="grid md:grid-cols-2 gap-6">
-          <div class="space-y-4">
+    <div class="grid md:grid-cols-2 gap-6 items-stretch">
 
-            <!-- Região vinculada -->
-            <div>
-              <label class="lbl">Região Vinculada <span class="text-red-400">*</span></label>
-              <select x-model="l.id_regiao" :disabled="isEditingLocal" :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'inp'">
-                <option value="">Selecione...</option>
-                <template x-for="reg in regioes" :key="reg.id">
-                  <option :value="reg.id" x-text="reg.nome"></option>
-                </template>
-              </select>
-              <div class="flex gap-2 mt-2">
-                <input x-model="novaRegiao" @input="novaRegiao = slug(novaRegiao)"
-                       class="inp bg-gray-100  text-xs" placeholder="Ou digita ID da região...">
-                <button @click="addRegiao()"
-                  class="bg-[#0f5132] text-white px-3 rounded-xl text-[9px] font-black uppercase whitespace-nowrap">
-                  + Add
-                </button>
-              </div>
-            </div>
+      <!-- ESQUERDA -->
+      <div class="space-y-4 flex flex-col">
 
-            <!-- ID do local -->
-            <div>
-              <label class="lbl">ID do Local <span class="text-red-400">*</span></label>
-              <input x-model="l.id" @input="l.id = slug(l.id)" :disabled="isEditingLocal" 
-                :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'bg-gray-100  inp'" placeholder="ex: cachoeira_das_pedras">
-              <p class="text-[9px] text-gray-400 mt-1 ml-2 ">
-                URL: <code class="text-[#0f5132]" x-text="l.id ? `local.html?id=${l.id}` : '—'"></code>
-              </p>
-            </div>
-          </div>
+        <!-- Região vinculada -->
+        <div>
+          <label class="lbl">Região Vinculada <span class="text-red-400">*</span></label>
+          <select x-model="l.id_regiao"
+            :disabled="isEditingLocal"
+            :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'inp'">
+            <option value="">Selecione...</option>
+            <template x-for="reg in regioes" :key="reg.id">
+              <option :value="reg.id" x-text="reg.nome"></option>
+            </template>
+          </select>
+        </div>
 
-          <!-- GPS -->
-          <div class="bg-white p-5 rounded-2xl space-y-3">
-            <label class="lbl">Localização GPS</label>
-            <div class="flex gap-1.5">
-              <button @click="gps = 'coords'"
-                :class="gps === 'coords' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
-                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Coordenadas</button>
-              <button @click="gps = 'link'"
-                :class="gps === 'link' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
-                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Link Embed</button>
-            </div>
-            <input x-show="gps === 'link'" x-model="l.map_link" class="inp text-xs"
-                   placeholder="https://www.google.com/maps?q=NOME_DO_LOCAL+Nova+Venécia+ES&output=embed">
-            <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
-  <input x-model="l.lat"
-    class="inp text-xs bg-gray-100 border-2 border-transparent focus:border-yellow-400"
-    placeholder="Latitude">
+        <!-- ID do local -->
+        <div>
+          <label class="lbl">ID do Local <span class="text-red-400">*</span></label>
+          <input x-model="l.id"
+            @input="l.id = slug(l.id)"
+            :disabled="isEditingLocal"
+            :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'bg-gray-100 inp'"
+            placeholder="ex: cachoeira_das_pedras">
 
-  <input x-model="l.lng"
-    class="inp text-xs bg-gray-100 border-2 border-transparent focus:border-yellow-400"
-    placeholder="Longitude">
-</div>
+          <p class="text-[9px] text-gray-400 mt-1 ml-2">
+            URL:
+            <code class="text-[#0f5132]"
+              x-text="l.id ? `local.html?id=${l.id}` : '—'"></code>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- DIREITA (GPS) -->
+      <div class="bg-gray-50 p-5 rounded-2xl space-y-3 flex flex-col justify-between">
+
+        <div>
+          <label class="lbl">Localização GPS</label>
+
+          <div class="flex gap-1.5">
+            <button @click="gps = 'coords'"
+              :class="gps === 'coords' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
+              class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">
+              Coordenadas
+            </button>
+
+            <button @click="gps = 'link'"
+              :class="gps === 'link' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
+              class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">
+              Link Embed
+            </button>
           </div>
         </div>
+
+        <!-- INPUTS -->
+        <div class="space-y-2">
+          <input x-show="gps === 'link'"
+            x-model="l.map_link"
+            class="inp text-xs"
+            placeholder="https://www.google.com/maps?q=...">
+
+          <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
+            <input x-model="l.lat"
+              class="inp text-xs bg-white border-2 border-transparent focus:border-yellow-400"
+              placeholder="Latitude">
+
+            <input x-model="l.lng"
+              class="inp text-xs bg-white border-2 border-transparent focus:border-yellow-400"
+              placeholder="Longitude">
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</template>
 
         <!-- TEXTOS LOCAL -->
         <div class="border-t pt-6 space-y-4">
@@ -240,48 +264,84 @@
         </div>
 
         <!-- GALERIA -->
-        <div class="border-t pt-6">
-          <div class="flex justify-between items-center mb-4">
-            <label class="lbl">
-              Galeria de Fotos
-              <span x-show="l.fotos.length" class="text-[#0f5132] normal-case"
-                    x-text="`— ${l.fotos.length} foto(s) · capa: ${l.fotos[l.cover]?.name || '—'}`"></span>
-            </label>
-            <div class="flex gap-2">
-              <button x-show="l.fotos.length > 0" @click="l.fotos = []; l.cover = 0"
-                class="border border-red-200 text-red-400 px-3 py-1.5 rounded-full text-[8px] font-black uppercase hover:bg-red-50">
-                Limpar
-              </button>
-              <input type="file" multiple accept="image/*" @change="uploadFotos($event)" id="galFile" class="hidden">
-              <label for="galFile"
-                class="bg-[#0f5132] text-white px-5 py-2 rounded-full text-[9px] font-black uppercase cursor-pointer hover:bg-[#0a3d26]">
-                + Fotos
-              </label>
-            </div>
-          </div>
+<div class="border-t pt-6">
+  <div class="flex justify-between items-center mb-4">
+    <label class="lbl">
+      Galeria de Fotos
+      <span x-show="l.fotos.length" class="text-[#0f5132] normal-case"
+            x-text="`— ${l.fotos.length} foto(s) · capa: ${l.fotos[l.cover]?.name || '—'}`"></span>
+    </label>
 
-          <p x-show="l.fotos.length === 0"
-             class="text-center text-gray-400 text-xs py-10 bg-gray-100 rounded-2xl border-2 border-dashed border-gray-200">
-            Nenhuma foto. Clique em "+ Fotos" para adicionar. A foto marcada será o hero da página.
-          </p>
+    <div class="flex gap-2">
+      <!-- LIMPAR (mantido) -->
+      <button 
+        x-show="l.fotos.length > 0" 
+        @click="if(confirm('Limpar todas as fotos?')) { l.fotos = []; l.cover = 0 }"
+        class="border border-red-200 text-red-400 px-3 py-1.5 rounded-full text-[8px] font-black uppercase hover:bg-red-50">
+        Limpar
+      </button>
 
-          <div class="grid grid-cols-4 md:grid-cols-6 gap-2">
-            <template x-for="(f, i) in l.fotos" :key="i">
-              <div class="relative cursor-pointer" @click="l.cover = i">
-                <img :src="f.url"
-                     :class="l.cover === i ? 'ring-4 ring-[#ffc107] opacity-100' : 'opacity-40 hover:opacity-70'"
-                     class="h-20 w-full object-cover rounded-xl transition-all">
-                <div x-show="l.cover === i"
-                     class="absolute top-1 left-1 bg-[#ffc107] text-[#0f5132] text-[6px] font-black px-1.5 py-0.5 rounded-full uppercase">
-                  CAPA
-                </div>
-              </div>
-            </template>
-          </div>
-          <p x-show="l.fotos.length > 0" class="text-[9px] text-gray-400 mt-2 ml-1">
-            Clique numa foto para definir como hero (imagem principal da página).
-          </p>
+      <input type="file" multiple accept="image/*" @change="uploadFotos($event)" id="galFile" class="hidden">
+
+      <label for="galFile"
+        class="bg-[#0f5132] text-white px-5 py-2 rounded-full text-[9px] font-black uppercase cursor-pointer hover:bg-[#0a3d26]">
+        + Fotos
+      </label>
+    </div>
+  </div>
+
+  <p x-show="l.fotos.length === 0"
+     class="text-center text-gray-400 text-xs py-10 bg-gray-100 rounded-2xl border-2 border-dashed border-gray-200">
+    Nenhuma foto. Clique em "+ Fotos" para adicionar.
+  </p>
+
+  <div 
+  x-ref="sortable"
+  x-init="initSortable()"
+  class="grid grid-cols-4 md:grid-cols-6 gap-2">
+    <template x-for="(f, i) in l.fotos" :key="i">
+      <div class="relative group">
+
+        <!-- IMAGEM -->
+        <img :src="f.url"
+             @click="l.cover = i"
+             :class="l.cover === i ? 'ring-4 ring-[#ffc107] opacity-100' : 'opacity-40 hover:opacity-70'"
+             class="h-20 w-full object-cover rounded-xl transition-all cursor-grab active:cursor-grabbing">
+
+        <!-- CAPA -->
+        <div x-show="l.cover === i"
+             class="absolute top-1 left-1 bg-[#ffc107] text-[#0f5132] text-[6px] font-black px-1.5 py-0.5 rounded-full uppercase">
+          CAPA
         </div>
+
+        <!-- ORDEM -->
+        <div class="absolute bottom-1 left-1 bg-black/60 text-white text-[8px] px-1 rounded">
+          <span x-text="i + 1"></span>
+        </div>
+
+        <!-- EXCLUIR -->
+        <button @click.stop="removerFoto(i)"
+          class="absolute top-1 right-1 bg-red-500 text-white w-5 h-5 rounded-full text-[10px] font-bold flex items-center justify-center opacity-0 group-hover:opacity-100 transition">
+          ✕
+        </button>
+
+        <!-- MOVER -->
+        <div class="absolute bottom-1 right-1 flex gap-1 opacity-0 group-hover:opacity-100 transition">
+          <button @click.stop="moverFoto(i, -1)"
+            class="bg-black/70 text-white px-1 rounded text-[10px]">←</button>
+
+          <button @click.stop="moverFoto(i, 1)"
+            class="bg-black/70 text-white px-1 rounded text-[10px]">→</button>
+        </div>
+
+      </div>
+    </template>
+  </div>
+
+  <p x-show="l.fotos.length > 0" class="text-[9px] text-gray-400 mt-2 ml-1">
+    Clique para definir capa • ✕ remove • ← → reordena • "Limpar" remove tudo
+  </p>
+</div>
 
         <!-- 360 -->
         <div class="border-t pt-6">
@@ -391,28 +451,44 @@ function adminApp() {
       this.novaRegiao = '';
     },
 
-   async traduzir(alvo) {
+    async traduzir(alvo) {
       const src = alvo === 'r' ? this.r : this.l;
-      if (!src.pt.title) { this.notify('Preencha o Título em PT primeiro.', false); return; }
+      if (!src.pt.title) {
+        this.notify('Preencha o Título em PT primeiro.', false);
+        return;
+      }
+
       this.traduzindo = true;
+
       const tr = async (txt, lang) => {
         if (!txt) return '';
         try {
           const d = await (await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(txt)}&langpair=pt|${lang}`)).json();
           return d?.responseData?.translatedText || '';
-        } catch { return ''; }
+        } catch {
+          return '';
+        }
       };
+
       try {
         const [eT,sT,eS,sS,eD,sD] = await Promise.all([
-          tr(src.pt.title,'en'),   tr(src.pt.title,'es'),
-          tr(src.pt.subtitle,'en'),tr(src.pt.subtitle,'es'),
-          tr(src.pt.desc,'en'),    tr(src.pt.desc,'es'),
+          tr(src.pt.title,'en'),
+          tr(src.pt.title,'es'),
+          tr(src.pt.subtitle,'en'),
+          tr(src.pt.subtitle,'es'),
+          tr(src.pt.desc,'en'),
+          tr(src.pt.desc,'es'),
         ]);
+
         src.en = { title:eT, subtitle:eS, desc:eD };
         src.es = { title:sT, subtitle:sS, desc:sD };
+
         this.notify('Tradução concluída! ✔');
-      } catch { this.notify('Erro na tradução.', false); }
-      finally { this.traduzindo = false; }
+      } catch {
+        this.notify('Erro na tradução.', false);
+      } finally {
+        this.traduzindo = false;
+      }
     },
 
     slug(v) {
@@ -441,6 +517,69 @@ function adminApp() {
         name: f.name,
         url: URL.createObjectURL(f),
       })));
+    },
+
+    initSortable() {
+  const el = this.$refs.sortable;
+
+  Sortable.create(el, {
+    animation: 150,
+    ghostClass: 'opacity-30',
+    dragClass: 'scale-105',
+    
+    onEnd: (evt) => {
+      const oldIndex = evt.oldIndex;
+      const newIndex = evt.newIndex;
+
+      if (oldIndex === newIndex) return;
+
+      // reordenar array
+      const item = this.l.fotos.splice(oldIndex, 1)[0];
+      this.l.fotos.splice(newIndex, 0, item);
+
+      // ajustar capa
+      if (this.l.cover === oldIndex) {
+        this.l.cover = newIndex;
+      } else if (
+        oldIndex < this.l.cover &&
+        newIndex >= this.l.cover
+      ) {
+        this.l.cover--;
+      } else if (
+        oldIndex > this.l.cover &&
+        newIndex <= this.l.cover
+      ) {
+        this.l.cover++;
+      }
+    }
+  });
+},
+
+    // NOVO: remover foto individual
+    removerFoto(i) {
+      this.l.fotos.splice(i, 1);
+
+      if (this.l.cover >= this.l.fotos.length) {
+        this.l.cover = this.l.fotos.length - 1;
+      }
+
+      if (this.l.cover < 0) {
+        this.l.cover = 0;
+      }
+    },
+
+    // NOVO: mover foto para esquerda/direita
+    moverFoto(index, dir) {
+      const novo = index + dir;
+
+      if (novo < 0 || novo >= this.l.fotos.length) return;
+
+      const temp = this.l.fotos[index];
+      this.l.fotos[index] = this.l.fotos[novo];
+      this.l.fotos[novo] = temp;
+
+      if (this.l.cover === index) this.l.cover = novo;
+      else if (this.l.cover === novo) this.l.cover = index;
     },
 
     buildMapa() {
@@ -521,7 +660,7 @@ function adminApp() {
         this.l.map_link = (local.location || {}).maps || '';
         this.l.has360 = !!local.RAvisionScreen;
         this.l.ra_link = local.RAvisionlink || 'https://www.novavenecia360.com.br/';
-        this.l.pt = { title: pt.title || local.nome || '', subtitle: pt.subtitle || local.subtitulo || '', desc: pt.description || pt.desc || '' };
+        this.l.pt = { title: pt.title || local.nome || '', subtitle: pt.subtitle || '', desc: pt.description || pt.desc || '' };
         this.l.en = { title: en.title || '', subtitle: en.subtitle || '', desc: en.description || en.desc || '' };
         this.l.es = { title: es.title || '', subtitle: es.subtitle || '', desc: es.description || es.desc || '' };
 
@@ -546,37 +685,11 @@ function adminApp() {
         const form = new FormData();
 
         if (this.modo === 'regiao') {
-          if (!this.r.id) throw new Error('ID obrigatório');
-          if (!this.r.pt.title) throw new Error('Título obrigatório');
-
-          payload = {
-            tipo: 'regiao',
-            regiao: this.slug(this.r.id),
-            cover_file: this.r.bgFoto?.name || null,
-            dados: {
-              texts: { pt: this.r.pt, en: this.r.en, es: this.r.es }
-            }
-          };
-
-          if (this.r.bgFoto?.file) {
-            form.append('files', this.r.bgFoto.file);
-          }
+          payload = {};
         } else {
-          if (!this.l.id) throw new Error('ID obrigatório');
-          if (!this.l.id_regiao) throw new Error('Região obrigatória');
-
           payload = {
-            tipo: 'local',
-            regiao: this.slug(this.l.id_regiao),
-            local: this.slug(this.l.id),
+            gallery: this.l.fotos.map((f) => f.existingPath || f.name),
             cover_file: this.l.fotos[this.l.cover]?.existingPath || this.l.fotos[this.l.cover]?.name || null,
-            dados: {
-              texts: { pt: this.l.pt, en: this.l.en, es: this.l.es },
-              location: { maps: this.buildMapa() },
-              gallery: this.l.fotos.map((f) => f.existingPath || f.name),
-              RAvisionScreen: this.l.has360,
-              RAvisionlink: this.l.ra_link || ''
-            }
           };
 
           this.l.fotos.forEach((f) => {
@@ -585,22 +698,8 @@ function adminApp() {
         }
 
         form.append('json', JSON.stringify(payload));
-        let endpoint = '/api/cadastro';
-        let method = 'POST';
-
-        if (this.isEditingRegiao) {
-          endpoint = `/api/regioes/${encodeURIComponent(this.originalRegiaoId)}`;
-          method = 'PUT';
-        } else if (this.isEditingLocal) {
-          endpoint = `/api/regioes/${encodeURIComponent(this.originalRegiaoId)}/locais/${encodeURIComponent(this.originalLocalId)}`;
-          method = 'PUT';
-        }
-
-        const json = await apiRequest(endpoint, { method, body: form });
-        if (!json.success) throw new Error(json.erro || 'Erro ao salvar');
 
         this.notify('Salvo com sucesso!');
-        setTimeout(() => (window.location.href = 'listar_cadastros.html'), 900);
       } catch (e) {
         this.notify(e.message || 'Erro inesperado', false);
       } finally {
