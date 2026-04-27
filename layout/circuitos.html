@@ -41,62 +41,38 @@
     </div>
 </header>
 
-    <!-- MAIN ajustado para ocupar exatamente o restante da tela -->
-    <main class="flex-1 overflow-hidden min-h-0" x-cloak x-show="ready">
+   <main class="flex-1 overflow-y-auto min-h-0" x-cloak x-show="ready">
 
-        <!-- GRID para ≤ 3 cards -->
-        <div x-show="pontos.length <= 3" class="h-full w-full grid gap-0"
-             :class="pontos.length === 1 ? 'grid-cols-1' : pontos.length === 2 ? 'md:grid-cols-2 grid-cols-1' : 'md:grid-cols-3 grid-cols-1'">
-            
-            <template x-for="ponto in pontos" :key="ponto.id">
-                <a :href="`local.html?id=${ponto.id}`" 
-                   class="ponto-card relative flex-1 group overflow-hidden h-full">
-                    
-                    <img :src="ponto.hero" class="absolute inset-0 w-full h-full object-cover opacity-60">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
-                    
-                    <div class="relative h-full flex flex-col items-center justify-center p-8 text-center z-10">
-                        <h2 class="font-black uppercase italic tracking-tighter mb-4 leading-none" 
-                            :class="pontos.length === 1 ? 'text-5xl md:text-9xl' : 'text-3xl md:text-5xl'" 
-                            x-text="ponto.texts[lang].title"></h2>
-                        
-                        <p class="opacity-90 font-light max-w-2xl mb-8"
-                           :class="pontos.length === 1 ? 'text-xl md:text-3xl' : 'text-base md:text-xl'"
-                           x-text="ponto.texts[lang].subtitle"></p>
-                        
-                        <div class="px-10 py-3 border-2 border-[#ffc107] text-[#ffc107] rounded-full font-black uppercase text-xs tracking-widest group-hover:bg-[#ffc107] group-hover:text-[#0f5132] transition-all shadow-2xl">
-                            EXPLORAR LOCAL
-                        </div>
+    <div class="grid w-full h-full"
+         style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+
+        <template x-for="ponto in pontos" :key="ponto.id">
+            <a :href="`local.html?id=${ponto.id}`" 
+               class="ponto-card relative group overflow-hidden min-h-[300px] md:min-h-[400px]">
+
+                <img :src="ponto.hero" class="absolute inset-0 w-full h-full object-cover opacity-60">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
+
+                <div class="relative h-full flex flex-col items-center justify-center p-6 text-center z-10">
+
+                    <h2 class="font-black uppercase italic tracking-tighter mb-4 leading-none text-2xl md:text-4xl"
+                        x-text="ponto.texts[lang].title"></h2>
+
+                    <p class="opacity-90 font-light max-w-xl mb-6 text-sm md:text-lg"
+                       x-text="ponto.texts[lang].subtitle"></p>
+
+                    <div class="px-6 py-2 border-2 border-[#ffc107] text-[#ffc107] rounded-full font-black uppercase text-xs tracking-widest group-hover:bg-[#ffc107] group-hover:text-[#0f5132] transition-all shadow-2xl">
+                        EXPLORAR LOCAL
                     </div>
-                </a>
-            </template>
-        </div>
 
-        <!-- SLIDER para > 3 cards -->
-        <div x-show="pontos.length > 3" class="flex overflow-x-auto snap-x snap-mandatory gap-0 h-full">
-            <template x-for="ponto in pontos" :key="ponto.id">
-                <a :href="`local.html?id=${ponto.id}`"
-                   class="ponto-card flex-none w-80 md:w-96 h-full relative group overflow-hidden snap-start">
-                    
-                    <img :src="ponto.hero" class="absolute inset-0 w-full h-full object-cover opacity-60">
-                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/20"></div>
-                    
-                    <div class="relative h-full flex flex-col items-center justify-center p-8 text-center z-10">
-                        <h2 class="font-black uppercase italic tracking-tighter mb-4 leading-none text-3xl md:text-5xl" 
-                            x-text="ponto.texts[lang].title"></h2>
-                        
-                        <p class="opacity-90 font-light max-w-2xl mb-8 text-base md:text-xl"
-                           x-text="ponto.texts[lang].subtitle"></p>
-                        
-                        <div class="px-10 py-3 border-2 border-[#ffc107] text-[#ffc107] rounded-full font-black uppercase text-xs tracking-widest group-hover:bg-[#ffc107] group-hover:text-[#0f5132] transition-all shadow-2xl">
-                            EXPLORAR LOCAL
-                        </div>
-                    </div>
-                </a>
-            </template>
-        </div>
+                </div>
+            </a>
+        </template>
 
-    </main>
+    </div>
+
+</main>
 
     <script>
         function circuitApp() {
