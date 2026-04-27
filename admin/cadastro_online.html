@@ -104,7 +104,7 @@
             <label class="lbl">Foto de Fundo <span class="text-red-400">*</span></label>
             <input type="file" accept="image/*" @change="uploadBg($event)" id="bgFile" class="hidden">
             <label for="bgFile"
-              :class="r.bgFoto ? 'border-[#0f5132] bg-green-50' : 'border-gray-200 bg-gray-50'"
+              :class="r.bgFoto ? 'border-[#0f5132] bg-green-50' : 'border-gray-200 bg-gray-100'"
               class="flex items-center justify-center h-14 rounded-2xl border-2 border-dashed cursor-pointer hover:border-[#0f5132] transition-colors text-[10px] font-black uppercase text-gray-400 hover:text-[#0f5132]">
               <span x-text="r.bgFoto ? '✔ ' + r.bgFoto.name : '+ Escolher Foto'"></span>
             </label>
@@ -164,7 +164,7 @@
               </select>
               <div class="flex gap-2 mt-2">
                 <input x-model="novaRegiao" @input="novaRegiao = slug(novaRegiao)"
-                       class="inp text-xs" placeholder="Ou digita ID da região...">
+                       class="inp bg-gray-100  text-xs" placeholder="Ou digita ID da região...">
                 <button @click="addRegiao()"
                   class="bg-[#0f5132] text-white px-3 rounded-xl text-[9px] font-black uppercase whitespace-nowrap">
                   + Add
@@ -175,31 +175,36 @@
             <!-- ID do local -->
             <div>
               <label class="lbl">ID do Local <span class="text-red-400">*</span></label>
-              <input x-model="l.id" @input="l.id = slug(l.id)" :disabled="isEditingLocal"
-                :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'inp'" placeholder="ex: cachoeira_das_pedras">
-              <p class="text-[9px] text-gray-400 mt-1 ml-2">
+              <input x-model="l.id" @input="l.id = slug(l.id)" :disabled="isEditingLocal" 
+                :class="isEditingLocal ? 'inp opacity-70 cursor-not-allowed' : 'bg-gray-100  inp'" placeholder="ex: cachoeira_das_pedras">
+              <p class="text-[9px] text-gray-400 mt-1 ml-2 ">
                 URL: <code class="text-[#0f5132]" x-text="l.id ? `local.html?id=${l.id}` : '—'"></code>
               </p>
             </div>
           </div>
 
           <!-- GPS -->
-          <div class="bg-gray-50 p-5 rounded-2xl space-y-3">
+          <div class="bg-white p-5 rounded-2xl space-y-3">
             <label class="lbl">Localização GPS</label>
             <div class="flex gap-1.5">
-              <button @click="gps = 'link'"
-                :class="gps === 'link' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
-                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Link Maps</button>
               <button @click="gps = 'coords'"
                 :class="gps === 'coords' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
                 class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Coordenadas</button>
+              <button @click="gps = 'link'"
+                :class="gps === 'link' ? 'bg-[#0f5132] text-white' : 'bg-white text-gray-500 border'"
+                class="flex-1 py-2 rounded-lg text-[8px] font-black uppercase transition-all">Link Embed</button>
             </div>
             <input x-show="gps === 'link'" x-model="l.map_link" class="inp text-xs"
                    placeholder="https://www.google.com/maps?q=NOME_DO_LOCAL+Nova+Venécia+ES&output=embed">
             <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
-              <input x-model="l.lat" class="inp text-xs" placeholder="Latitude">
-              <input x-model="l.lng" class="inp text-xs" placeholder="Longitude">
-            </div>
+  <input x-model="l.lat"
+    class="inp text-xs bg-gray-100 border-2 border-transparent focus:border-yellow-400"
+    placeholder="Latitude">
+
+  <input x-model="l.lng"
+    class="inp text-xs bg-gray-100 border-2 border-transparent focus:border-yellow-400"
+    placeholder="Longitude">
+</div>
           </div>
         </div>
 
@@ -256,7 +261,7 @@
           </div>
 
           <p x-show="l.fotos.length === 0"
-             class="text-center text-gray-400 text-xs py-10 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200">
+             class="text-center text-gray-400 text-xs py-10 bg-gray-100 rounded-2xl border-2 border-dashed border-gray-200">
             Nenhuma foto. Clique em "+ Fotos" para adicionar. A foto marcada será o hero da página.
           </p>
 
