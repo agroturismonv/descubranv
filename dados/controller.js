@@ -39,9 +39,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-            "embed": "https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+            "maps": "https://www.google.com/maps?q=-18.6477001,-40.2504503",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.6477001,-40.2504503",
+            "embed": "https://www.google.com/maps?q=-18.6477001,-40.2504503&output=embed"
           },
           "gallery": [
             "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
@@ -485,9 +485,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-      "embed": "https://www.google.com/maps/place/C%C3%B3rrego+Da+Areia+-+Nestor+Gomes/@-18.6477001,-40.2504503,135m/data=!3m1!1e3!4m7!3m6!1s0xb5ea3a6c506d23:0xd91d4c64caf5f722!4b1!8m2!3d-18.6315501!4d-40.2790019!16s%2Fg%2F11g_zkzw03?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+      "maps": "https://www.google.com/maps?q=-18.6477001,-40.2504503",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.6477001,-40.2504503",
+      "embed": "https://www.google.com/maps?q=-18.6477001,-40.2504503&output=embed"
     },
     "gallery": [
       "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
