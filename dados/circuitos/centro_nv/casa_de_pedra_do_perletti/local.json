@@ -28,9 +28,9 @@
     }
   },
   "location": {
-    "maps": "https://www.google.com/maps?q=-18.709914,-40.4072374",
-    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.709914,-40.4072374",
-    "embed": "https://www.google.com/maps?q=-18.709914,-40.4072374&output=embed"
+    "maps": "https://www.google.com/maps?q=-18.709914,-40.4046625",
+    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.709914,-40.4046625",
+    "embed": "https://www.google.com/maps?q=-18.709914,-40.4046625&output=embed"
   },
   "RAvisionScreen": true,
   "RAvisionlink": "https://novavenecia360.com.br/"
