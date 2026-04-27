@@ -55,17 +55,28 @@
       <p class="text-[10px] opacity-50 uppercase tracking-widest mt-1">Turismo Nova Venécia</p>
     </div>
       <div class="flex bg-black/20 p-1 rounded-xl">
-      <button @click="switchMode('regiao')"
-        :class="modo === 'regiao' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
-        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all">
-        🗺 Região
-      </button>
-      <button @click="switchMode('local')"
-        :class="modo === 'local' ? 'bg-[#ffc107] text-[#0f5132]' : 'text-white/70'"
-        class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all ml-1">
-        📍 Local
-      </button>
-    </div>
+  
+  <button 
+    @click="!isEditing && switchMode('regiao')"
+    :disabled="isEditing"
+    :class="modo === 'regiao' 
+      ? 'bg-[#ffc107] text-[#0f5132]' 
+      : 'text-white/70 hover:text-white'"
+    class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all disabled:opacity-40 disabled:cursor-not-allowed">
+    🗺 Região
+  </button>
+
+  <button 
+    @click="!isEditing && switchMode('local')"
+    :disabled="isEditing"
+    :class="modo === 'local' 
+      ? 'bg-[#ffc107] text-[#0f5132]' 
+      : 'text-white/70 hover:text-white'"
+    class="px-5 py-2 rounded-lg text-[9px] font-black uppercase tracking-wider transition-all ml-1 disabled:opacity-40 disabled:cursor-not-allowed">
+    📍 Local
+  </button>
+
+</div>
   </header>
 
   <div class="p-8 md:p-10 space-y-8">
