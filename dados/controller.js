@@ -134,10 +134,10 @@ window.APP_CONTROLLER = {
             "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
           },
           "gallery": [
-            "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
             "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
             "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos3.jpeg",
-            "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg"
+            "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg",
+            "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg"
           ],
           "RAvisionScreen": true,
           "RAvisionlink": "https://novavenecia360.com.br/"
@@ -562,10 +562,10 @@ window.LOCAIS = {
       "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
     },
     "gallery": [
-      "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
       "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
       "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos3.jpeg",
-      "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg"
+      "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg",
+      "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg"
     ],
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
