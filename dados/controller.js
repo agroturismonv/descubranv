@@ -216,9 +216,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac",
-            "embed": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac"
+            "maps": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
+            "embed": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac"
           },
           "gallery": [
             "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
@@ -563,9 +563,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac",
-      "embed": "https://maps.app.goo.gl/sW52PPzUGDGoGv8w8?g_st=ac"
+      "maps": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac",
+      "embed": "https://maps.app.goo.gl/wLwfiWmJjX7LzFjQ6?g_st=ac"
     },
     "gallery": [
       "dados/circuitos/pedra_elefante/espetaria_pedra_elefante/images/1000727376.jpg",
