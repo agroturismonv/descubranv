@@ -92,8 +92,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://maps.app.goo.gl/Wj2J4RfnU52Pzyg69",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/Wj2J4RfnU52Pzyg69"
+            "maps": "https://www.google.com/maps?q=-18.709914,-40.4072374",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.709914,-40.4072374",
+            "embed": "https://www.google.com/maps?q=-18.709914,-40.4072374&output=embed"
           },
           "gallery": [
             "dados/circuitos/centro_nv/casa_de_pedra_do_perletti/images/casadepedra.jpg",
@@ -518,8 +519,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://maps.app.goo.gl/Wj2J4RfnU52Pzyg69",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://maps.app.goo.gl/Wj2J4RfnU52Pzyg69"
+      "maps": "https://www.google.com/maps?q=-18.709914,-40.4072374",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.709914,-40.4072374",
+      "embed": "https://www.google.com/maps?q=-18.709914,-40.4072374&output=embed"
     },
     "gallery": [
       "dados/circuitos/centro_nv/casa_de_pedra_do_perletti/images/casadepedra.jpg",
