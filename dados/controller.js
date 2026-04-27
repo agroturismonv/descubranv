@@ -303,9 +303,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-            "embed": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+            "maps": "https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed",
+            "embed": "https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed&output=embed"
           },
           "gallery": [
             "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
@@ -705,9 +705,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D",
-      "embed": "https://www.google.com/maps/place/Santu%C3%A1rio+da+M%C3%A3e+Peregrina/@-21.4765213,-49.8310279,6z/data=!4m10!1m2!2m1!1ssantuario+da+m%C3%A3e+peregrina!3m6!1s0xb5d98601df1cd5:0xd97a68b75f0d820f!8m2!3d-18.7635207!4d-40.4414373!15sChtzYW50dWFyaW8gZGEgbcOjZSBwZXJlZ3JpbmFaHSIbc2FudHVhcmlvIGRhIG3Do2UgcGVyZWdyaW5hkgEQcGxhY2Vfb2Zfd29yc2hpcJoBRENpOURRVWxSUVVOdlpFTm9kSGxqUmpsdlQycFNURk5zU1ROVFNFSXpXVmRPUkZsVlNsSmpNazVvVG14S1ZGcFhZeEFC4AEA-gEECAAQNA!16s%2Fg%2F11b8v5rfyf?entry=ttu&g_ep=EgoyMDI2MDQyMi4wIKXMDSoASAFQAw%3D%3D"
+      "maps": "https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed",
+      "embed": "https://www.google.com/maps?q=Santuário+Mãe+Peregrina+Nova+Venécia+ES&output=embed&output=embed"
     },
     "gallery": [
       "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
