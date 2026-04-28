@@ -352,7 +352,7 @@ window.APP_CONTROLLER = {
       "locais": [
         {
           "id": "fortaleza",
-          "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
+          "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-2.webp",
           "texts": {
             "pt": {
               "title": "Pedra da Fortaleza",
@@ -748,7 +748,7 @@ window.LOCAIS = {
   },
   "fortaleza": {
     "id": "fortaleza",
-    "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
+    "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-2.webp",
     "texts": {
       "pt": {
         "title": "Pedra da Fortaleza",
