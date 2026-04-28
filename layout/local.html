@@ -217,8 +217,12 @@
   </div>
 </div>
 
-  <div x-show="lightbox" x-cloak class="fixed inset-0 bg-black/98 z-[200] flex items-center justify-center">
-    <button @click="lightbox = false"
+<div 
+  x-show="lightbox" 
+  x-cloak 
+  @touchstart="startTouch($event)"
+  @touchend="endTouch($event)"
+  class="fixed inset-0 bg-black/98 z-[200] flex items-center justify-center">    <button @click="lightbox = false"
         class="absolute top-8 right-8 z-[210] bg-[#ffc107] text-[#0f5132] w-20 h-20 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12" />
@@ -263,61 +267,104 @@
 </body>
 
 <script>
-  function tourismTemplate() {
-    const params = new URLSearchParams(window.location.search);
-    const id = params.get('id') || 'elefante';
+function tourismTemplate() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id') || 'elefante';
 
-    return {
-      lang: localStorage.getItem('user_lang') || 'pt',
-      ready: false, lightbox: false, showMap: false, show360: false, current: 0,
-      hero: '', gallery: [], mapEmbed: '', qr: '', texts: {},
-      RAvisionScreen: false, RAvisionlink: '',
+  return {
+    lang: localStorage.getItem('user_lang') || 'pt',
+    ready: false,
+    lightbox: false,
+    showMap: false,
+    show360: false,
+    current: 0,
 
-      uiTexts: {
-        pt: { back: 'Voltar', about: 'Sobre o Local', gallery: 'Galeria de Fotos', location: 'Como Chegar', qrLabel: 'Escaneie para GPS' },
-        en: { back: 'Back', about: 'About the Place', gallery: 'Gallery', location: 'Directions', qrLabel: 'Scan for GPS' },
-        es: { back: 'Volver', about: 'Sobre el Lugar', gallery: 'Galería', location: 'Cómo Llegar', qrLabel: 'Escanear para GPS' }
-      },
+    hero: '',
+    gallery: [],
+    mapEmbed: '',
+    qr: '',
+    texts: {},
 
-      get t() { return this.texts[this.lang] || {} },
-      get ui() { return this.uiTexts[this.lang] },
-      get tour360() { return this.RAvisionlink || '' },
+    RAvisionScreen: false,
+    RAvisionlink: '',
 
-      setLang(l) { this.lang = l; localStorage.setItem('user_lang', l); },
-      voltar() { window.history.back(); },
+    // 👇 SWIPE
+    touchStartX: 0,
+    touchEndX: 0,
+
+    startTouch(e) {
+      this.touchStartX = e.changedTouches[0].screenX
+    },
+
+    endTouch(e) {
+      this.touchEndX = e.changedTouches[0].screenX
+      this.handleSwipe()
+    },
+
+    handleSwipe() {
+      const diff = this.touchStartX - this.touchEndX
+
+      if (Math.abs(diff) < 50) return
+
+      if (diff > 0) {
+        this.next()
+      } else {
+        this.prev()
+      }
+    },
+
+    uiTexts: {
+      pt: { back: 'Voltar', about: 'Sobre o Local', gallery: 'Galeria de Fotos', location: 'Como Chegar', qrLabel: 'Escaneie para GPS' },
+      en: { back: 'Back', about: 'About the Place', gallery: 'Gallery', location: 'Directions', qrLabel: 'Scan for GPS' },
+      es: { back: 'Volver', about: 'Sobre el Lugar', gallery: 'Galería', location: 'Cómo Llegar', qrLabel: 'Escanear para GPS' }
+    },
+
+    get t() { return this.texts[this.lang] || {} },
+    get ui() { return this.uiTexts[this.lang] },
+    get tour360() { return this.RAvisionlink || '' },
+
+    setLang(l) {
+      this.lang = l;
+      localStorage.setItem('user_lang', l);
+    },
+
+    voltar() {
+      window.history.back();
+    },
 
     start() {
-    const carregar = () => {
+      const carregar = () => {
         const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
         if (data) {
-            // 1. Imagem Principal
-            this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
-
-            // 2. Galeria
-            this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
-
-            //3. QR e Mapa
-            this.qr = data.location?.qr || '';
-            this.mapEmbed = data.location?.embed || data.location?.maps || '';
-
-            //4. textos
-            this.texts = data.texts;
-
-            //5. Site360
-            this.RAvisionScreen = !!data.RAvisionScreen;
-            this.RAvisionlink = data.RAvisionlink || '';
-            this.ready = true;
+          this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
+          this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
+          this.qr = data.location?.qr || '';
+          this.mapEmbed = data.location?.embed || data.location?.maps || '';
+          this.texts = data.texts;
+          this.RAvisionScreen = !!data.RAvisionScreen;
+          this.RAvisionlink = data.RAvisionlink || '';
+          this.ready = true;
         }
-    };
-    if (window.LOCAIS) carregar();
-    else window.addEventListener('locais-ready', carregar);
-},
+      };
 
-      openLightbox(i) { this.current = i; this.lightbox = true; },
-      next() { this.current = (this.current + 1) % this.gallery.length; },
-      prev() { this.current = (this.current - 1 + this.gallery.length) % this.gallery.length; }
+      if (window.LOCAIS) carregar();
+      else window.addEventListener('locais-ready', carregar);
+    },
+
+    openLightbox(i) {
+      this.current = i;
+      this.lightbox = true;
+    },
+
+    next() {
+      this.current = (this.current + 1) % this.gallery.length;
+    },
+
+    prev() {
+      this.current = (this.current - 1 + this.gallery.length) % this.gallery.length;
     }
   }
+}
 </script>
 </body>
 
