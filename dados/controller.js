@@ -331,7 +331,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_fortaleza",
-      "cover": "fortaleza.jpg",
+      "cover": "dados/circuitos/pedra_fortaleza/images/fortaleza.jpg",
       "texts": {
         "pt": {
           "title": "Pedra da Fortaleza",
@@ -455,7 +455,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_fortaleza",
-    "cover": "fortaleza.jpg",
+    "cover": "dados/circuitos/pedra_fortaleza/images/fortaleza.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Fortaleza",
@@ -863,7 +863,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "id": "pedra_fortaleza",
-  "cover": "fortaleza.jpg",
+  "cover": "dados/circuitos/pedra_fortaleza/images/fortaleza.jpg",
   "texts": {
     "pt": {
       "title": "Pedra da Fortaleza",
