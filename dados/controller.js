@@ -352,6 +352,49 @@ window.APP_CONTROLLER = {
       "locais": [
         {
           "id": "fortaleza",
+          "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+          "texts": {
+            "pt": {
+              "title": "Pedra da Fortaleza",
+              "subtitle": "Vista panorâmica e contato com a natureza",
+              "description": "A Pedra da Fortaleza é um dos pontos mais altos da região, oferecendo uma vista panorâmica impressionante e sendo muito procurada por aventureiros."
+            },
+            "en": {
+              "title": "Fortress Rock",
+              "subtitle": "Panoramic views and nature",
+              "description": "Fortress Rock is one of the highest points in the region, offering breathtaking views."
+            },
+            "es": {
+              "title": "Piedra de la Fortaleza",
+              "subtitle": "Vista panorámica y naturaleza",
+              "description": "La Piedra de la Fortaleza ofrece una vista panorámica impresionante y es muy visitada."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps?q=-18.7663865,-40.7094103",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7663865,-40.7094103",
+            "embed": "https://www.google.com/maps?q=-18.7663865,-40.7094103&output=embed"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-2.webp",
+            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000481.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000552.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-3.png",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000509.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000516.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000546.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000560.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000570.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000576.jpg"
+          ],
+          "RAvisionScreen": true,
+          "RAvisionlink": "https://novavenecia360.com.br/"
+        },
+        {
+          "id": "fortaleza",
           "hero": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-2.webp",
           "texts": {
             "pt": {
@@ -860,6 +903,7 @@ window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
     }
   },
   "locais": [
+    "fortaleza",
     "fortaleza"
   ]
 });
