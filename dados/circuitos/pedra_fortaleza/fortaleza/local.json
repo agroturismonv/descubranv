@@ -1,18 +1,18 @@
 {
   "id": "fortaleza",
-  "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+  "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
   "gallery": [
-    "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-2.webp",
-    "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+    "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000481.jpg",
+    "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-3.png",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000552.jpg",
-    "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-3.png",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000509.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000516.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000546.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000560.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+    "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-2.webp",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000570.jpg",
     "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000576.jpg"
   ],

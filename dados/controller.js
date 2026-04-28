@@ -150,18 +150,15 @@ window.APP_CONTROLLER = {
       "texts": {
         "pt": {
           "title": "Pedra do Elefante",
-          "subtitle": "O símbolo majestoso de Nova Venécia",
-          "desc": ""
+          "subtitle": "O símbolo máximo de Nova Venécia"
         },
         "en": {
-          "title": "Elephant Stone",
-          "subtitle": "The majestic symbol of Nova Venécia",
-          "desc": ""
+          "title": "Elephant Rock",
+          "subtitle": "The ultimate symbol of Nova Venécia"
         },
         "es": {
-          "title": "Piedra de elefante",
-          "subtitle": "El majestuoso símbolo de Nova Venécia",
-          "desc": ""
+          "title": "Piedra del Elefante",
+          "subtitle": "El símbolo máximo de Nova Venécia"
         }
       },
       "locais": [
@@ -334,28 +331,25 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_fortaleza",
-      "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
+      "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
       "texts": {
         "pt": {
           "title": "Pedra da Fortaleza",
-          "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
-          "desc": ""
+          "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
         },
         "en": {
           "title": "Fortress Rock",
-          "subtitle": "The highest point to contemplate the Venetian immensity.",
-          "desc": ""
+          "subtitle": "The highest point to contemplate the Venetian immensity."
         },
         "es": {
           "title": "Piedra Fortaleza",
-          "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
-          "desc": ""
+          "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
         }
       },
       "locais": [
         {
           "id": "fortaleza",
-          "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+          "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
           "texts": {
             "pt": {
               "title": "Pedra da Fortaleza",
@@ -379,17 +373,17 @@ window.APP_CONTROLLER = {
             "embed": "https://www.google.com/maps?q=-18.7663865,-40.7094103&output=embed"
           },
           "gallery": [
-            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-2.webp",
-            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000481.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-3.png",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000552.jpg",
-            "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-3.png",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000509.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000516.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000546.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000560.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+            "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-2.webp",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000570.jpg",
             "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000576.jpg"
           ],
@@ -444,39 +438,33 @@ window.LISTA_CIRCUITOS = [
     "texts": {
       "pt": {
         "title": "Pedra do Elefante",
-        "subtitle": "O símbolo majestoso de Nova Venécia",
-        "desc": ""
+        "subtitle": "O símbolo máximo de Nova Venécia"
       },
       "en": {
-        "title": "Elephant Stone",
-        "subtitle": "The majestic symbol of Nova Venécia",
-        "desc": ""
+        "title": "Elephant Rock",
+        "subtitle": "The ultimate symbol of Nova Venécia"
       },
       "es": {
-        "title": "Piedra de elefante",
-        "subtitle": "El majestuoso símbolo de Nova Venécia",
-        "desc": ""
+        "title": "Piedra del Elefante",
+        "subtitle": "El símbolo máximo de Nova Venécia"
       }
     }
   },
   {
     "id": "pedra_fortaleza",
-    "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
+    "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Fortaleza",
-        "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
-        "desc": ""
+        "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
       },
       "en": {
         "title": "Fortress Rock",
-        "subtitle": "The highest point to contemplate the Venetian immensity.",
-        "desc": ""
+        "subtitle": "The highest point to contemplate the Venetian immensity."
       },
       "es": {
         "title": "Piedra Fortaleza",
-        "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
-        "desc": ""
+        "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
       }
     }
   }
@@ -754,7 +742,7 @@ window.LOCAIS = {
   },
   "fortaleza": {
     "id": "fortaleza",
-    "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+    "hero": "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Fortaleza",
@@ -778,17 +766,17 @@ window.LOCAIS = {
       "embed": "https://www.google.com/maps?q=-18.7663865,-40.7094103&output=embed"
     },
     "gallery": [
-      "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-2.webp",
-      "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+      "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000481.jpg",
+      "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-3.png",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000552.jpg",
-      "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza-3.png",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000509.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000516.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000546.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000560.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000563.jpg",
+      "dados/circuitos/pedra_fortaleza/fortaleza/images/fortaleza-2.webp",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000570.jpg",
       "dados/circuitos/pedra_fortaleza/fortaleza/images/nova_venecia_marcelo_moryan_-000576.jpg"
     ],
@@ -848,18 +836,15 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "texts": {
     "pt": {
       "title": "Pedra do Elefante",
-      "subtitle": "O símbolo majestoso de Nova Venécia",
-      "desc": ""
+      "subtitle": "O símbolo máximo de Nova Venécia"
     },
     "en": {
-      "title": "Elephant Stone",
-      "subtitle": "The majestic symbol of Nova Venécia",
-      "desc": ""
+      "title": "Elephant Rock",
+      "subtitle": "The ultimate symbol of Nova Venécia"
     },
     "es": {
-      "title": "Piedra de elefante",
-      "subtitle": "El majestuoso símbolo de Nova Venécia",
-      "desc": ""
+      "title": "Piedra del Elefante",
+      "subtitle": "El símbolo máximo de Nova Venécia"
     }
   },
   "locais": [
@@ -872,22 +857,19 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "id": "pedra_fortaleza",
-  "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
+  "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
   "texts": {
     "pt": {
       "title": "Pedra da Fortaleza",
-      "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
-      "desc": ""
+      "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
     },
     "en": {
       "title": "Fortress Rock",
-      "subtitle": "The highest point to contemplate the Venetian immensity.",
-      "desc": ""
+      "subtitle": "The highest point to contemplate the Venetian immensity."
     },
     "es": {
       "title": "Piedra Fortaleza",
-      "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
-      "desc": ""
+      "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
     }
   },
   "locais": [
