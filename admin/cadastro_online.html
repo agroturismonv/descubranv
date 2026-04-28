@@ -584,7 +584,7 @@ function adminApp() {
 
     buildMapa() {
       if (this.l.lat && this.l.lng) {
-        return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
+        return `https://www.google.com/maps/@${this.l.lat},${this.l.lng}`;
       }
       return this.l.map_link || '';
     },
