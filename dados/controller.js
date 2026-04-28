@@ -45,8 +45,8 @@ window.APP_CONTROLLER = {
           },
           "gallery": [
             "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg"
+            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
+            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://novavenecia360.com.br/"
@@ -129,15 +129,15 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps?q=-18.7109977,-40.4010748",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7109977,-40.4010748",
-            "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
+            "maps": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"",
+            "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\""
           },
           "gallery": [
-            "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
             "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
             "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos3.jpeg",
-            "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg"
+            "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg",
+            "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg"
           ],
           "RAvisionScreen": true,
           "RAvisionlink": "https://novavenecia360.com.br/"
@@ -493,8 +493,8 @@ window.LOCAIS = {
     },
     "gallery": [
       "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg"
+      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
+      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://novavenecia360.com.br/"
@@ -557,15 +557,15 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps?q=-18.7109977,-40.4010748",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7109977,-40.4010748",
-      "embed": "https://www.google.com/maps?q=-18.7109977,-40.4010748&output=embed"
+      "maps": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\"",
+      "embed": "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d236.18435305020964!2d-40.40014159137132!3d-18.71107227500439!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xb5dbcb084028e7%3A0xc9fee371f2bb18bb!2sMatriz%20S%C3%A3o%20Marcos%20Evangelista!5e0!3m2!1spt-BR!2sbr!4v1777373670723!5m2!1spt-BR!2sbr\" width=\"600\" height=\"450\" style=\"border:0;\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\""
     },
     "gallery": [
-      "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg",
       "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos2.jpeg",
       "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos3.jpeg",
-      "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg"
+      "dados/circuitos/centro_nv/igreja_sao_marcos/images/saomarcos4.jpg",
+      "dados/circuitos/centro_nv/igreja_sao_marcos/images/sao_marcos2.jpg"
     ],
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"

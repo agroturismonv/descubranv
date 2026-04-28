@@ -1,8 +1,2 @@
 <?xml version='1.0' encoding='utf-8'?>
-<users_database>
-    <user>
-        <username>@dmin</username>
-        <password>8d8156bef64cb06f81de73770fd8bf13818346b6356bea406e746f953c96f58a</password>
-        <level>master</level>
-    </user>
-</users_database>
+<users_database><user><username>@dmin</username><password>8d8156bef64cb06f81de73770fd8bf13818346b6356bea406e746f953c96f58a</password><level>master</level></user><user><username>alimentador</username><password>fc33718229311d62c75518fbbbbb348aa32ecb27932b16964d6c49bd73c8c5aa</password><level>admin</level></user></users_database>
