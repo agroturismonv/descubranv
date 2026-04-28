@@ -334,19 +334,22 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_fortaleza",
-      "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+      "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
       "texts": {
         "pt": {
           "title": "Pedra da Fortaleza",
-          "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
+          "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
+          "desc": ""
         },
         "en": {
           "title": "Fortress Rock",
-          "subtitle": "The highest point to contemplate the Venetian immensity."
+          "subtitle": "The highest point to contemplate the Venetian immensity.",
+          "desc": ""
         },
         "es": {
           "title": "Piedra Fortaleza",
-          "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
+          "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
+          "desc": ""
         }
       },
       "locais": [
@@ -458,19 +461,22 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_fortaleza",
-    "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+    "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Fortaleza",
-        "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
+        "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
+        "desc": ""
       },
       "en": {
         "title": "Fortress Rock",
-        "subtitle": "The highest point to contemplate the Venetian immensity."
+        "subtitle": "The highest point to contemplate the Venetian immensity.",
+        "desc": ""
       },
       "es": {
         "title": "Piedra Fortaleza",
-        "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
+        "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
+        "desc": ""
       }
     }
   }
@@ -866,19 +872,22 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "id": "pedra_fortaleza",
-  "cover": "dados/circuitos/pedra_fortaleza/pedra_fortaleza/images/fortaleza.jpg",
+  "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000507.jpg",
   "texts": {
     "pt": {
       "title": "Pedra da Fortaleza",
-      "subtitle": "O ponto mais alto para contemplar a imensidão veneciana."
+      "subtitle": "O ponto mais alto para contemplar a imensidão veneciana.",
+      "desc": ""
     },
     "en": {
       "title": "Fortress Rock",
-      "subtitle": "The highest point to contemplate the Venetian immensity."
+      "subtitle": "The highest point to contemplate the Venetian immensity.",
+      "desc": ""
     },
     "es": {
       "title": "Piedra Fortaleza",
-      "subtitle": "El punto más alto para contemplar la inmensidad veneciana."
+      "subtitle": "El punto más alto para contemplar la inmensidad veneciana.",
+      "desc": ""
     }
   },
   "locais": [
