@@ -141,6 +141,41 @@ window.APP_CONTROLLER = {
           ],
           "RAvisionScreen": true,
           "RAvisionlink": "https://novavenecia360.com.br/"
+        },
+        {
+          "id": "prefeitura_municipal",
+          "hero": "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
+          "texts": {
+            "pt": {
+              "title": "Prefeitura Municipal",
+              "subtitle": "Sede do Governo Municipal",
+              "description": "A Prefeitura Municipal de Nova Venécia atua na gestão pública do município, promovendo serviços essenciais nas áreas de saúde, educação, infraestrutura, assistência social e desenvolvimento econômico para melhorar a qualidade de vida da população."
+            },
+            "en": {
+              "title": "City Hall",
+              "subtitle": "Municipal Government Headquarters",
+              "description": "The Municipality of Nova Venécia acts in the public management of the municipality, promoting essential services in the areas of health, education, infrastructure, social assistance and economic development to improve the quality of life of the population."
+            },
+            "es": {
+              "title": "Ayuntamientos",
+              "subtitle": "Sede del Gobierno Municipal",
+              "description": "El Municipio de Nova Venécia actúa en la gestión pública del municipio, promoviendo servicios esenciales en las áreas de salud, educación, infraestructura, asistencia social y desarrollo económico para mejorar la calidad de vida de la población."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps/@-18.7098374,-40.4026823",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.7098374,-40.4026823",
+            "embed": "https://www.google.com/maps/@-18.7098374,-40.4026823"
+          },
+          "gallery": [
+            "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
+            "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000743.jpg",
+            "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000744.jpg",
+            "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000745.jpg",
+            "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000746.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
         }
       ]
     },
@@ -581,6 +616,41 @@ window.LOCAIS = {
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
   },
+  "prefeitura_municipal": {
+    "id": "prefeitura_municipal",
+    "hero": "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
+    "texts": {
+      "pt": {
+        "title": "Prefeitura Municipal",
+        "subtitle": "Sede do Governo Municipal",
+        "description": "A Prefeitura Municipal de Nova Venécia atua na gestão pública do município, promovendo serviços essenciais nas áreas de saúde, educação, infraestrutura, assistência social e desenvolvimento econômico para melhorar a qualidade de vida da população."
+      },
+      "en": {
+        "title": "City Hall",
+        "subtitle": "Municipal Government Headquarters",
+        "description": "The Municipality of Nova Venécia acts in the public management of the municipality, promoting essential services in the areas of health, education, infrastructure, social assistance and economic development to improve the quality of life of the population."
+      },
+      "es": {
+        "title": "Ayuntamientos",
+        "subtitle": "Sede del Gobierno Municipal",
+        "description": "El Municipio de Nova Venécia actúa en la gestión pública del municipio, promoviendo servicios esenciales en las áreas de salud, educación, infraestructura, asistencia social y desarrollo económico para mejorar la calidad de vida de la población."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps/@-18.7098374,-40.4026823",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.7098374,-40.4026823",
+      "embed": "https://www.google.com/maps/@-18.7098374,-40.4026823"
+    },
+    "gallery": [
+      "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
+      "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000743.jpg",
+      "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000744.jpg",
+      "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000745.jpg",
+      "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000746.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
   "elefante": {
     "id": "elefante",
     "hero": "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
@@ -832,7 +902,8 @@ window.CONFIG_CENTRO_NV = Object.freeze({
   },
   "locais": [
     "casa_de_pedra_do_perletti",
-    "igreja_sao_marcos"
+    "igreja_sao_marcos",
+    "prefeitura_municipal"
   ]
 });
 
