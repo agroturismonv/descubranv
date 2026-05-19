@@ -217,8 +217,24 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "guararema",
-      "cover": "",
-      "texts": {},
+      "cover": "dados/circuitos/guararema/images/maxresdefault.jpg",
+      "texts": {
+        "pt": {
+          "title": "Distrito de Guararema",
+          "subtitle": "Entre montanhas, história e vida no campo.",
+          "desc": ""
+        },
+        "en": {
+          "title": "District of Guararema",
+          "subtitle": "Between mountains, history and country life.",
+          "desc": ""
+        },
+        "es": {
+          "title": "Distrito de Guararema",
+          "subtitle": "Entre montañas, historia y vida rural.",
+          "desc": ""
+        }
+      },
       "locais": [
         {
           "id": "fortaleza",
@@ -265,7 +281,7 @@ window.APP_CONTROLLER = {
         },
         {
           "id": "pedra_da_invejada",
-          "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+          "hero": "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
           "texts": {
             "pt": {
               "title": "Pedra da Invejada",
@@ -289,36 +305,36 @@ window.APP_CONTROLLER = {
             "embed": "https://www.google.com/maps/@-18.8938818,-40.6344674"
           },
           "gallery": [
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000603.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000607.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000608.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000611.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000613.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000614.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000615.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000619.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000620.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000621.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000624.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000626.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000628.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000603.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000607.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000608.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000611.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000613.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000614.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000615.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000619.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000620.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000621.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000624.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000626.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000628.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://www.novavenecia360.com.br/"
         },
         {
           "id": "pedra_do_dedo",
-          "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+          "hero": "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
           "texts": {
             "pt": {
               "title": "Pedra do Dedo",
@@ -342,26 +358,26 @@ window.APP_CONTROLLER = {
             "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
           },
           "gallery": [
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
-            "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://www.novavenecia360.com.br/"
@@ -644,8 +660,24 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "guararema",
-    "cover": "",
-    "texts": {}
+    "cover": "dados/circuitos/guararema/images/maxresdefault.jpg",
+    "texts": {
+      "pt": {
+        "title": "Distrito de Guararema",
+        "subtitle": "Entre montanhas, história e vida no campo.",
+        "desc": ""
+      },
+      "en": {
+        "title": "District of Guararema",
+        "subtitle": "Between mountains, history and country life.",
+        "desc": ""
+      },
+      "es": {
+        "title": "Distrito de Guararema",
+        "subtitle": "Entre montañas, historia y vida rural.",
+        "desc": ""
+      }
+    }
   },
   {
     "id": "pedra_elefante",
@@ -891,7 +923,7 @@ window.LOCAIS = {
   },
   "pedra_da_invejada": {
     "id": "pedra_da_invejada",
-    "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+    "hero": "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Invejada",
@@ -915,36 +947,36 @@ window.LOCAIS = {
       "embed": "https://www.google.com/maps/@-18.8938818,-40.6344674"
     },
     "gallery": [
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000603.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000607.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000608.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000611.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000613.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000614.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000615.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000619.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000620.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000621.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000624.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000626.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000628.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000603.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000607.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000608.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000611.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000613.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000614.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000615.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000619.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000620.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000621.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000624.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000626.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000628.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
   },
   "pedra_do_dedo": {
     "id": "pedra_do_dedo",
-    "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+    "hero": "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
     "texts": {
       "pt": {
         "title": "Pedra do Dedo",
@@ -968,26 +1000,26 @@ window.LOCAIS = {
       "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
     },
     "gallery": [
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
-      "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
@@ -1254,8 +1286,24 @@ window.CONFIG_CENTRO_NV = Object.freeze({
 
 window.CONFIG_GUARAREMA = Object.freeze({
   "id": "guararema",
-  "cover": "",
-  "texts": {},
+  "cover": "dados/circuitos/guararema/images/maxresdefault.jpg",
+  "texts": {
+    "pt": {
+      "title": "Distrito de Guararema",
+      "subtitle": "Entre montanhas, história e vida no campo.",
+      "desc": ""
+    },
+    "en": {
+      "title": "District of Guararema",
+      "subtitle": "Between mountains, history and country life.",
+      "desc": ""
+    },
+    "es": {
+      "title": "Distrito de Guararema",
+      "subtitle": "Entre montañas, historia y vida rural.",
+      "desc": ""
+    }
+  },
   "locais": [
     "fortaleza",
     "pedra_da_invejada",
