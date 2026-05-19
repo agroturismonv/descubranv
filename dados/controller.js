@@ -198,9 +198,9 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/@-18,731,-41,317",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18,731,-41,317",
-            "embed": "https://www.google.com/maps/@-18,731,-41,317"
+            "maps": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
+            "embed": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed&output=embed"
           },
           "gallery": [
             "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
@@ -451,24 +451,8 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_fortaleza",
-      "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
-      "texts": {
-        "pt": {
-          "title": "Distrito de Guararema",
-          "subtitle": "Entre montanhas, história e vida no campo.",
-          "desc": ""
-        },
-        "en": {
-          "title": "District of Guararema",
-          "subtitle": "Between mountains, history and country life.",
-          "desc": ""
-        },
-        "es": {
-          "title": "Distrito de Guararema",
-          "subtitle": "Entre montañas, historia y vida rural.",
-          "desc": ""
-        }
-      },
+      "cover": "",
+      "texts": {},
       "locais": [
         {
           "id": "fortaleza",
@@ -681,24 +665,8 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_fortaleza",
-    "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
-    "texts": {
-      "pt": {
-        "title": "Distrito de Guararema",
-        "subtitle": "Entre montanhas, história e vida no campo.",
-        "desc": ""
-      },
-      "en": {
-        "title": "District of Guararema",
-        "subtitle": "Between mountains, history and country life.",
-        "desc": ""
-      },
-      "es": {
-        "title": "Distrito de Guararema",
-        "subtitle": "Entre montañas, historia y vida rural.",
-        "desc": ""
-      }
-    }
+    "cover": "",
+    "texts": {}
   }
 ];
 
@@ -863,9 +831,9 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/@-18,731,-41,317",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18,731,-41,317",
-      "embed": "https://www.google.com/maps/@-18,731,-41,317"
+      "maps": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
+      "embed": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed&output=embed"
     },
     "gallery": [
       "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
@@ -1315,24 +1283,8 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "id": "pedra_fortaleza",
-  "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
-  "texts": {
-    "pt": {
-      "title": "Distrito de Guararema",
-      "subtitle": "Entre montanhas, história e vida no campo.",
-      "desc": ""
-    },
-    "en": {
-      "title": "District of Guararema",
-      "subtitle": "Between mountains, history and country life.",
-      "desc": ""
-    },
-    "es": {
-      "title": "Distrito de Guararema",
-      "subtitle": "Entre montañas, historia y vida rural.",
-      "desc": ""
-    }
-  },
+  "cover": "",
+  "texts": {},
   "locais": [
     "fortaleza",
     "pedra_da_invejada",
