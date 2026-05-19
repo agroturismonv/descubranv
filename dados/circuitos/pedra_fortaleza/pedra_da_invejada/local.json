@@ -1,0 +1,53 @@
+{
+  "id": "pedra_da_invejada",
+  "hero": "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+  "gallery": [
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000603.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000607.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000608.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000611.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000613.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000614.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000615.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000619.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000620.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000621.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000624.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000626.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000628.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
+    "dados/circuitos/pedra_fortaleza/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
+  ],
+  "texts": {
+    "pt": {
+      "title": "Pedra da Invejada",
+      "subtitle": "Paisagem marcante entre pedras e natureza.",
+      "description": "A Pedra da Invejada, em Nova Venécia, destaca-se pela beleza natural e pelo relevo característico do norte capixaba. O local chama atenção pelas formações rochosas, pela vista da região e pela forte ligação com as paisagens que marcam a identidade cultural e ambiental do município."
+    },
+    "en": {
+      "title": "Envious Stone",
+      "subtitle": "Striking landscape between stones and nature.",
+      "description": "Envious Stone, in Nova Venécia, stands out for its natural beauty and the characteristic relief of the north of Espírito Santo. The place draws attention to the rock formations, the view of the region and the strong connection with the landscapes that mark the cultural and environmental identity of the municipality."
+    },
+    "es": {
+      "title": "Piedra de la Envidia",
+      "subtitle": "Paisaje impactante entre las piedras y la naturaleza.",
+      "description": "Piedra de la Envidia, en Nova Venécia, destaca por su belleza natural y el relieve característico del norte de Espírito Santo. El lugar llama la atención por las formaciones rocosas, la vista de la comarca y la fuerte conexión con los paisajes que marcan la identidad cultural y ambiental del municipio."
+    }
+  },
+  "location": {
+    "maps": "https://www.google.com/maps/@-18.8938818,-40.6344674",
+    "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.8938818,-40.6344674",
+    "embed": "https://www.google.com/maps/@-18.8938818,-40.6344674"
+  },
+  "RAvisionScreen": false,
+  "RAvisionlink": "https://www.novavenecia360.com.br/"
+}
