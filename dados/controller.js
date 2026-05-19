@@ -562,6 +562,56 @@ window.APP_CONTROLLER = {
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://www.novavenecia360.com.br/"
+        },
+        {
+          "id": "pedra_do_dedo",
+          "hero": "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+          "texts": {
+            "pt": {
+              "title": "Pedra do Dedo",
+              "subtitle": "Gigante de pedra entre montanhas",
+              "description": "A Pedra do Dedo é um dos marcos naturais mais conhecidos de Nova Venécia. Com seu formato curioso que lembra um dedo apontando para o céu, a formação rochosa se destaca na paisagem e atrai visitantes pela beleza, imponência e conexão com a natureza da região noroeste capixaba."
+            },
+            "en": {
+              "title": "Fingerstone",
+              "subtitle": "Stone giant between mountains",
+              "description": "Pedra do Dedo is one of Nova Venécia's best-known natural landmarks. With its curious shape that resembles a finger pointing to the sky, the rock formation stands out in the landscape and attracts visitors for its beauty, magnificence and connection with the nature of the northwest region of Espírito Santo."
+            },
+            "es": {
+              "title": "Piedra de dedo",
+              "subtitle": "Gigante de piedra entre montañas",
+              "description": "Piedra de dedo es uno de los monumentos naturales más conocidos de Nova Venécia. Con su curiosa forma que se asemeja a un dedo apuntando al cielo, la formación rocosa destaca en el paisaje y atrae a los visitantes por su belleza, magnificencia y conexión con la naturaleza de la región noroeste de Espírito Santo."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps/@-18.751877,-40.570969",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.751877,-40.570969",
+            "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
+            "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
         }
       ]
     }
@@ -1128,6 +1178,56 @@ window.LOCAIS = {
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
+  "pedra_do_dedo": {
+    "id": "pedra_do_dedo",
+    "hero": "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+    "texts": {
+      "pt": {
+        "title": "Pedra do Dedo",
+        "subtitle": "Gigante de pedra entre montanhas",
+        "description": "A Pedra do Dedo é um dos marcos naturais mais conhecidos de Nova Venécia. Com seu formato curioso que lembra um dedo apontando para o céu, a formação rochosa se destaca na paisagem e atrai visitantes pela beleza, imponência e conexão com a natureza da região noroeste capixaba."
+      },
+      "en": {
+        "title": "Fingerstone",
+        "subtitle": "Stone giant between mountains",
+        "description": "Pedra do Dedo is one of Nova Venécia's best-known natural landmarks. With its curious shape that resembles a finger pointing to the sky, the rock formation stands out in the landscape and attracts visitors for its beauty, magnificence and connection with the nature of the northwest region of Espírito Santo."
+      },
+      "es": {
+        "title": "Piedra de dedo",
+        "subtitle": "Gigante de piedra entre montañas",
+        "description": "Piedra de dedo es uno de los monumentos naturales más conocidos de Nova Venécia. Con su curiosa forma que se asemeja a un dedo apuntando al cielo, la formación rocosa destaca en el paisaje y atrae a los visitantes por su belleza, magnificencia y conexión con la naturaleza de la región noroeste de Espírito Santo."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps/@-18.751877,-40.570969",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.751877,-40.570969",
+      "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
+    },
+    "gallery": [
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000650.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000651.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000654.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000656.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000658.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000661.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000663.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000665.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000666.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000667.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000668.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000670.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000671.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000672.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000673.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000674.jpg",
+      "dados/circuitos/pedra_fortaleza/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000676.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
   }
 };
 
@@ -1226,7 +1326,8 @@ window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   },
   "locais": [
     "fortaleza",
-    "pedra_da_invejada"
+    "pedra_da_invejada",
+    "pedra_do_dedo"
   ]
 });
 
