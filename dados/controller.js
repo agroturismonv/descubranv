@@ -312,6 +312,52 @@ window.APP_CONTROLLER = {
           "RAvisionlink": ""
         },
         {
+          "id": "fazenda_santa_rita",
+          "hero": "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000146.jpg",
+          "texts": {
+            "pt": {
+              "title": "Fazenda Santa Rita",
+              "subtitle": "História, natureza e tradição rural.",
+              "description": "Um local que preserva tradições rurais, paisagens naturais e elementos históricos que ajudam a contar a formação cultural do interior capixaba. Cercado por áreas verdes e pela tranquilidade do campo, representa a relação entre natureza, trabalho e memória regional, sendo um espaço de valorização da identidade e das raízes do norte do Espírito Santo."
+            },
+            "en": {
+              "title": "Fazenda Santa Rita",
+              "subtitle": "History, nature and rural tradition.",
+              "description": "A place that preserves rural traditions, natural landscapes and historical elements that help to tell the cultural formation of the interior of Espírito Santo. Surrounded by green areas and the tranquility of the countryside, it represents the relationship between nature, work and regional memory, being a space for valuing the identity and roots of the north of Espírito Santo."
+            },
+            "es": {
+              "title": "Fazenda Santa Rita",
+              "subtitle": "Historia, naturaleza y tradición rural.",
+              "description": "Un lugar que conserva tradiciones rurales, paisajes naturales y elementos históricos que ayudan a contar la formación cultural del interior de Espírito Santo. Rodeado de zonas verdes y de la tranquilidad del campo, representa la relación entre naturaleza, trabajo y memoria regional, siendo un espacio para valorar la identidad y las raíces del norte de Espírito Santo."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps/@-18.782822,-40.4354197",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.782822,-40.4354197",
+            "embed": "https://www.google.com/maps/@-18.782822,-40.4354197"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000135.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000137.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000138.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000139.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000140.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000141.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000143.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000145.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000146.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000148.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000152.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000154.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000155.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000156.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000158.jpg",
+            "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000159.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
+        },
+        {
           "id": "gameleira",
           "hero": "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
           "texts": {
@@ -801,6 +847,52 @@ window.LOCAIS = {
     "RAvisionScreen": false,
     "RAvisionlink": ""
   },
+  "fazenda_santa_rita": {
+    "id": "fazenda_santa_rita",
+    "hero": "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000146.jpg",
+    "texts": {
+      "pt": {
+        "title": "Fazenda Santa Rita",
+        "subtitle": "História, natureza e tradição rural.",
+        "description": "Um local que preserva tradições rurais, paisagens naturais e elementos históricos que ajudam a contar a formação cultural do interior capixaba. Cercado por áreas verdes e pela tranquilidade do campo, representa a relação entre natureza, trabalho e memória regional, sendo um espaço de valorização da identidade e das raízes do norte do Espírito Santo."
+      },
+      "en": {
+        "title": "Fazenda Santa Rita",
+        "subtitle": "History, nature and rural tradition.",
+        "description": "A place that preserves rural traditions, natural landscapes and historical elements that help to tell the cultural formation of the interior of Espírito Santo. Surrounded by green areas and the tranquility of the countryside, it represents the relationship between nature, work and regional memory, being a space for valuing the identity and roots of the north of Espírito Santo."
+      },
+      "es": {
+        "title": "Fazenda Santa Rita",
+        "subtitle": "Historia, naturaleza y tradición rural.",
+        "description": "Un lugar que conserva tradiciones rurales, paisajes naturales y elementos históricos que ayudan a contar la formación cultural del interior de Espírito Santo. Rodeado de zonas verdes y de la tranquilidad del campo, representa la relación entre naturaleza, trabajo y memoria regional, siendo un espacio para valorar la identidad y las raíces del norte de Espírito Santo."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps/@-18.782822,-40.4354197",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.782822,-40.4354197",
+      "embed": "https://www.google.com/maps/@-18.782822,-40.4354197"
+    },
+    "gallery": [
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000135.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000137.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000138.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000139.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000140.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000141.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000143.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000145.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000146.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000148.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000152.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000154.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000155.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000156.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000158.jpg",
+      "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000159.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
   "gameleira": {
     "id": "gameleira",
     "hero": "dados/circuitos/pedra_elefante/gameleira/images/nova_venecia_marcelo_moryan_-000163.jpg",
@@ -1000,6 +1092,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "locais": [
     "elefante",
     "espetaria_pedra_elefante",
+    "fazenda_santa_rita",
     "gameleira",
     "santuario_maeperegrina"
   ]
