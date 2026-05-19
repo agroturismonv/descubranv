@@ -1,5 +1,5 @@
 {
-  "id": "pedra_fortaleza",
+  "id": "guararema",
   "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
   "texts": {
     "pt": {
