@@ -1,0 +1,21 @@
+{
+  "id": "pedra_elefante",
+  "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
+  "texts": {
+    "pt": {
+      "title": "APA Pedra do Elefante",
+      "subtitle": "O símbolo máximo de Nova Venécia",
+      "desc": ""
+    },
+    "en": {
+      "title": "APA Elephant Rock",
+      "subtitle": "The ultimate symbol of Nova Venécia",
+      "desc": ""
+    },
+    "es": {
+      "title": "APA Piedra del Elefante",
+      "subtitle": "El símbolo máximo de Nova Venécia",
+      "desc": ""
+    }
+  }
+}

@@ -217,19 +217,22 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_elefante",
-      "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
+      "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
       "texts": {
         "pt": {
-          "title": "Pedra do Elefante",
-          "subtitle": "O símbolo máximo de Nova Venécia"
+          "title": "APA Pedra do Elefante",
+          "subtitle": "O símbolo máximo de Nova Venécia",
+          "desc": ""
         },
         "en": {
-          "title": "Elephant Rock",
-          "subtitle": "The ultimate symbol of Nova Venécia"
+          "title": "APA Elephant Rock",
+          "subtitle": "The ultimate symbol of Nova Venécia",
+          "desc": ""
         },
         "es": {
-          "title": "Piedra del Elefante",
-          "subtitle": "El símbolo máximo de Nova Venécia"
+          "title": "APA Piedra del Elefante",
+          "subtitle": "El símbolo máximo de Nova Venécia",
+          "desc": ""
         }
       },
       "locais": [
@@ -657,19 +660,22 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_elefante",
-    "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
+    "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
     "texts": {
       "pt": {
-        "title": "Pedra do Elefante",
-        "subtitle": "O símbolo máximo de Nova Venécia"
+        "title": "APA Pedra do Elefante",
+        "subtitle": "O símbolo máximo de Nova Venécia",
+        "desc": ""
       },
       "en": {
-        "title": "Elephant Rock",
-        "subtitle": "The ultimate symbol of Nova Venécia"
+        "title": "APA Elephant Rock",
+        "subtitle": "The ultimate symbol of Nova Venécia",
+        "desc": ""
       },
       "es": {
-        "title": "Piedra del Elefante",
-        "subtitle": "El símbolo máximo de Nova Venécia"
+        "title": "APA Piedra del Elefante",
+        "subtitle": "El símbolo máximo de Nova Venécia",
+        "desc": ""
       }
     }
   },
@@ -1280,19 +1286,22 @@ window.CONFIG_CENTRO_NV = Object.freeze({
 
 window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "id": "pedra_elefante",
-  "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
+  "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
   "texts": {
     "pt": {
-      "title": "Pedra do Elefante",
-      "subtitle": "O símbolo máximo de Nova Venécia"
+      "title": "APA Pedra do Elefante",
+      "subtitle": "O símbolo máximo de Nova Venécia",
+      "desc": ""
     },
     "en": {
-      "title": "Elephant Rock",
-      "subtitle": "The ultimate symbol of Nova Venécia"
+      "title": "APA Elephant Rock",
+      "subtitle": "The ultimate symbol of Nova Venécia",
+      "desc": ""
     },
     "es": {
-      "title": "Piedra del Elefante",
-      "subtitle": "El símbolo máximo de Nova Venécia"
+      "title": "APA Piedra del Elefante",
+      "subtitle": "El símbolo máximo de Nova Venécia",
+      "desc": ""
     }
   },
   "locais": [
