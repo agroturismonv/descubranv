@@ -176,6 +176,42 @@ window.APP_CONTROLLER = {
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://www.novavenecia360.com.br/"
+        },
+        {
+          "id": "rio_cricare",
+          "hero": "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000787.jpg",
+          "texts": {
+            "pt": {
+              "title": "Rio Cricaré",
+              "subtitle": "Rio Cricaré, símbolo de Nova Venécia.",
+              "description": "O Rio Cricaré atravessa Nova Venécia e representa um importante patrimônio natural e histórico do norte do Espírito Santo. Suas águas marcaram o desenvolvimento da região, contribuindo para atividades agrícolas, para a formação das comunidades locais e para a preservação da biodiversidade, além de compor uma das paisagens mais conhecidas do município."
+            },
+            "en": {
+              "title": "Cricaré River",
+              "subtitle": "Rio Cricaré, symbol of Nova Venécia.",
+              "description": "The Cricaré River crosses Nova Venécia and represents an important natural and historical heritage of the north of Espírito Santo. Its waters marked the development of the region, contributing to agricultural activities, the formation of local communities and the preservation of biodiversity, in addition to composing one of the best-known landscapes in the municipality."
+            },
+            "es": {
+              "title": "Río Cricaré",
+              "subtitle": "Río Cricaré, símbolo de Nova Venécia.",
+              "description": "El río Cricaré atraviesa Nova Venécia y representa un importante patrimonio natural e histórico del norte de Espírito Santo. Sus aguas marcaron el desarrollo de la región, contribuyendo a las actividades agrícolas, a la formación de comunidades locales y a preservar la biodiversidad, además de componer uno de los paisajes más conocidos del municipio."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps/@-18,731,-41,317",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18,731,-41,317",
+            "embed": "https://www.google.com/maps/@-18,731,-41,317"
+          },
+          "gallery": [
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000780.jpg",
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000781.jpg",
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000783.jpg",
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000784.jpg",
+            "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000787.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
         }
       ]
     },
@@ -651,6 +687,42 @@ window.LOCAIS = {
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
   },
+  "rio_cricare": {
+    "id": "rio_cricare",
+    "hero": "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000787.jpg",
+    "texts": {
+      "pt": {
+        "title": "Rio Cricaré",
+        "subtitle": "Rio Cricaré, símbolo de Nova Venécia.",
+        "description": "O Rio Cricaré atravessa Nova Venécia e representa um importante patrimônio natural e histórico do norte do Espírito Santo. Suas águas marcaram o desenvolvimento da região, contribuindo para atividades agrícolas, para a formação das comunidades locais e para a preservação da biodiversidade, além de compor uma das paisagens mais conhecidas do município."
+      },
+      "en": {
+        "title": "Cricaré River",
+        "subtitle": "Rio Cricaré, symbol of Nova Venécia.",
+        "description": "The Cricaré River crosses Nova Venécia and represents an important natural and historical heritage of the north of Espírito Santo. Its waters marked the development of the region, contributing to agricultural activities, the formation of local communities and the preservation of biodiversity, in addition to composing one of the best-known landscapes in the municipality."
+      },
+      "es": {
+        "title": "Río Cricaré",
+        "subtitle": "Río Cricaré, símbolo de Nova Venécia.",
+        "description": "El río Cricaré atraviesa Nova Venécia y representa un importante patrimonio natural e histórico del norte de Espírito Santo. Sus aguas marcaron el desarrollo de la región, contribuyendo a las actividades agrícolas, a la formación de comunidades locales y a preservar la biodiversidad, además de componer uno de los paisajes más conocidos del municipio."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps/@-18,731,-41,317",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18,731,-41,317",
+      "embed": "https://www.google.com/maps/@-18,731,-41,317"
+    },
+    "gallery": [
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000780.jpg",
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000781.jpg",
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000783.jpg",
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000784.jpg",
+      "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000787.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
   "elefante": {
     "id": "elefante",
     "hero": "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
@@ -903,7 +975,8 @@ window.CONFIG_CENTRO_NV = Object.freeze({
   "locais": [
     "casa_de_pedra_do_perletti",
     "igreja_sao_marcos",
-    "prefeitura_municipal"
+    "prefeitura_municipal",
+    "rio_cricare"
   ]
 });
 
