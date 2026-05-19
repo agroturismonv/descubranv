@@ -1,6 +1,6 @@
 {
   "id": "guararema",
-  "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
+  "cover": "dados/circuitos/guararema/images/nova_venecia_marcelo_moryan_-000678.jpg",
   "texts": {
     "pt": {
       "title": "Distrito de Guararema",
