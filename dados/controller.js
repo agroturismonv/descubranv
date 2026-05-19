@@ -451,7 +451,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_fortaleza",
-      "cover": "fortaleza.jpg",
+      "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
       "texts": {
         "pt": {
           "title": "Distrito de Guararema",
@@ -681,7 +681,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_fortaleza",
-    "cover": "fortaleza.jpg",
+    "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
     "texts": {
       "pt": {
         "title": "Distrito de Guararema",
@@ -1315,7 +1315,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_PEDRA_FORTALEZA = Object.freeze({
   "id": "pedra_fortaleza",
-  "cover": "fortaleza.jpg",
+  "cover": "dados/circuitos/pedra_fortaleza/images/nova_venecia_marcelo_moryan_-000678.jpg",
   "texts": {
     "pt": {
       "title": "Distrito de Guararema",
