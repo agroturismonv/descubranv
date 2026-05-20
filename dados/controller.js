@@ -201,9 +201,11 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
-            "embed": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed&output=embed"
+            "maps": "https://www.google.com/maps?q=-18.708311,-40.400981",
+            "lat": "-18.708311",
+            "lng": "-40.400981",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.708311,-40.400981",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=-18.708311,-40.400981&z=17&t=k&output=embed"
           },
           "gallery": [
             "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
@@ -869,9 +871,11 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed",
-      "embed": "https://www.google.com/maps?q=-18.708311,-40.400981,20&output=embed&output=embed"
+      "maps": "https://www.google.com/maps?q=-18.708311,-40.400981",
+      "lat": "-18.708311",
+      "lng": "-40.400981",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.708311,-40.400981",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=-18.708311,-40.400981&z=17&t=k&output=embed"
     },
     "gallery": [
       "dados/circuitos/centro_nv/rio_cricare/images/nova_venecia_marcelo_moryan_-000778.jpg",
