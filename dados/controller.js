@@ -281,7 +281,7 @@ window.APP_CONTROLLER = {
         },
         {
           "id": "pedra_da_invejada",
-          "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+          "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
           "texts": {
             "pt": {
               "title": "Pedra da Invejada",
@@ -324,10 +324,10 @@ window.APP_CONTROLLER = {
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
-            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
+            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg",
+            "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg"
           ],
           "RAvisionScreen": false,
           "RAvisionlink": "https://www.novavenecia360.com.br/"
@@ -923,7 +923,7 @@ window.LOCAIS = {
   },
   "pedra_da_invejada": {
     "id": "pedra_da_invejada",
-    "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000599.jpg",
+    "hero": "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000612.jpg",
     "texts": {
       "pt": {
         "title": "Pedra da Invejada",
@@ -966,10 +966,10 @@ window.LOCAIS = {
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000629.jpg",
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000636.jpg",
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000637.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg",
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000640.jpg",
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000641.jpg",
-      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg"
+      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000642.jpg",
+      "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000639.jpg"
     ],
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
