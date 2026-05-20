@@ -149,25 +149,41 @@ class SiteManager:
             if isinstance(t, dict) and "desc" in t and "description" not in t:
                 t["description"] = t.pop("desc")
 
-        # BUG 2 — auto-gera location.qr e location.embed
+        # AUTO GERA QR + EMBED
         location = dict(dados.get("location", {}))
+
         maps_url = location.get("maps", "")
+        lat = str(location.get("lat", "")).strip()
+        lng = str(location.get("lng", "")).strip()
 
-        if maps_url and "qr" not in location:
-            location["qr"] = (
-                "https://api.qrserver.com/v1/create-qr-code/"
-                f"?size=200x200&data={maps_url}"
-            )
+        # tenta extrair lat/lng da URL antiga
+        if (not lat or not lng) and "q=" in maps_url:
+            try:
+                coords = maps_url.split("q=")[-1].split("&")[0]
+                lat, lng = coords.split(",")
+                lat = lat.strip()
+                lng = lng.strip()
+            except:
+                pass
 
-        if maps_url and "embed" not in location:
-            if "/maps/search/" in maps_url:
-                q = maps_url.split("/maps/search/")[-1].split("?")[0]
-                embed = f"https://maps.google.com/maps?q={q}&output=embed"
-            elif "q=" in maps_url:
-                embed = maps_url + "&output=embed"
-            else:
-                embed = maps_url
-            location["embed"] = embed
+        # se tiver coordenadas válidas
+        if lat and lng:
+        # salva coordenadas padronizadas
+            location["lat"] = lat
+            location["lng"] = lng
+
+        # maps inteligente
+        if not maps_url:
+            maps_url = f"https://www.google.com/maps?q={lat},{lng}"
+
+        location["maps"] = maps_url
+
+        # qr automático
+        location["qr"] = ("https://api.qrserver.com/v1/create-qr-code/"f"?size=300x300&data={maps_url}")
+
+        # embed SATÉLITE real
+        location["embed"] = ("https://maps.google.com/maps"f"?hl=pt&ll={lat},{lng}""&z=17&t=k&output=embed"
+        )
 
         obj = {
             "id":             local,
