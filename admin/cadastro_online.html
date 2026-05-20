@@ -228,7 +228,7 @@
               <!-- INPUTS -->
               <div class="space-y-2">
                 <input x-show="gps === 'link'" x-model="l.map_link" class="inp text-xs"
-                  placeholder="https://www.google.com/maps?q=...">
+                  placeholder="https://www.google.com/maps?q=Latitude,Longitude">
 
                 <div x-show="gps === 'coords'" class="grid grid-cols-2 gap-2">
                   <input x-model="l.lat"
@@ -613,7 +613,7 @@
 
         buildMapa() {
           if (this.l.lat && this.l.lng) {
-            return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}&output=embed`;
+            return `https://www.google.com/maps?q=${this.l.lat},${this.l.lng}`;
           }
           return this.l.map_link || '';
         },
