@@ -1,59 +1,6 @@
 window.APP_CONTROLLER = {
   "regioes": [
     {
-      "id": "cachoeira_boavista",
-      "cover": "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-      "texts": {
-        "pt": {
-          "title": "Cachoeira Boa Vista",
-          "subtitle": "Refúgio de águas cristalinas."
-        },
-        "en": {
-          "title": "Boa Vista Waterfall",
-          "subtitle": "A sanctuary of crystal clear waters."
-        },
-        "es": {
-          "title": "Cascada Boa Vista",
-          "subtitle": "Refugio de aguas cristalinas."
-        }
-      },
-      "locais": [
-        {
-          "id": "boavista",
-          "hero": "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-          "texts": {
-            "pt": {
-              "title": "Cachoeira Boa Vista",
-              "subtitle": "Lazer, descanso e natureza",
-              "description": "A Cachoeira Boa Vista é um refúgio natural ideal para quem busca contato com a natureza."
-            },
-            "en": {
-              "title": "Boa Vista Waterfall",
-              "subtitle": "Leisure and nature",
-              "description": "Boa Vista Waterfall is a natural retreat perfect for relaxation."
-            },
-            "es": {
-              "title": "Cascada Boa Vista",
-              "subtitle": "Ocio y naturaleza",
-              "description": "La Cascada Boa Vista es un refugio natural ideal para el descanso."
-            }
-          },
-          "location": {
-            "maps": "https://www.google.com/maps?q=-18.6477001,-40.2504503",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.6477001,-40.2504503",
-            "embed": "https://www.google.com/maps?q=-18.6477001,-40.2504503&output=embed"
-          },
-          "gallery": [
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
-            "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
-          ],
-          "RAvisionScreen": false,
-          "RAvisionlink": "https://novavenecia360.com.br/"
-        }
-      ]
-    },
-    {
       "id": "centro_nv",
       "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
       "texts": {
