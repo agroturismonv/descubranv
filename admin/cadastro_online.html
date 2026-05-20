@@ -794,9 +794,12 @@
                 tipo: 'regiao',
                 regiao: this.slug(this.r.id),
                 cover_file:
-                  this.r.bgFoto?.existingPath ||
-                  this.r.bgFoto?.name ||
-                  null,
+                this.r.bgFoto?.existingPath ||
+                (
+                  this.r.bgFoto?.name
+                  ? `dados/circuitos/${this.slug(this.r.id)}/images/${this.r.bgFoto.name}`
+                  : null
+                ),
 
                 remove_old_cover:
                   this.r.bgFoto?.oldExistingPath ||
