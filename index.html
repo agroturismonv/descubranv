@@ -222,7 +222,7 @@
         </div>
     </footer>
 
-    <script>
+   <script>
         function sliderApp() {
             return {
                 current: 0,
@@ -230,31 +230,45 @@
                 lang: localStorage.getItem('user_lang') || 'pt',
                 slides: [],
                 timer: null,
+
                 texts: {
                     pt: { menu: 'VER TODOS CIRCUITOS', menuTitle: 'Circuitos Turísticos' },
                     en: { menu: 'VIEW ALL CIRCUITS', menuTitle: 'Tourist Circuits' },
                     es: { menu: 'VER TODOS LOS CIRCUITOS', menuTitle: 'Circuitos Turísticos' }
                 },
-                get t() { return this.texts[this.lang] },
+
+                get t() {
+                    return this.texts[this.lang]
+                },
+
                 setLang(l) {
                     this.lang = l;
                     localStorage.setItem('user_lang', l);
                 },
+
                 start() {
                     const load = () => {
                         if (window.LISTA_CIRCUITOS && window.LISTA_CIRCUITOS.length > 0) {
-                            this.slides = window.LISTA_CIRCUITOS;
+
+                            this.slides = [...window.LISTA_CIRCUITOS].sort((a, b) => {
+                                const nomeA = (a.texts?.pt?.title || '').toLowerCase();
+                                const nomeB = (b.texts?.pt?.title || '').toLowerCase();
+                                return nomeA.localeCompare(nomeB, 'pt-BR');
+                            });
+
                             if (this.slides.length > 1) {
                                 if (this.timer) clearInterval(this.timer);
+
                                 this.timer = setInterval(() => this.next(), 6000);
                             }
                         }
                     };
+
                     load();
                     window.addEventListener('locais-ready', load);
                 },
+
                 next() {
-                    // Só avança se o menu estiver fechado para não distrair o usuário
                     if (!this.showMenu && this.slides.length > 0) {
                         this.current = (this.current + 1) % this.slides.length;
                     }
