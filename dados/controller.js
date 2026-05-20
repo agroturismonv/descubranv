@@ -58,18 +58,18 @@ window.APP_CONTROLLER = {
       "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
       "texts": {
         "pt": {
-          "title": "Centro",
+          "title": "Região Central",
           "subtitle": "Onde a história começou",
           "desc": ""
         },
         "en": {
-          "title": "Downtown",
-          "subtitle": "Where it all began",
+          "title": "Central Region",
+          "subtitle": "hirstory has begun.",
           "desc": ""
         },
         "es": {
-          "title": "Centro",
-          "subtitle": "Donde todo comenzó",
+          "title": "Región central",
+          "subtitle": "Donde empezó la historia",
           "desc": ""
         }
       },
@@ -648,18 +648,18 @@ window.LISTA_CIRCUITOS = [
     "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
     "texts": {
       "pt": {
-        "title": "Centro",
+        "title": "Região Central",
         "subtitle": "Onde a história começou",
         "desc": ""
       },
       "en": {
-        "title": "Downtown",
-        "subtitle": "Where it all began",
+        "title": "Central Region",
+        "subtitle": "hirstory has begun.",
         "desc": ""
       },
       "es": {
-        "title": "Centro",
-        "subtitle": "Donde todo comenzó",
+        "title": "Región central",
+        "subtitle": "Donde empezó la historia",
         "desc": ""
       }
     }
@@ -1270,18 +1270,18 @@ window.CONFIG_CENTRO_NV = Object.freeze({
   "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
   "texts": {
     "pt": {
-      "title": "Centro",
+      "title": "Região Central",
       "subtitle": "Onde a história começou",
       "desc": ""
     },
     "en": {
-      "title": "Downtown",
-      "subtitle": "Where it all began",
+      "title": "Central Region",
+      "subtitle": "hirstory has begun.",
       "desc": ""
     },
     "es": {
-      "title": "Centro",
-      "subtitle": "Donde todo comenzó",
+      "title": "Región central",
+      "subtitle": "Donde empezó la historia",
       "desc": ""
     }
   },
