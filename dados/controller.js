@@ -515,9 +515,11 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/@-18.782822,-40.4354197",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.782822,-40.4354197",
-            "embed": "https://www.google.com/maps/@-18.782822,-40.4354197"
+            "maps": "https://www.google.com/maps?q=-18.782822,-40.4354197",
+            "lat": "-18.782822",
+            "lng": "-40.4354197",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.782822,-40.4354197",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=-18.782822,-40.4354197&z=17&t=k&output=embed"
           },
           "gallery": [
             "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000135.jpg",
@@ -1145,9 +1147,11 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/@-18.782822,-40.4354197",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.782822,-40.4354197",
-      "embed": "https://www.google.com/maps/@-18.782822,-40.4354197"
+      "maps": "https://www.google.com/maps?q=-18.782822,-40.4354197",
+      "lat": "-18.782822",
+      "lng": "-40.4354197",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.782822,-40.4354197",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=-18.782822,-40.4354197&z=17&t=k&output=embed"
     },
     "gallery": [
       "dados/circuitos/pedra_elefante/fazenda_santa_rita/images/nova_venecia_marcelo_moryan_-000135.jpg",
