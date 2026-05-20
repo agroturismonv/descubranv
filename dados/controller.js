@@ -59,15 +59,18 @@ window.APP_CONTROLLER = {
       "texts": {
         "pt": {
           "title": "Centro",
-          "subtitle": "Onde a história começou"
+          "subtitle": "Onde a história começou",
+          "desc": ""
         },
         "en": {
           "title": "Downtown",
-          "subtitle": "Where it all began"
+          "subtitle": "Where it all began",
+          "desc": ""
         },
         "es": {
           "title": "Centro",
-          "subtitle": "Donde todo comenzó"
+          "subtitle": "Donde todo comenzó",
+          "desc": ""
         }
       },
       "locais": [
@@ -646,15 +649,18 @@ window.LISTA_CIRCUITOS = [
     "texts": {
       "pt": {
         "title": "Centro",
-        "subtitle": "Onde a história começou"
+        "subtitle": "Onde a história começou",
+        "desc": ""
       },
       "en": {
         "title": "Downtown",
-        "subtitle": "Where it all began"
+        "subtitle": "Where it all began",
+        "desc": ""
       },
       "es": {
         "title": "Centro",
-        "subtitle": "Donde todo comenzó"
+        "subtitle": "Donde todo comenzó",
+        "desc": ""
       }
     }
   },
@@ -1265,15 +1271,18 @@ window.CONFIG_CENTRO_NV = Object.freeze({
   "texts": {
     "pt": {
       "title": "Centro",
-      "subtitle": "Onde a história começou"
+      "subtitle": "Onde a história começou",
+      "desc": ""
     },
     "en": {
       "title": "Downtown",
-      "subtitle": "Where it all began"
+      "subtitle": "Where it all began",
+      "desc": ""
     },
     "es": {
       "title": "Centro",
-      "subtitle": "Donde todo comenzó"
+      "subtitle": "Donde todo comenzó",
+      "desc": ""
     }
   },
   "locais": [

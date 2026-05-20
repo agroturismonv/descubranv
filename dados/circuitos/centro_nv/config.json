@@ -1,0 +1,21 @@
+{
+  "id": "centro_nv",
+  "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
+  "texts": {
+    "pt": {
+      "title": "Centro",
+      "subtitle": "Onde a história começou",
+      "desc": ""
+    },
+    "en": {
+      "title": "Downtown",
+      "subtitle": "Where it all began",
+      "desc": ""
+    },
+    "es": {
+      "title": "Centro",
+      "subtitle": "Donde todo comenzó",
+      "desc": ""
+    }
+  }
+}
