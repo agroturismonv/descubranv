@@ -11,26 +11,25 @@
 </head>
 
 <body class="bg-gray-100 p-6 md:p-10 font-sans">
-  <div x-show="toast.show" x-cloak
-     :class="toast.ok ? 'bg-[#0f5132] text-white' : 'bg-red-600 text-white'"
-     class="toast" x-text="toast.msg"></div>
+  <div x-show="toast.show" x-cloak :class="toast.ok ? 'bg-[#0f5132] text-white' : 'bg-red-600 text-white'" class="toast"
+    x-text="toast.msg"></div>
 
-<!-- VOLTAR (topo isolado) -->
-<div class="max-w-7xl mx-auto px-6 md:px-10 pt-8">
-  <a href="./dashboard.html"
-     class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-6 py-3 rounded-full text-xs font-black uppercase shadow hover:opacity-90 transition">
-    <span>←</span>
-    <span>Voltar</span>
-  </a>
-</div>
-<div class="max-w-7xl mx-auto px-6 md:px-10">
+  <!-- VOLTAR (topo isolado) -->
+  <div class="max-w-7xl mx-auto px-6 md:px-10 pt-8">
+    <a href="./dashboard.html"
+      class="inline-flex items-center gap-2 bg-[#ffc107] text-[#0f5132] px-6 py-3 rounded-full text-xs font-black uppercase shadow hover:opacity-90 transition">
+      <span>←</span>
+      <span>Voltar</span>
+    </a>
+  </div>
+  <div class="max-w-7xl mx-auto px-6 md:px-10">
 
-<!-- HEADER -->
-<div class="max-w-7xl mx-auto px-6 md:px-10 pt-4 pb-4">
-  <h1 class="text-3xl font-black text-[#0f5132] italic">
-    Cadastros do Sistema
-  </h1>
-</div>
+    <!-- HEADER -->
+    <div class="max-w-7xl mx-auto px-6 md:px-10 pt-4 pb-4">
+      <h1 class="text-3xl font-black text-[#0f5132] italic">
+        Cadastros do Sistema
+      </h1>
+    </div>
 
     <div class="mb-6 flex gap-3">
       <input x-model="busca" type="text" placeholder="Buscar local, região ou id..."
@@ -43,8 +42,10 @@
       <a href="./cadastro_online.html"
         class="inline-flex items-center gap-2 bg-[#0f5132] text-white px-5 py-3 rounded-2xl text-xs font-black uppercase hover:opacity-90">
         <span>🌐</span>
-        <span>Atualização Online (Gestão Online)</span>
+        <span>Cadastrar novo local/região</span>
       </a>
+
+
     </div>
 
     <h2 class="text-xl font-black text-[#0f5132] mb-3">Regiões Cadastradas</h2>
@@ -141,98 +142,114 @@
       </div>
     </div>
   </div>
-</div>
+  </div>
   <script>
     function listagemApp() {
       return {
         regioes: [],
         locais: [],
         busca: '',
- 
+
         async init() {
           await this.carregar();
         },
- 
+
         async carregar() {
           try {
             const json = await API.listar();
             if (!json.success) return;
- 
+
             const data = json.data || [];
- 
-            this.regioes = data.map(r => ({
-              id:           r.regiao,
-              title:        r.titulo   || r.regiao,
-              subtitle:     r.descricao || '',
-              cover:        r.capa     || '',
-              total_locais: r.locais?.length || 0
-            }));
- 
-            this.locais = data.flatMap(r =>
-              (r.locais || []).map(l => ({
-                id:           l.id,
-                title:        l.nome     || l.id,
-                subtitle:     l.subtitulo || '',
-                hero:         l.capa     || '',
-                gallery_count: l.fotos?.length || 0,
-                regiao:       r.regiao,
-                regiao_nome:  r.titulo   || r.regiao
+
+            this.regioes = data
+              .map(r => ({
+                id: r.regiao,
+                title: r.titulo || r.regiao,
+                subtitle: r.descricao || '',
+                cover: r.capa || '',
+                total_locais: r.locais?.length || 0
               }))
-            );
- 
+              .sort((a, b) =>
+                (a.title || '').localeCompare(
+                  (b.title || ''),
+                  'pt-BR',
+                  { sensitivity: 'base' }
+                )
+              );
+
+            this.locais = data
+              .flatMap(r =>
+                (r.locais || []).map(l => ({
+                  id: l.id,
+                  title: l.nome || l.id,
+                  subtitle: l.subtitulo || '',
+                  hero: l.capa || '',
+                  gallery_count: l.fotos?.length || 0,
+                  regiao: r.regiao,
+                  regiao_nome: r.titulo || r.regiao
+                }))
+              )
+              .sort((a, b) =>
+                (a.title || '').localeCompare(
+                  (b.title || ''),
+                  'pt-BR',
+                  { sensitivity: 'base' }
+                )
+              );
+
           } catch (e) {
             alert('Erro ao carregar dados');
           }
         },
- 
+
         // CORRIGIDO: null-safety no .toLowerCase() para evitar TypeError
         regioesFiltradas() {
           const t = this.busca.toLowerCase();
           if (!t) return this.regioes;
           return this.regioes.filter(r =>
-            (r.title  || '').toLowerCase().includes(t) ||
-            (r.id     || '').toLowerCase().includes(t)
+            (r.title || '').toLowerCase().includes(t) ||
+            (r.id || '').toLowerCase().includes(t)
           );
         },
- 
+
         filtrados() {
           const t = this.busca.toLowerCase();
           if (!t) return this.locais;
           return this.locais.filter(l =>
-            (l.title      || '').toLowerCase().includes(t) ||
-            (l.regiao_nome|| '').toLowerCase().includes(t) ||
-            (l.id         || '').toLowerCase().includes(t)
+            (l.title || '').toLowerCase().includes(t) ||
+            (l.regiao_nome || '').toLowerCase().includes(t) ||
+            (l.id || '').toLowerCase().includes(t)
           );
         },
- 
+
         async excluir(item) {
           if (!confirm('Excluir este local?')) return;
           const data = await API.delete({ tipo: 'local', regiao: item.regiao, local: item.id });
           if (data.success) { alert('Excluído!'); this.carregar(); }
         },
- 
+
         editar(item) {
           window.location.href =
             `./cadastro_online.html?regiao=${encodeURIComponent(item.regiao)}&local=${encodeURIComponent(item.id)}`;
         },
- 
+
         editarRegiao(item) {
           window.location.href =
             `./cadastro_online.html?regiao=${encodeURIComponent(item.id)}`;
         },
- 
+
         async excluirRegiao(item) {
           if (!confirm('Excluir esta região e todos os seus locais?')) return;
           const data = await API.delete({ tipo: 'regiao', regiao: item.id });
           if (data.success) { alert('Excluído!'); this.carregar(); }
         },
- 
+
         async baixarZip(item) {
           try {
-            const res  = await API.downloadZip(item.regiao, item.id);
+            const res = await API.downloadZip(item.regiao, item.id);
             const blob = await res.blob();
-            const a    = document.createElement('a');
-            a.href     = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = URL.createObjectURL(blob);
             a.download = `${item.id}.zip`;
             a.click();
           } catch {
