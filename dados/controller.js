@@ -399,7 +399,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_elefante",
-      "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
+      "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
       "texts": {
         "pt": {
           "title": "APA Pedra do Elefante",
@@ -699,7 +699,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_elefante",
-    "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
+    "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
     "texts": {
       "pt": {
         "title": "APA Pedra do Elefante",
@@ -1346,7 +1346,7 @@ window.CONFIG_GUARAREMA = Object.freeze({
 
 window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "id": "pedra_elefante",
-  "cover": "dados/circuitos/pedra_elefante/images/569287486_18531284371011419_3228742935640338923_n.jpg",
+  "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
   "texts": {
     "pt": {
       "title": "APA Pedra do Elefante",
