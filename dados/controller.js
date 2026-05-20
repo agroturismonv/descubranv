@@ -307,9 +307,11 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/@-18.8938818,-40.6344674",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.8938818,-40.6344674",
-            "embed": "https://www.google.com/maps/@-18.8938818,-40.6344674"
+            "maps": "https://www.google.com/maps?q=-18.8938818,-40.6344674",
+            "lat": "-18.8938818",
+            "lng": "-40.6344674",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.8938818,-40.6344674",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=-18.8938818,-40.6344674&z=17&t=k&output=embed"
           },
           "gallery": [
             "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
@@ -956,9 +958,11 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/@-18.8938818,-40.6344674",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.8938818,-40.6344674",
-      "embed": "https://www.google.com/maps/@-18.8938818,-40.6344674"
+      "maps": "https://www.google.com/maps?q=-18.8938818,-40.6344674",
+      "lat": "-18.8938818",
+      "lng": "-40.6344674",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.8938818,-40.6344674",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=-18.8938818,-40.6344674&z=17&t=k&output=embed"
     },
     "gallery": [
       "dados/circuitos/guararema/pedra_da_invejada/images/nova_venecia_marcelo_moryan_-000596.jpg",
