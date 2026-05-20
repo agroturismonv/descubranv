@@ -26,14 +26,15 @@ def _configurar():
     _git("config", "user.email", email)
     _git("remote", "set-url", "origin", f"https://{token}@github.com/{repo}.git")
     return branch
-
+ 
 def commit_and_push(message: str = "chore: update dados"):
     branch = _configurar()
     if branch is None:
         return
 
     _git("fetch", "origin", branch)
-    _git("add", "dados/", "admin/user.xml")
+    _git("add", "-A", "dados/")
+    _git("add", "admin/user.xml")
 
     rc, _, _ = _git("diff", "--cached", "--quiet")
     if rc == 0:
