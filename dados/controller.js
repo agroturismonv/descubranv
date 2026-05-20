@@ -168,9 +168,11 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps?q=-18.7098374,-40.4026823&output=embed",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7098374,-40.4026823,20&output=embed",
-            "embed": "https://www.google.com/maps?q=-18.7098374,-40.4026823&output=embed&output=embed"
+            "maps": "https://www.google.com/maps?q=-18.7098112,-40.4000344",
+            "lat": "-18.7098112",
+            "lng": "-40.4000344",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.7098112,-40.4000344",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=-18.7098112,-40.4000344&z=17&t=k&output=embed"
           },
           "gallery": [
             "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
@@ -846,9 +848,11 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps?q=-18.7098374,-40.4026823&output=embed",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.7098374,-40.4026823,20&output=embed",
-      "embed": "https://www.google.com/maps?q=-18.7098374,-40.4026823&output=embed&output=embed"
+      "maps": "https://www.google.com/maps?q=-18.7098112,-40.4000344",
+      "lat": "-18.7098112",
+      "lng": "-40.4000344",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.7098112,-40.4000344",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=-18.7098112,-40.4000344&z=17&t=k&output=embed"
     },
     "gallery": [
       "dados/circuitos/centro_nv/prefeitura_municipal/images/nova_venecia_marcelo_moryan_-000742.jpg",
