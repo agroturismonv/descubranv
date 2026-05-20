@@ -362,9 +362,11 @@ window.APP_CONTROLLER = {
             }
           },
           "location": {
-            "maps": "https://www.google.com/maps/@-18.751877,-40.570969",
-            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.751877,-40.570969",
-            "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
+            "maps": "https://www.google.com/maps?q=-18.751877,-40.570969",
+            "lat": "-18.751877",
+            "lng": "-40.570969",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.751877,-40.570969",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=-18.751877,-40.570969&z=17&t=k&output=embed"
           },
           "gallery": [
             "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
@@ -1013,9 +1015,11 @@ window.LOCAIS = {
       }
     },
     "location": {
-      "maps": "https://www.google.com/maps/@-18.751877,-40.570969",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps/@-18.751877,-40.570969",
-      "embed": "https://www.google.com/maps/@-18.751877,-40.570969"
+      "maps": "https://www.google.com/maps?q=-18.751877,-40.570969",
+      "lat": "-18.751877",
+      "lng": "-40.570969",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=-18.751877,-40.570969",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=-18.751877,-40.570969&z=17&t=k&output=embed"
     },
     "gallery": [
       "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000643.jpg",
