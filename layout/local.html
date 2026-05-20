@@ -10,9 +10,20 @@
   <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css" />
 
-<script src="/dados/controller.js"></script>
+  <script src="/dados/controller.js"></script>
 
   <style>
+    html,
+    body {
+      width: 100%;
+      overflow-x: hidden;
+    }
+
+    * {
+      box-sizing: border-box;
+      min-width: 0;
+    }
+
     [x-cloak] {
       display: none !important;
     }
@@ -47,7 +58,8 @@
     }
 
     .slider-img {
-      width: 280px;
+      width: 85vw;
+      max-width: 280px;
       height: 200px;
       object-fit: cover;
       border-radius: 1.5rem;
@@ -85,7 +97,7 @@
   </style>
 </head>
 
-<body class="bg-white text-gray-900 flex flex-col min-h-screen">
+<body class="bg-white text-gray-900 flex flex-col min-h-screen overflow-x-hidden">
 
   <nav class="fixed top-0 left-0 w-full z-[100] p-6 md:p-10 pointer-events-none">
     <div class="flex justify-between items-center w-full max-w-7xl mx-auto pointer-events-auto">
@@ -119,7 +131,7 @@
 
   <main class="flex-1 overflow-y-auto pb-24 mt-0" x-cloak x-show="ready">
 
-    <section class="relative h-[30vh] md:h-[35vh] w-full overflow-hidden">
+    <section class="relative h-[30dvh] md:h-[35vh] w-full overflow-hidden">
       <img :src="hero" class="absolute inset-0 w-full h-full object-cover brightness-[0.45]" alt="Banner">
       <div class="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-white"></div>
 
@@ -139,13 +151,17 @@
             <h3
               class="text-2xl font-black text-[#0f5132] mb-5 uppercase tracking-tighter border-l-4 border-[#ffc107] pl-4"
               x-text="ui.about"></h3>
-            <p class="text-gray-600 leading-relaxed text-lg text-justify" x-text="t.description"></p>
+            <p class="text-gray-600 leading-relaxed text-lg text-justify" <p
+              class="text-gray-600 leading-8 text-[15px] md:text-lg break-words hyphens-auto text-left md:text-justify"
+              x-text="t.description"></p>
           </div>
 
           <div>
-            <div class="flex justify-between items-end mb-6">
+            <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-6">
               <h3 class="text-2xl font-black text-[#0f5132] uppercase tracking-tighter" x-text="ui.gallery"></h3>
-              <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest animate-pulse">Deslize para ver
+              <span
+                class="text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-wide break-words">Deslize
+                para ver
                 fotos →</span>
             </div>
 
@@ -191,65 +207,66 @@
     </div>
   </template>
 
- <div x-show="showMap" x-cloak
-  class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
+  <div x-show="showMap" x-cloak
+    class="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-black/90 backdrop-blur-md">
 
-  <div class="bg-white rounded-[3rem] w-full max-w-5xl h-[80vh] flex flex-col overflow-hidden shadow-2xl relative">
-    
-    <!-- Botão fechar padrão -->
-    <button @click="showMap = false"
-  class="absolute top-5 right-5 z-[210] bg-[#ffc107] text-[#0f5132] w-12 h-12 rounded-full flex items-center justify-center shadow-xl border-3 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
-  
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />
-  </svg>
+    <div class="bg-white rounded-3xl w-full max-w-5xl
+max-h-[80dvh] h-full
+flex flex-col overflow-hidden shadow-2xl relative">
 
-</button>
+      <!-- Botão fechar padrão -->
+      <button @click="showMap = false"
+        class="absolute top-5 right-5 z-[210] bg-[#ffc107] text-[#0f5132] w-12 h-12 rounded-full flex items-center justify-center shadow-xl border-3 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
 
-    <!-- Título -->
-    <div class="p-6 flex justify-center items-center bg-gray-50 border-b">
-      <span class="font-black text-[#0f5132] uppercase tracking-widest" x-text="t.title"></span>
-    </div>
-
-    <!-- Mapa -->
-    <iframe :src="mapEmbed"
-  class="w-full h-full border-0"
-  sandbox="allow-scripts allow-same-origin"></iframe>
-
-  </div>
-</div>
-
-<div 
-  x-show="lightbox" 
-  x-cloak 
-  @touchstart="startTouch($event)"
-  @touchend="endTouch($event)"
-  class="fixed inset-0 bg-black/98 z-[200] flex items-center justify-center">    <button @click="lightbox = false"
-        class="absolute top-8 right-8 z-[210] bg-[#ffc107] text-[#0f5132] w-20 h-20 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12" />
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 stroke-[3]" fill="none" viewBox="0 0 24 24"
+          stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 6l12 12M6 18L18 6" />
         </svg>
+
       </button>
-   <button @click="prev()"
-  class="absolute left-6 z-[210] bg-[#ffc107] text-[#0f5132] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
-  
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
-  </svg>
 
-</button>
+      <!-- Título -->
+      <div class="p-6 flex justify-center items-center bg-gray-50 border-b">
+        <span class="font-black text-[#0f5132] uppercase tracking-widest" x-text="t.title"></span>
+      </div>
 
-<img :src="gallery[current]"
-  class="max-w-[92%] max-h-[85vh] object-contain rounded-2xl shadow-2xl">
+      <!-- Mapa -->
+      <div class="flex-1 min-h-0">
+        <iframe :src="mapEmbed" class="w-full h-full border-0">
+        </iframe>
+      </div>
 
-<button @click="next()"
-  class="absolute right-6 z-[210] bg-[#ffc107] text-[#0f5132] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
-  
-  <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 stroke-[3]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-    <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-  </svg>
+    </div>
+  </div>
 
-</button>
+  <div x-show="lightbox" x-cloak @touchstart="startTouch($event)" @touchend="endTouch($event)"
+    class="fixed inset-0 bg-black/98 z-[200] flex items-center justify-center"> <button @click="lightbox = false"
+      class="absolute top-8 right-8 z-[210] bg-[#ffc107] text-[#0f5132] w-20 h-20 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="4" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+    <button @click="prev()"
+      class="absolute left-6 z-[210] bg-[#ffc107] text-[#0f5132] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 stroke-[3]" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+      </svg>
+
+    </button>
+
+    <img :src="gallery[current]" class="max-w-[92%] max-h-[85vh] object-contain rounded-2xl shadow-2xl">
+
+    <button @click="next()"
+      class="absolute right-6 z-[210] bg-[#ffc107] text-[#0f5132] w-16 h-16 rounded-full flex items-center justify-center shadow-2xl border-4 border-[#0f5132] hover:scale-110 active:scale-95 transition-all">
+
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8 stroke-[3]" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+      </svg>
+
+    </button>
   </div>
 
   <!-- Footer fixo -->
@@ -269,105 +286,104 @@
 </body>
 
 <script>
-function tourismTemplate() {
-  const params = new URLSearchParams(window.location.search);
-  const id = params.get('id') || 'elefante';
+  function tourismTemplate() {
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'elefante';
 
-  return {
-    lang: localStorage.getItem('user_lang') || 'pt',
-    ready: false,
-    lightbox: false,
-    showMap: false,
-    show360: false,
-    current: 0,
+    return {
+      lang: localStorage.getItem('user_lang') || 'pt',
+      ready: false,
+      lightbox: false,
+      showMap: false,
+      show360: false,
+      current: 0,
 
-    hero: '',
-    gallery: [],
-    mapEmbed: '',
-    qr: '',
-    texts: {},
+      hero: '',
+      gallery: [],
+      mapEmbed: '',
+      qr: '',
+      texts: {},
 
-    RAvisionScreen: false,
-    RAvisionlink: '',
+      RAvisionScreen: false,
+      RAvisionlink: '',
 
-    // 👇 SWIPE
-    touchStartX: 0,
-    touchEndX: 0,
+      // 👇 SWIPE
+      touchStartX: 0,
+      touchEndX: 0,
 
-    startTouch(e) {
-      this.touchStartX = e.changedTouches[0].screenX
-    },
+      startTouch(e) {
+        this.touchStartX = e.changedTouches[0].screenX
+      },
 
-    endTouch(e) {
-      this.touchEndX = e.changedTouches[0].screenX
-      this.handleSwipe()
-    },
+      endTouch(e) {
+        this.touchEndX = e.changedTouches[0].screenX
+        this.handleSwipe()
+      },
 
-    handleSwipe() {
-      const diff = this.touchStartX - this.touchEndX
+      handleSwipe() {
+        const diff = this.touchStartX - this.touchEndX
 
-      if (Math.abs(diff) < 50) return
+        if (Math.abs(diff) < 50) return
 
-      if (diff > 0) {
-        this.next()
-      } else {
-        this.prev()
-      }
-    },
-
-    uiTexts: {
-      pt: { back: 'Voltar', about: 'Sobre o Local', gallery: 'Galeria de Fotos', location: 'Como Chegar', qrLabel: 'Escaneie para GPS' },
-      en: { back: 'Back', about: 'About the Place', gallery: 'Gallery', location: 'Directions', qrLabel: 'Scan for GPS' },
-      es: { back: 'Volver', about: 'Sobre el Lugar', gallery: 'Galería', location: 'Cómo Llegar', qrLabel: 'Escanear para GPS' }
-    },
-
-    get t() { return this.texts[this.lang] || {} },
-    get ui() { return this.uiTexts[this.lang] },
-    get tour360() { return this.RAvisionlink || '' },
-
-    setLang(l) {
-      this.lang = l;
-      localStorage.setItem('user_lang', l);
-    },
-
-    voltar() {
-      window.history.back();
-    },
-
-    start() {
-      const carregar = () => {
-        const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
-        if (data) {
-          this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
-          this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
-          this.qr = data.location?.qr || '';
-          this.mapEmbed = data.location?.embed || data.location?.maps || '';
-          this.texts = data.texts;
-          this.RAvisionScreen = !!data.RAvisionScreen;
-          this.RAvisionlink = data.RAvisionlink || '';
-          this.ready = true;
+        if (diff > 0) {
+          this.next()
+        } else {
+          this.prev()
         }
-      };
+      },
 
-      if (window.LOCAIS) carregar();
-      else window.addEventListener('locais-ready', carregar);
-    },
+      uiTexts: {
+        pt: { back: 'Voltar', about: 'Sobre o Local', gallery: 'Galeria de Fotos', location: 'Como Chegar', qrLabel: 'Escaneie para GPS' },
+        en: { back: 'Back', about: 'About the Place', gallery: 'Gallery', location: 'Directions', qrLabel: 'Scan for GPS' },
+        es: { back: 'Volver', about: 'Sobre el Lugar', gallery: 'Galería', location: 'Cómo Llegar', qrLabel: 'Escanear para GPS' }
+      },
 
-    openLightbox(i) {
-      this.current = i;
-      this.lightbox = true;
-    },
+      get t() { return this.texts[this.lang] || {} },
+      get ui() { return this.uiTexts[this.lang] },
+      get tour360() { return this.RAvisionlink || '' },
 
-    next() {
-      this.current = (this.current + 1) % this.gallery.length;
-    },
+      setLang(l) {
+        this.lang = l;
+        localStorage.setItem('user_lang', l);
+      },
 
-    prev() {
-      this.current = (this.current - 1 + this.gallery.length) % this.gallery.length;
+      voltar() {
+        window.history.back();
+      },
+
+      start() {
+        const carregar = () => {
+          const data = window.LOCAIS[id] || window.LOCAIS[id.toLowerCase()];
+          if (data) {
+            this.hero = data.hero.startsWith('/') ? data.hero : '/' + data.hero;
+            this.gallery = data.gallery.map(img => img.startsWith('/') ? img : '/' + img);
+            this.qr = data.location?.qr || '';
+            this.mapEmbed = data.location?.embed || data.location?.maps || '';
+            this.texts = data.texts;
+            this.RAvisionScreen = !!data.RAvisionScreen;
+            this.RAvisionlink = data.RAvisionlink || '';
+            this.ready = true;
+          }
+        };
+
+        if (window.LOCAIS) carregar();
+        else window.addEventListener('locais-ready', carregar);
+      },
+
+      openLightbox(i) {
+        this.current = i;
+        this.lightbox = true;
+      },
+
+      next() {
+        this.current = (this.current + 1) % this.gallery.length;
+      },
+
+      prev() {
+        this.current = (this.current - 1 + this.gallery.length) % this.gallery.length;
+      }
     }
   }
-}
 </script>
-</body>
 
 </html>
