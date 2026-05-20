@@ -1292,7 +1292,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_SANTO_ANTONIO_DO_XV = Object.freeze({
   "id": "santo_antonio_do_xv",
-  "cover": "Captura de tela 2026-05-20 141744.png",
+    "cover": "dados/circuitos/santo_antonio_do_xv/images/XVIgreja.png",
   "texts": {
     "pt": {
       "title": "Distrito de Santo Antônio do Quinze",
