@@ -579,29 +579,33 @@ window.APP_CONTROLLER = {
           "RAvisionlink": "www.novavenecia360.com.br"
         }
       ]
+    },
+    {
+      "id": "santo_antonio_do_xv",
+      "cover": "Captura de tela 2026-05-20 141744.png",
+      "texts": {
+        "pt": {
+          "title": "Santo Antônio do Quinze",
+          "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
+          "desc": ""
+        },
+        "en": {
+          "title": "Santo Antônio do Quinze",
+          "subtitle": "Cozy district and essential part of the history of Nova Venécia",
+          "desc": ""
+        },
+        "es": {
+          "title": "Santo Antônio do Quinze",
+          "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
+          "desc": ""
+        }
+      },
+      "locais": []
     }
   ]
 };
 
 window.LISTA_CIRCUITOS = [
-  {
-    "id": "cachoeira_boavista",
-    "cover": "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-    "texts": {
-      "pt": {
-        "title": "Cachoeira Boa Vista",
-        "subtitle": "Refúgio de águas cristalinas."
-      },
-      "en": {
-        "title": "Boa Vista Waterfall",
-        "subtitle": "A sanctuary of crystal clear waters."
-      },
-      "es": {
-        "title": "Cascada Boa Vista",
-        "subtitle": "Refugio de aguas cristalinas."
-      }
-    }
-  },
   {
     "id": "centro_nv",
     "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
@@ -664,43 +668,31 @@ window.LISTA_CIRCUITOS = [
         "desc": ""
       }
     }
+  },
+  {
+    "id": "santo_antonio_do_xv",
+    "cover": "Captura de tela 2026-05-20 141744.png",
+    "texts": {
+      "pt": {
+        "title": "Santo Antônio do Quinze",
+        "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
+        "desc": ""
+      },
+      "en": {
+        "title": "Santo Antônio do Quinze",
+        "subtitle": "Cozy district and essential part of the history of Nova Venécia",
+        "desc": ""
+      },
+      "es": {
+        "title": "Santo Antônio do Quinze",
+        "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
+        "desc": ""
+      }
+    }
   }
 ];
 
 window.LOCAIS = {
-  "boavista": {
-    "id": "boavista",
-    "hero": "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-    "texts": {
-      "pt": {
-        "title": "Cachoeira Boa Vista",
-        "subtitle": "Lazer, descanso e natureza",
-        "description": "A Cachoeira Boa Vista é um refúgio natural ideal para quem busca contato com a natureza."
-      },
-      "en": {
-        "title": "Boa Vista Waterfall",
-        "subtitle": "Leisure and nature",
-        "description": "Boa Vista Waterfall is a natural retreat perfect for relaxation."
-      },
-      "es": {
-        "title": "Cascada Boa Vista",
-        "subtitle": "Ocio y naturaleza",
-        "description": "La Cascada Boa Vista es un refugio natural ideal para el descanso."
-      }
-    },
-    "location": {
-      "maps": "https://www.google.com/maps?q=-18.6477001,-40.2504503",
-      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://www.google.com/maps?q=-18.6477001,-40.2504503",
-      "embed": "https://www.google.com/maps?q=-18.6477001,-40.2504503&output=embed"
-    },
-    "gallery": [
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-2.jpg",
-      "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira-1.jpg"
-    ],
-    "RAvisionScreen": false,
-    "RAvisionlink": "https://novavenecia360.com.br/"
-  },
   "casa_de_pedra_do_perletti": {
     "id": "casa_de_pedra_do_perletti",
     "hero": "dados/circuitos/centro_nv/casa_de_pedra_do_perletti/images/casadepedra.jpg",
@@ -1214,28 +1206,6 @@ window.LOCAIS = {
   }
 };
 
-window.CONFIG_CACHOEIRA_BOAVISTA = Object.freeze({
-  "id": "cachoeira_boavista",
-  "cover": "dados/circuitos/cachoeira_boavista/boavista/images/cachoeira.jpg",
-  "texts": {
-    "pt": {
-      "title": "Cachoeira Boa Vista",
-      "subtitle": "Refúgio de águas cristalinas."
-    },
-    "en": {
-      "title": "Boa Vista Waterfall",
-      "subtitle": "A sanctuary of crystal clear waters."
-    },
-    "es": {
-      "title": "Cascada Boa Vista",
-      "subtitle": "Refugio de aguas cristalinas."
-    }
-  },
-  "locais": [
-    "boavista"
-  ]
-});
-
 window.CONFIG_CENTRO_NV = Object.freeze({
   "id": "centro_nv",
   "cover": "dados/circuitos/centro_nv/images/sao_marcos2.jpg",
@@ -1318,6 +1288,29 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
     "gameleira",
     "santuario_maeperegrina"
   ]
+});
+
+window.CONFIG_SANTO_ANTONIO_DO_XV = Object.freeze({
+  "id": "santo_antonio_do_xv",
+  "cover": "Captura de tela 2026-05-20 141744.png",
+  "texts": {
+    "pt": {
+      "title": "Santo Antônio do Quinze",
+      "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
+      "desc": ""
+    },
+    "en": {
+      "title": "Santo Antônio do Quinze",
+      "subtitle": "Cozy district and essential part of the history of Nova Venécia",
+      "desc": ""
+    },
+    "es": {
+      "title": "Santo Antônio do Quinze",
+      "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
+      "desc": ""
+    }
+  },
+  "locais": []
 });
 
 window.dispatchEvent(new Event('locais-ready'));
