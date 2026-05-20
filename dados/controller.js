@@ -585,17 +585,17 @@ window.APP_CONTROLLER = {
       "cover": "Captura de tela 2026-05-20 141744.png",
       "texts": {
         "pt": {
-          "title": "Santo Antônio do Quinze",
+          "title": "Distrito de Santo Antônio do Quinze",
           "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
           "desc": ""
         },
         "en": {
-          "title": "Santo Antônio do Quinze",
+          "title": "District of Santo Antônio do Quinze",
           "subtitle": "Cozy district and essential part of the history of Nova Venécia",
           "desc": ""
         },
         "es": {
-          "title": "Santo Antônio do Quinze",
+          "title": "Distrito de Santo Antônio do Quinze",
           "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
           "desc": ""
         }
@@ -674,17 +674,17 @@ window.LISTA_CIRCUITOS = [
     "cover": "Captura de tela 2026-05-20 141744.png",
     "texts": {
       "pt": {
-        "title": "Santo Antônio do Quinze",
+        "title": "Distrito de Santo Antônio do Quinze",
         "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
         "desc": ""
       },
       "en": {
-        "title": "Santo Antônio do Quinze",
+        "title": "District of Santo Antônio do Quinze",
         "subtitle": "Cozy district and essential part of the history of Nova Venécia",
         "desc": ""
       },
       "es": {
-        "title": "Santo Antônio do Quinze",
+        "title": "Distrito de Santo Antônio do Quinze",
         "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
         "desc": ""
       }
@@ -1295,17 +1295,17 @@ window.CONFIG_SANTO_ANTONIO_DO_XV = Object.freeze({
   "cover": "Captura de tela 2026-05-20 141744.png",
   "texts": {
     "pt": {
-      "title": "Santo Antônio do Quinze",
+      "title": "Distrito de Santo Antônio do Quinze",
       "subtitle": "Distrito acolhedor e parte essencial da história de Nova Venécia",
       "desc": ""
     },
     "en": {
-      "title": "Santo Antônio do Quinze",
+      "title": "District of Santo Antônio do Quinze",
       "subtitle": "Cozy district and essential part of the history of Nova Venécia",
       "desc": ""
     },
     "es": {
-      "title": "Santo Antônio do Quinze",
+      "title": "Distrito de Santo Antônio do Quinze",
       "subtitle": "Barrio acogedor y parte esencial de la historia de Nova Venécia",
       "desc": ""
     }
