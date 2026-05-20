@@ -334,7 +334,7 @@ window.APP_CONTROLLER = {
         },
         {
           "id": "pedra_do_dedo",
-          "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+          "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
           "texts": {
             "pt": {
               "title": "Pedra do Dedo",
@@ -976,7 +976,7 @@ window.LOCAIS = {
   },
   "pedra_do_dedo": {
     "id": "pedra_do_dedo",
-    "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000645.jpg",
+    "hero": "dados/circuitos/guararema/pedra_do_dedo/images/nova_venecia_marcelo_moryan_-000669.jpg",
     "texts": {
       "pt": {
         "title": "Pedra do Dedo",
