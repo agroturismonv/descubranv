@@ -346,7 +346,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "pedra_elefante",
-      "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
+      "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
       "texts": {
         "pt": {
           "title": "APA Pedra do Elefante",
@@ -582,7 +582,7 @@ window.APP_CONTROLLER = {
     },
     {
       "id": "santo_antonio_do_xv",
-      "cover": "Captura de tela 2026-05-20 141744.png",
+      "cover": "dados/circuitos/santo_antonio_do_xv/images/XVIgreja.png",
       "texts": {
         "pt": {
           "title": "Distrito de Santo Antônio do Quinze",
@@ -650,7 +650,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "pedra_elefante",
-    "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
+    "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
     "texts": {
       "pt": {
         "title": "APA Pedra do Elefante",
@@ -671,7 +671,7 @@ window.LISTA_CIRCUITOS = [
   },
   {
     "id": "santo_antonio_do_xv",
-    "cover": "Captura de tela 2026-05-20 141744.png",
+    "cover": "dados/circuitos/santo_antonio_do_xv/images/XVIgreja.png",
     "texts": {
       "pt": {
         "title": "Distrito de Santo Antônio do Quinze",
@@ -1263,7 +1263,7 @@ window.CONFIG_GUARAREMA = Object.freeze({
 
 window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
   "id": "pedra_elefante",
-  "cover": "dados/circuitos/pedra_elefante/images/20251229_174108.jpg",
+  "cover": "dados/circuitos/pedra_elefante/images/pedra-elefante.jpg",
   "texts": {
     "pt": {
       "title": "APA Pedra do Elefante",
@@ -1292,7 +1292,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
 
 window.CONFIG_SANTO_ANTONIO_DO_XV = Object.freeze({
   "id": "santo_antonio_do_xv",
-    "cover": "dados/circuitos/santo_antonio_do_xv/images/XVIgreja.png",
+  "cover": "dados/circuitos/santo_antonio_do_xv/images/XVIgreja.png",
   "texts": {
     "pt": {
       "title": "Distrito de Santo Antônio do Quinze",
