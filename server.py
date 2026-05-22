@@ -221,7 +221,7 @@ def ra():
 
 @app.route("/feiradosmunicipios")
 def opensite():
-    return redirect("www.descubranovavenecia.com.br")
+    return redirect("http://www.descubranovavenecia.com.br")
 
 # ── LISTAGEM ──────────────────────────────────────────────
 @app.route("/api/listar")
