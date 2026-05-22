@@ -219,6 +219,10 @@ def rebuild():
 def ra():
     return redirect("https://mobogames.com.br/descubranv")
 
+@app.route("/feiradosmunicipios")
+def opensite():
+    return redirect("www.descubranovavenecia.com.br")
+
 # ── LISTAGEM ──────────────────────────────────────────────
 @app.route("/api/listar")
 def listar():
