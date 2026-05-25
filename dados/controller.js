@@ -366,6 +366,52 @@ window.APP_CONTROLLER = {
       },
       "locais": [
         {
+          "id": "associacao_das_bordadeiras_dona_fitinha",
+          "hero": "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000754.jpg",
+          "texts": {
+            "pt": {
+              "title": "Associação das Bordadeiras Dona Fitinha",
+              "subtitle": "Artesanato, cultura e tradição da APA Pedra do Elefante",
+              "description": "A Associação das Bordadeiras Dona Fitinha reúne mulheres artesãs que produzem bordados e peças de vestuário e decoração inspiradas nas paisagens e tradições da região da APA Pedra do Elefante. Localizada próxima à Fazenda Santa Rita e ao Casarão do Barão, a associação fortalece a economia criativa, o empoderamento feminino e a preservação de técnicas culturais transmitidas entre gerações. O espaço contará com loja de exposição e comercialização, contribuindo para o turismo cultural e sustentável da região."
+            },
+            "en": {
+              "title": "Dona Fitinha Embroidery Association",
+              "subtitle": "Craftsmanship, culture, and tradition in the Pedra do Elefante APA",
+              "description": "The Dona Fitinha Embroidery Association brings together women artisans who create embroidery, clothing, and decorative pieces inspired by the landscapes and traditions of the Pedra do Elefante Environmental Protection Area. Located near Fazenda Santa Rita and the Barão Mansion, the association promotes creative economy, women’s empowerment, and the preservation of cultural techniques passed down through generations. The space will include an exhibition and sales shop, contributing to sustainable cultural tourism in the region."
+            },
+            "es": {
+              "title": "Asociación de Bordadoras Dona Fitinha",
+              "subtitle": "Artesanía, cultura y tradición en la APA Pedra do Elefante",
+              "description": "La Asociación de Bordadoras Dona Fitinha reúne a mujeres artesanas que producen bordados, prendas de vestir y piezas decorativas inspiradas en los paisajes y tradiciones de la región de la APA Pedra do Elefante. Ubicada cerca de la Hacienda Santa Rita y de la Mansión del Barón, la asociación fortalece la economía creativa, el empoderamiento femenino y la preservación de técnicas culturales transmitidas de generación en generación. El espacio contará con una tienda de exhibición y comercialización, contribuyendo al turismo cultural y sostenible de la región."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps?q=18°47'00.02\"S ,40°25'57.01\"W",
+            "lat": "18°47'00.02\"S",
+            "lng": "40°25'57.01\"W",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=18°47'00.02\"S ,40°25'57.01\"W",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=18°47'00.02\"S,40°25'57.01\"W&z=17&t=k&output=embed"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000754.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000767.jpg",
+            "nova_venecia_marcelo_moryan_-000768 - Copia.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000775.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000747.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000748.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000749.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000750.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000752.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000753.jpg",
+            "nova_venecia_marcelo_moryan_-000756 - Copia.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000760.jpg",
+            "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000770.jpg",
+            "nova_venecia_marcelo_moryan_-000773 - Copia.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
+        },
+        {
           "id": "elefante",
           "hero": "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
           "texts": {
@@ -991,6 +1037,52 @@ window.LOCAIS = {
     "RAvisionScreen": false,
     "RAvisionlink": "https://www.novavenecia360.com.br/"
   },
+  "associacao_das_bordadeiras_dona_fitinha": {
+    "id": "associacao_das_bordadeiras_dona_fitinha",
+    "hero": "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000754.jpg",
+    "texts": {
+      "pt": {
+        "title": "Associação das Bordadeiras Dona Fitinha",
+        "subtitle": "Artesanato, cultura e tradição da APA Pedra do Elefante",
+        "description": "A Associação das Bordadeiras Dona Fitinha reúne mulheres artesãs que produzem bordados e peças de vestuário e decoração inspiradas nas paisagens e tradições da região da APA Pedra do Elefante. Localizada próxima à Fazenda Santa Rita e ao Casarão do Barão, a associação fortalece a economia criativa, o empoderamento feminino e a preservação de técnicas culturais transmitidas entre gerações. O espaço contará com loja de exposição e comercialização, contribuindo para o turismo cultural e sustentável da região."
+      },
+      "en": {
+        "title": "Dona Fitinha Embroidery Association",
+        "subtitle": "Craftsmanship, culture, and tradition in the Pedra do Elefante APA",
+        "description": "The Dona Fitinha Embroidery Association brings together women artisans who create embroidery, clothing, and decorative pieces inspired by the landscapes and traditions of the Pedra do Elefante Environmental Protection Area. Located near Fazenda Santa Rita and the Barão Mansion, the association promotes creative economy, women’s empowerment, and the preservation of cultural techniques passed down through generations. The space will include an exhibition and sales shop, contributing to sustainable cultural tourism in the region."
+      },
+      "es": {
+        "title": "Asociación de Bordadoras Dona Fitinha",
+        "subtitle": "Artesanía, cultura y tradición en la APA Pedra do Elefante",
+        "description": "La Asociación de Bordadoras Dona Fitinha reúne a mujeres artesanas que producen bordados, prendas de vestir y piezas decorativas inspiradas en los paisajes y tradiciones de la región de la APA Pedra do Elefante. Ubicada cerca de la Hacienda Santa Rita y de la Mansión del Barón, la asociación fortalece la economía creativa, el empoderamiento femenino y la preservación de técnicas culturales transmitidas de generación en generación. El espacio contará con una tienda de exhibición y comercialización, contribuyendo al turismo cultural y sostenible de la región."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps?q=18°47'00.02\"S ,40°25'57.01\"W",
+      "lat": "18°47'00.02\"S",
+      "lng": "40°25'57.01\"W",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=18°47'00.02\"S ,40°25'57.01\"W",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=18°47'00.02\"S,40°25'57.01\"W&z=17&t=k&output=embed"
+    },
+    "gallery": [
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000754.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000767.jpg",
+      "nova_venecia_marcelo_moryan_-000768 - Copia.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000775.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000747.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000748.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000749.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000750.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000752.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000753.jpg",
+      "nova_venecia_marcelo_moryan_-000756 - Copia.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000760.jpg",
+      "dados/circuitos/pedra_elefante/associacao_das_bordadeiras_dona_fitinha/images/nova_venecia_marcelo_moryan_-000770.jpg",
+      "nova_venecia_marcelo_moryan_-000773 - Copia.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
   "elefante": {
     "id": "elefante",
     "hero": "dados/circuitos/pedra_elefante/elefante/images/pedra-elefante.jpg",
@@ -1282,6 +1374,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
     }
   },
   "locais": [
+    "associacao_das_bordadeiras_dona_fitinha",
     "elefante",
     "espetaria_pedra_elefante",
     "fazenda_santa_rita",
