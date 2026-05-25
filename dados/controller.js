@@ -580,6 +580,45 @@ window.APP_CONTROLLER = {
           "RAvisionlink": "https://novavenecia360.com.br/"
         },
         {
+          "id": "pedra_da_torre",
+          "hero": "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000835.jpg",
+          "texts": {
+            "pt": {
+              "title": "Pedra da Torre",
+              "subtitle": "Mirante natural e aventura na APA Pedra do Elefante",
+              "description": "A Pedra da Torre é um atrativo geológico e paisagístico da APA Pedra do Elefante, procurado para atividades de montanhismo, trilhas, off-road e rapel. O acesso percorre pastagens, capoeiras, áreas de floresta e lajedos até um ponto de grande beleza cênica e vista panorâmica da região. O local possui acesso difícil e ainda carece de infraestrutura, sinalização e estruturas de apoio, mas se destaca pelo potencial para o turismo de aventura e ecoturismo sustentável."
+            },
+            "en": {
+              "title": "Pedra da Torre",
+              "subtitle": "Natural viewpoint and adventure in the Pedra do Elefante APA",
+              "description": "Pedra da Torre is a geological and scenic attraction within the Pedra do Elefante Environmental Protection Area, popular for hiking, off-road activities, mountaineering, and rappelling. The trail crosses pastures, secondary vegetation, forest areas, and rocky outcrops, leading to a site with panoramic views and remarkable natural beauty. The area still has limited access and lacks support infrastructure and signage, but it stands out for its strong potential for adventure tourism and sustainable ecotourism."
+            },
+            "es": {
+              "title": "Pedra da Torre",
+              "subtitle": "Mirador natural y aventura en la APA Pedra do Elefante",
+              "description": "Pedra da Torre es un atractivo geológico y paisajístico ubicado en la APA Pedra do Elefante, muy buscado para actividades de senderismo, off-road, montañismo y rápel. El acceso atraviesa pastizales, vegetación secundaria, áreas de bosque y formaciones rocosas, hasta llegar a un punto de gran belleza escénica y vista panorámica de la región. El lugar aún cuenta con acceso limitado y necesita infraestructura y señalización, pero destaca por su gran potencial para el turismo de aventura y el ecoturismo sostenible."
+            }
+          },
+          "location": {
+            "maps": "https://www.google.com/maps?q=18°46'59.48\"S,40°26'48.66\"W",
+            "lat": "18°46'59.48\"S",
+            "lng": "40°26'48.66\"W",
+            "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=18°46'59.48\"S,40°26'48.66\"W",
+            "embed": "https://maps.google.com/maps?hl=pt&ll=18°46'59.48\"S,40°26'48.66\"W&z=17&t=k&output=embed"
+          },
+          "gallery": [
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000835.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000833.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000834.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000836.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000840.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000841.jpg",
+            "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000839.jpg"
+          ],
+          "RAvisionScreen": false,
+          "RAvisionlink": "https://www.novavenecia360.com.br/"
+        },
+        {
           "id": "santuario_maeperegrina",
           "hero": "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
           "texts": {
@@ -1251,6 +1290,45 @@ window.LOCAIS = {
     "RAvisionScreen": true,
     "RAvisionlink": "https://novavenecia360.com.br/"
   },
+  "pedra_da_torre": {
+    "id": "pedra_da_torre",
+    "hero": "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000835.jpg",
+    "texts": {
+      "pt": {
+        "title": "Pedra da Torre",
+        "subtitle": "Mirante natural e aventura na APA Pedra do Elefante",
+        "description": "A Pedra da Torre é um atrativo geológico e paisagístico da APA Pedra do Elefante, procurado para atividades de montanhismo, trilhas, off-road e rapel. O acesso percorre pastagens, capoeiras, áreas de floresta e lajedos até um ponto de grande beleza cênica e vista panorâmica da região. O local possui acesso difícil e ainda carece de infraestrutura, sinalização e estruturas de apoio, mas se destaca pelo potencial para o turismo de aventura e ecoturismo sustentável."
+      },
+      "en": {
+        "title": "Pedra da Torre",
+        "subtitle": "Natural viewpoint and adventure in the Pedra do Elefante APA",
+        "description": "Pedra da Torre is a geological and scenic attraction within the Pedra do Elefante Environmental Protection Area, popular for hiking, off-road activities, mountaineering, and rappelling. The trail crosses pastures, secondary vegetation, forest areas, and rocky outcrops, leading to a site with panoramic views and remarkable natural beauty. The area still has limited access and lacks support infrastructure and signage, but it stands out for its strong potential for adventure tourism and sustainable ecotourism."
+      },
+      "es": {
+        "title": "Pedra da Torre",
+        "subtitle": "Mirador natural y aventura en la APA Pedra do Elefante",
+        "description": "Pedra da Torre es un atractivo geológico y paisajístico ubicado en la APA Pedra do Elefante, muy buscado para actividades de senderismo, off-road, montañismo y rápel. El acceso atraviesa pastizales, vegetación secundaria, áreas de bosque y formaciones rocosas, hasta llegar a un punto de gran belleza escénica y vista panorámica de la región. El lugar aún cuenta con acceso limitado y necesita infraestructura y señalización, pero destaca por su gran potencial para el turismo de aventura y el ecoturismo sostenible."
+      }
+    },
+    "location": {
+      "maps": "https://www.google.com/maps?q=18°46'59.48\"S,40°26'48.66\"W",
+      "lat": "18°46'59.48\"S",
+      "lng": "40°26'48.66\"W",
+      "qr": "https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://www.google.com/maps?q=18°46'59.48\"S,40°26'48.66\"W",
+      "embed": "https://maps.google.com/maps?hl=pt&ll=18°46'59.48\"S,40°26'48.66\"W&z=17&t=k&output=embed"
+    },
+    "gallery": [
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000835.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000833.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000834.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000836.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000840.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000841.jpg",
+      "dados/circuitos/pedra_elefante/pedra_da_torre/images/nova_venecia_marcelo_moryan_-000839.jpg"
+    ],
+    "RAvisionScreen": false,
+    "RAvisionlink": "https://www.novavenecia360.com.br/"
+  },
   "santuario_maeperegrina": {
     "id": "santuario_maeperegrina",
     "hero": "dados/circuitos/pedra_elefante/santuario_maeperegrina/images/nova_venecia_marcelo_moryan_-000257.jpg",
@@ -1379,6 +1457,7 @@ window.CONFIG_PEDRA_ELEFANTE = Object.freeze({
     "espetaria_pedra_elefante",
     "fazenda_santa_rita",
     "gameleira",
+    "pedra_da_torre",
     "santuario_maeperegrina"
   ]
 });
